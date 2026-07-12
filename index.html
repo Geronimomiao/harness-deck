@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人类早期驯服野马指南 — Harness Engineering</title>
+<title>聊聊 Harness — Harness Engineering</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -52,26 +52,51 @@
   }
   body.fit-contain .slide img.main { object-fit: contain; }
 
-  /* 模式切换提示 */
-  #toast {
-    position: fixed;
-    left: 50%;
-    top: 40px;
-    transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(20, 20, 20, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(6px);
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-size: 14px;
-    letter-spacing: 1px;
-    z-index: 20;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.35s ease;
+  /* ========== 扉页（第 1 页）：背景 + 标题 ========== */
+  .cover .layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
   }
-  #toast.show { opacity: 1; }
+  body.fit-contain .cover .layer { object-fit: contain; }
+
+  .cover .corner {
+    position: absolute;
+    top: 4.5%;
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 500;
+    color: #f7f6f4;
+    font-size: clamp(24px, 3.4vw, 56px);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+    z-index: 5;
+  }
+  .cover .corner.l { left: 4%; }
+  .cover .corner.r { right: 4%; }
+
+  .metal {
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    background: linear-gradient(180deg, #fdfdfc 0%, #eceae6 32%, #a5a29c 52%, #7a7771 60%, #cfccc7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 5px 8px rgba(60, 55, 50, 0.38));
+  }
+
+  .cover .t1 {
+    position: absolute;
+    top: 34%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(52px, 9.5vw, 170px);
+    white-space: nowrap;
+    z-index: 4;
+  }
 
   /* 页码指示 */
   #counter {
@@ -124,29 +149,58 @@
     transition: opacity 0.8s ease;
   }
   #hint.hidden { opacity: 0; }
+
+  /* 模式切换提示 */
+  #toast {
+    position: fixed;
+    left: 50%;
+    top: 40px;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(20, 20, 20, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  #toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-<div id="deck"></div>
+<div id="deck">
+  <section class="slide cover" id="cover">
+    <img class="ambient" src="assets/cover/cover-bg-blur.webp" alt="">
+    <img class="layer bg" src="assets/cover/cover-bg.webp" alt="">
+    <div class="corner l">Harness</div>
+    <div class="corner r">Engineering</div>
+    <div class="t1 metal">聊聊 Harness</div>
+  </section>
+</div>
 
-<div id="counter">1 / 56</div>
+<div id="counter">1 / 57</div>
 <div id="progress"><div id="progress-bar"></div></div>
 <div id="hint">↑ ↓ 方向键 / 滚轮 / 空格 翻页 · F 切换填充/适应</div>
 <div id="toast"></div>
 
 <script>
 (function () {
-  const TOTAL = 56;
+  const IMAGES = 56;            // 原稿截图页数
+  const TOTAL = IMAGES + 1;     // 加上扉页共 57 页
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
   const hint = document.getElementById('hint');
 
-  for (let i = 1; i <= TOTAL; i++) {
+  for (let i = 1; i <= IMAGES; i++) {
     const s = document.createElement('section');
     s.className = 'slide';
-    s.dataset.page = i;
     const ambient = document.createElement('img');
     ambient.className = 'ambient';
     ambient.src = 'assets/slides/blur-' + i + '.webp';
