@@ -21,14 +21,28 @@
   }
 
   .slide {
+    position: relative;
     height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
-  .slide img {
+  /* 氛围底：当前页的模糊放大版，填满黑边区域 */
+  .slide img.ambient {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(28px) brightness(0.72) saturate(1.15);
+    transform: scale(1.12);
+  }
+
+  .slide img.main {
+    position: relative;
     max-width: 100vw;
     max-height: 100vh;
     aspect-ratio: 16 / 9;
@@ -52,21 +66,22 @@
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
 
-  /* 右侧进度条 */
+  /* 底部通栏进度条 */
   #progress {
     position: fixed;
-    right: 0;
-    top: 0;
-    width: 3px;
-    height: 100%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.14);
     z-index: 10;
     pointer-events: none;
   }
   #progress-bar {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.45);
-    height: 0;
-    transition: height 0.55s cubic-bezier(0.33, 1, 0.68, 1);
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.55), rgba(255,255,255,0.9));
+    width: 0;
+    transition: width 0.55s cubic-bezier(0.33, 1, 0.68, 1);
   }
 
   /* 首屏操作提示 */
@@ -110,10 +125,17 @@
     const s = document.createElement('section');
     s.className = 'slide';
     s.dataset.page = i;
+    const ambient = document.createElement('img');
+    ambient.className = 'ambient';
+    ambient.src = 'assets/slides/blur-' + i + '.webp';
+    ambient.alt = '';
+    ambient.decoding = 'async';
     const img = document.createElement('img');
+    img.className = 'main';
     img.src = 'assets/slides/slide-' + i + '.webp';
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
+    s.appendChild(ambient);
     s.appendChild(img);
     deck.appendChild(s);
   }
@@ -130,7 +152,7 @@
     deck.style.transition = instant ? 'none' : '';
     deck.style.transform = 'translateY(' + (-current * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
-    progressBar.style.height = ((current + 1) / TOTAL * 100) + '%';
+    progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
     history.replaceState(null, '', '#' + (current + 1));
     if (!hintDismissed && current > 0) {
       hintDismissed = true;
@@ -174,7 +196,11 @@
     touchY = null;
   }, { passive: true });
 
-  // 支持 #页码 直达
+  // 支持 #页码 直达（含手动改地址栏 hash）
+  window.addEventListener('hashchange', function () {
+    const n = parseInt(location.hash.slice(1), 10);
+    if (!isNaN(n)) go(n - 1);
+  });
   const start = parseInt(location.hash.slice(1), 10);
   go(isNaN(start) ? 0 : start - 1, true);
 
