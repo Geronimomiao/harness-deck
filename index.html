@@ -105,34 +105,30 @@
   }
   .stitch-upper-copy .corner {
     position: absolute;
-    top: 20%;
+    top: 19%;
     font-family: "Libre Baskerville", Georgia, serif;
-    font-size: clamp(34px, 5.3vw, 136px);
+    font-size: clamp(26px, 3.4vw, 88px);
     font-style: italic;
     font-weight: 700;
-    color: #fff;
-    text-shadow: 0 .05em .04em rgba(84, 80, 80, .28);
+    color: rgba(38, 37, 35, .68);
   }
   .stitch-upper-copy .corner.l { left: 3.8%; }
   .stitch-upper-copy .corner.r { right: 3.8%; }
   .stitch-upper-copy .headline {
     position: absolute;
-    top: 28%;
+    top: 27%;
     left: 50%;
     transform: translateX(-50%);
-    width: 76%;
+    width: 66%;
     text-align: center;
-    color: #f4f3f1;
-    font-size: clamp(58px, 8vw, 205px);
+    color: #282725;
+    font-size: clamp(48px, 6.25vw, 160px);
     font-weight: 700;
-    line-height: .84;
-    letter-spacing: -.04em;
-    text-shadow:
-      0 .035em 0 #d7d7d5,
-      .025em .07em .025em rgba(52, 53, 52, .72),
-      0 .1em .1em rgba(33, 34, 33, .25);
+    line-height: .98;
+    letter-spacing: .01em;
   }
   .stitch-upper-copy .headline span { display: block; }
+  .stitch-upper-copy .headline span + span { margin-top: .12em; }
 
   /* 第 8 页：纯标题首帧，按键后播放注意力机制片段。 */
   .context-video-slide { background: #000; }
@@ -1786,7 +1782,7 @@
     const img = document.createElement('img');
     img.className = 'main';
     img.src = i === 1
-      ? 'assets/generated/slide-1-stitched-v2.png'
+      ? 'assets/generated/slide-1-horse-solid.png'
       : i === 56
         ? 'assets/generated/slide-56-no-baseline.png'
         : 'assets/slides/slide-' + i + '.webp';
