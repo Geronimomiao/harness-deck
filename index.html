@@ -540,8 +540,8 @@
   }
   .ride-era.ancient { top: 17.8%; }
   .ride-era.ancient::before { background: #a9c8ff; }
-  .ride-era.now { left: 3.2%; bottom: 6.2%; }
-  .ride-era.now::before { background: #db765b; }
+  .ride-era.future { left: 3.2%; bottom: 6.2%; }
+  .ride-era.future::before { background: #db765b; }
   .ride-flow {
     position: absolute;
     left: 1.5%;
@@ -591,8 +591,10 @@
   }
   .ride-flow.top .ride-label { bottom: 0; }
   .ride-flow.bottom .ride-label { top: 0; min-height: 1.12em; }
-  .ride-label.figma, .ride-label.agent-orange { color: #db765b; }
+  .ride-label.figma { color: #db765b; }
   .ride-label.agent-red { color: #b5203f; }
+  .ride-label.agent-green { color: #527d54; }
+  .ride-label.agent-beige { color: #9a795b; }
   .ride-label.agent-purple { color: #7057d8; }
   .ride-arrow {
     position: relative;
@@ -1746,18 +1748,18 @@
       step('scholar', '改', scholar, '古代文人修改') + arrow +
       step('scholar', '上线', scholar, '古代文人上线');
     const bottom =
-      step('red', '评估', red, '红衣文人评估') + arrow +
-      step('green', '产需', green, '绿衣文人梳理产需') + arrow +
-      step('controller merged-agent', 'agent', controller, 'Agent 控制器', 'agent-orange') + arrow +
-      step('approve', '验收', approve, '古代文人验收') + arrow +
-      step('controller', 'Agent', controller, 'Agent 控制器', 'agent-purple') + arrow +
+      step('controller', 'Agent', controller, '未来由 Agent 参与评估', 'agent-red') + arrow +
+      step('controller', 'Agent', controller, '未来由 Agent 参与产需', 'agent-green') + arrow +
+      step('controller merged-agent', 'Agent', controller, '未来由 Agent 参与研发', 'agent-beige') + arrow +
+      step('controller', 'Agent', controller, '未来由 Agent 参与验收', 'agent-purple') + arrow +
+      step('controller', 'Agent', controller, '未来由 Agent 参与修改', 'agent-beige') + arrow +
       step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
     s.innerHTML = '<div class="ride-canvas">' +
       '<h2 class="ride-title">先骑带后骑</h2>' +
       '<div class="ride-era ancient">古法</div>' +
       '<div class="ride-flow top">' + top + '</div>' +
       '<div class="ride-flow bottom">' + bottom + '</div>' +
-      '<div class="ride-era now">Now</div>' +
+      '<div class="ride-era future">Future</div>' +
       '</div>';
     return s;
   }
