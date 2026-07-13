@@ -9,6 +9,7 @@
   @font-face {
     font-family: "Deck Serif";
     src:
+      url("assets/fonts/Reeji-CloudRuiSongCu-GBK.ttf") format("truetype"),
       local("锐字云字库锐宋粗GBK"),
       local("锐字云字库锐宋粗"),
       local("REEJI-RuiSongCuGBK"),
@@ -30,10 +31,16 @@
 
   html, body {
     height: 100%;
-    overflow: hidden;
+    overflow: clip;
     background: #1a1917;
     font-family: "Deck Serif", "Songti SC", "STSong", serif;
     font-weight: 700;
+  }
+
+  body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
   }
 
   #deck {
@@ -75,11 +82,254 @@
   body .slide.edge-fill img.main { object-fit: cover; }
 
   /* 第 2、3 页是上下连续构图：上一页锁定底边，下一页锁定顶边。 */
-  body .slide.stitch-slide img.main { object-fit: contain; }
+  body .slide.stitch-slide img.main {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+  }
   .slide.stitch-upper { background: #b3aeaf; }
-  .slide.stitch-upper img.main { object-position: center bottom; }
+  .slide.stitch-upper img.main { bottom: 0; }
   .slide.stitch-lower { background: #dadada; }
-  .slide.stitch-lower img.main { object-position: center top; }
+  .slide.stitch-lower img.main { top: 0; }
+  .stitch-upper-copy {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    aspect-ratio: 2560 / 1733;
+    z-index: 2;
+    pointer-events: none;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
+  }
+  .stitch-upper-copy .corner {
+    position: absolute;
+    top: 20%;
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: clamp(34px, 5.3vw, 136px);
+    font-style: italic;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 .05em .04em rgba(84, 80, 80, .28);
+  }
+  .stitch-upper-copy .corner.l { left: 3.8%; }
+  .stitch-upper-copy .corner.r { right: 3.8%; }
+  .stitch-upper-copy .headline {
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 76%;
+    text-align: center;
+    color: #f4f3f1;
+    font-size: clamp(58px, 8vw, 205px);
+    font-weight: 700;
+    line-height: .84;
+    letter-spacing: -.04em;
+    text-shadow:
+      0 .035em 0 #d7d7d5,
+      .025em .07em .025em rgba(52, 53, 52, .72),
+      0 .1em .1em rgba(33, 34, 33, .25);
+  }
+  .stitch-upper-copy .headline span { display: block; }
+
+  /* 第 8 页：纯标题首帧，按键后播放注意力机制片段。 */
+  .context-video-slide { background: #000; }
+  .context-video-slide > img.main,
+  .context-video-slide > img.ambient { display: none; }
+  .attention-title {
+    position: absolute;
+    left: 5.7%;
+    top: 49%;
+    z-index: 2;
+    color: #f7f6f1;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
+    font-size: clamp(58px, 7.15vw, 132px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    white-space: nowrap;
+    transform: translateY(-50%);
+  }
+  .attention-video-shell {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    overflow: hidden;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .28s ease;
+  }
+  .context-video-slide.video-playing .attention-video-shell { opacity: 1; }
+  .attention-video-shell video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #000;
+  }
+
+  /* ========== 第 42 页：从左到右抽取英雄卡 ========== */
+  .hero-card-slide {
+    background: #000;
+    overflow: clip;
+    color: #fff;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
+  }
+  .hero-card-title {
+    position: absolute;
+    top: 6.5%;
+    left: 5.4%;
+    z-index: 5;
+    font-size: clamp(52px, 6.4vw, 150px);
+    line-height: .9;
+    font-weight: 700;
+    letter-spacing: -.045em;
+  }
+  .hero-card-stage {
+    position: absolute;
+    inset: 13% 2.2% 5%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    align-items: end;
+    perspective: 1800px;
+  }
+  .hero-card {
+    --tilt: 0deg;
+    --start-x: 0%;
+    --rest-x: 0%;
+    --lift: 0%;
+    --rest-scale: 1;
+    position: relative;
+    height: 96%;
+    width: auto;
+    aspect-ratio: .66;
+    justify-self: center;
+    overflow: hidden;
+    border-radius: clamp(24px, 2.5vw, 58px);
+    box-shadow: 0 2.2vw 4vw rgba(0, 0, 0, .68);
+    opacity: 0;
+    transform-origin: 50% 100%;
+    transform: translate(var(--start-x), 34%) scale(.18) rotateY(88deg) rotateZ(var(--tilt));
+    transition:
+      transform .9s cubic-bezier(.18, .9, .2, 1.12),
+      opacity .18s ease-out;
+    will-change: transform, opacity;
+  }
+  .hero-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border: 1px solid rgba(255, 255, 255, .68);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .hero-card::after {
+    content: "";
+    position: absolute;
+    inset: -35%;
+    z-index: 4;
+    background: linear-gradient(110deg, transparent 38%, rgba(255,255,255,.68) 49%, transparent 60%);
+    transform: translateX(-85%) rotate(8deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hero-card.is-visible {
+    opacity: 1;
+    transform: translate(var(--rest-x), var(--lift)) scale(var(--rest-scale)) rotateY(0) rotateZ(var(--tilt));
+  }
+  .hero-card.is-visible::after { animation: card-shine .78s .34s ease-out; }
+  @keyframes card-shine {
+    0% { opacity: 0; transform: translateX(-85%) rotate(8deg); }
+    28% { opacity: .75; }
+    100% { opacity: 0; transform: translateX(85%) rotate(8deg); }
+  }
+  .hero-card.sr {
+    --tilt: 2.4deg;
+    --start-x: 112%;
+    --rest-x: -4%;
+    --lift: 1%;
+    --rest-scale: .9;
+    background: linear-gradient(145deg, #f2efff 0%, #eef4ff 48%, #cbd0ff 100%);
+    justify-self: start;
+    z-index: 1;
+  }
+  .hero-card.a {
+    --tilt: -7deg;
+    --rest-x: 0%;
+    background: linear-gradient(150deg, #fffdf2 0%, #efffdc 55%, #a9ff62 100%);
+    z-index: 2;
+  }
+  .hero-card.ssr {
+    --tilt: 3deg;
+    --start-x: -112%;
+    --rest-x: -8%;
+    --rest-scale: .96;
+    background: linear-gradient(145deg, #eefeff 0%, #e5fbf5 48%, #b7f2ef 100%);
+    justify-self: end;
+    z-index: 1;
+    overflow: visible;
+  }
+  .hero-card img {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .hero-card.sr img { left: -22%; bottom: -22%; width: 152%; }
+  .hero-card.a img { left: -38%; bottom: -20%; width: 175%; }
+  .hero-card.ssr img {
+    right: -12%;
+    bottom: -2%;
+    width: 132%;
+    clip-path: inset(-100% 9.1% -100% -100%);
+  }
+  .hero-rarity {
+    position: absolute;
+    z-index: 2;
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-weight: 700;
+    font-style: italic;
+    line-height: .8;
+    letter-spacing: -.09em;
+    text-shadow: .04em .05em .025em rgba(0,0,0,.14);
+  }
+  .sr .hero-rarity { left: -1%; bottom: 1%; color: #172e99; font-size: clamp(92px, 12vw, 280px); }
+  .a .hero-rarity { right: 7%; top: 1%; color: #27791e; font-size: clamp(100px, 12.5vw, 290px); }
+  .ssr .hero-rarity { left: -2%; bottom: 1%; color: #49a5a5; font-size: clamp(78px, 10.2vw, 240px); }
+  .draw-stack {
+    position: absolute;
+    left: 50%;
+    bottom: 3.2%;
+    z-index: 6;
+    width: clamp(62px, 5.2vw, 126px);
+    aspect-ratio: .66;
+    transform: translateX(-50%);
+    border-radius: 12%;
+    background: linear-gradient(145deg, #272727, #080808);
+    border: 1px solid rgba(255,255,255,.32);
+    box-shadow: -8px 7px 0 #151515, -15px 13px 0 #0b0b0b, 0 18px 34px rgba(0,0,0,.75);
+    transition: opacity .28s ease, transform .28s ease;
+  }
+  .draw-stack::after {
+    content: "?";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255,255,255,.8);
+    font: 700 clamp(30px, 3vw, 70px)/1 Georgia, serif;
+  }
+  .hero-card-slide.card-step-3 .draw-stack { opacity: 0; transform: translateX(-50%) scale(.7); }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-card { transition-duration: .01ms; }
+    .hero-card.is-visible::after { animation: none; }
+  }
 
   /* 第 12/13 个播放步骤共用一个舞台：论文截图从右下角展开。 */
   .step-slide img.step-overlay {
@@ -104,243 +354,168 @@
   }
   body.fit-contain .step-slide img.step-overlay { object-fit: contain; }
 
-  /* ========== 第 8 页：前文沿既有轨迹汇聚，并改变下一词候选分布 ========== */
-  .context-impact-slide img.main { z-index: 1; }
-  .context-impact-slide .impact-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: visible;
+  /* ========== 第 47 页：Task 拆分（HTML 分层，便于后续逐步加动效） ========== */
+  .task-split-slide {
+    /* 非 16:9 视口会在画布上下留边：顶部接白底，底部接 Now 区域。 */
+    background: linear-gradient(to bottom, #fff 0 50%, #f3efea 50% 100%);
+    color: #050505;
   }
-  .impact-overlay .impact-source {
-    fill: rgba(244, 237, 196, .045);
-    stroke: none;
-    opacity: 0;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  .impact-overlay .article-viewport {
-    width: 100%;
-    height: 100%;
+  .task-split-canvas {
     position: relative;
+    width: min(100vw, 177.7778vh);
+    height: min(100vh, 56.25vw);
     overflow: hidden;
-    background: #000;
-    color: rgba(246, 244, 235, .84);
-    font-family: Georgia, "Times New Roman", serif;
+    background: linear-gradient(to bottom, #fff 0 53%, #f3efea 53% 100%);
   }
-  .impact-overlay .article-page {
+  .task-split-title {
     position: absolute;
-    left: 95px;
-    top: 0;
-    width: 445px;
-    height: 100%;
-    font-size: 23px;
-    font-weight: 400;
-    line-height: 1.18;
-    letter-spacing: .05px;
-    text-shadow: 0 0 5px rgba(255, 248, 220, .08);
-    opacity: 0;
-    transform: translateY(105px) scale(1.28);
-    transform-origin: 50% 86%;
+    left: 4.25%;
+    top: 3.2%;
+    z-index: 2;
+    font-size: clamp(54px, 7.15vw, 184px);
+    line-height: 1;
+    letter-spacing: -.035em;
+    font-kerning: normal;
+    text-rendering: geometricPrecision;
+    white-space: nowrap;
   }
-  .impact-overlay .prompt-large {
+  .task-era {
+    position: absolute;
+    left: 3.35%;
+    z-index: 2;
+    font-size: clamp(32px, 3.25vw, 83px);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .task-era::before {
+    content: "";
+    position: absolute;
+    left: -.16em;
+    right: -.18em;
+    bottom: -.12em;
+    height: .56em;
+    z-index: -1;
+    transform: skewX(-13deg);
+    border-radius: .08em;
+  }
+  .task-era.ancient { top: 17.8%; }
+  .task-era.ancient::before { background: #a9c8ff; }
+  .task-era.now {
+    left: 3.2%;
+    bottom: 6.2%;
+    color: #050505;
+  }
+  .task-era.now::before { background: #db765b; }
+  .task-flow {
     position: absolute;
     left: 0;
-    top: 500px;
-    width: 100%;
-    padding: 0 34px;
-    color: rgba(250, 248, 240, .96);
-    font-size: 30px;
-    line-height: 1.3;
-    text-align: left;
-    transform-origin: 50% 50%;
-  }
-  .impact-overlay .prompt-lead {
+    right: 0;
     display: block;
-    margin-bottom: 22px;
-    color: rgba(246, 244, 235, .82);
   }
-  .impact-overlay .prompt-conclusion { white-space: nowrap; }
-  .impact-overlay .circled-word {
-    display: inline-block;
-    margin: 0 3px;
-    padding: 0 7px 2px;
-    border: 2px solid #eee96a;
-    border-radius: 999px;
-    line-height: 1;
-    transform: rotate(-3deg);
+  .task-flow.top {
+    top: 28.4%;
+    height: 20.2%;
   }
-  .impact-overlay .article-paragraph {
-    margin: 0 0 27px;
-    opacity: .84;
+  .task-flow.bottom {
+    top: 56.2%;
+    height: 29.8%;
   }
-  .impact-overlay .article-paragraph.context-old { opacity: .25; }
-  .context-impact-slide.impact-expanded .article-paragraph.context-old {
-    animation: context-brighten 8.35s .12s ease both;
-  }
-  .impact-overlay .article-prompt {
-    margin: 2px 0 0;
-    color: rgba(250, 248, 240, .92);
-    font-size: 24px;
-    line-height: 1.1;
-    white-space: nowrap;
-  }
-  .impact-overlay .token-blank {
-    display: inline-block;
-    width: 72px;
-    margin-left: 8px;
-    border-bottom: 3px solid #eee96a;
-    transform: translateY(-3px);
-  }
-  .context-impact-slide.impact-expanded .prompt-large {
-    animation: prompt-collapse 1.02s cubic-bezier(.22,.75,.2,1) both;
-  }
-  .context-impact-slide.impact-expanded .article-page {
-    animation: article-zoom-sequence 8.35s .12s cubic-bezier(.22,.75,.2,1) both;
-  }
-  /* 第 8 页直接播放原讲解片段，避免用静态图或近似线条复刻。 */
-  .context-impact-slide {
-    background: #000;
-  }
-  .context-impact-slide > img.main,
-  .context-impact-slide > img.ambient {
-    display: none;
-  }
-  .attention-title {
+  .task-step {
     position: absolute;
-    left: 5.7%;
-    top: 49%;
-    z-index: 2;
-    color: #f7f6f1;
-    font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
-    font-size: clamp(58px, 7.15vw, 132px);
-    font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -.04em;
+    top: 0;
+    height: 100%;
+    text-align: center;
+  }
+  .task-step img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    display: block;
+    max-width: 100%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  /* 顶部素材统一以文字上方为基线：同类人物同尺寸，且到标签留白一致。 */
+  .task-flow.top .task-step img {
+    top: auto;
+    bottom: 37%;
+    width: auto;
+    height: 110%;
+    max-width: none;
+  }
+  .task-flow.top .task-step.review img {
+    top: auto;
+    bottom: 37%;
+    width: auto;
+    height: 90%;
+    max-width: none;
+  }
+  .task-flow.bottom .task-step img { top: 34%; width: 86%; height: 69%; }
+  .task-flow.bottom .task-step.plug img { width: 63%; }
+  .task-flow.bottom .task-step.plug img { top: 35%; }
+  .task-flow.bottom .task-step.review img { top: 26%; width: 96%; }
+  .task-flow.bottom .task-step.thumb img {
+    top: 25%;
+    width: 100%;
+    transform: scale(2.5);
+    transform-origin: right center;
+  }
+  .task-label {
+    position: absolute;
+    left: 50%;
+    width: max-content;
+    transform: translateX(-50%);
+    font-size: clamp(27px, 3.15vw, 80px);
+    line-height: 1.02;
+    letter-spacing: -.018em;
+    font-kerning: normal;
+    text-rendering: geometricPrecision;
     white-space: nowrap;
+  }
+  .task-flow.top .task-label { bottom: 0; }
+  .task-flow.bottom .task-label { top: 0; min-height: 1.12em; }
+  .task-label.agent { color: #7057d8; }
+  .task-label.figma { color: #db765b; }
+  .task-step.plug .task-label { color: #db765b; }
+  .task-arrow {
+    position: absolute;
+    width: 4.2%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: clamp(38px, 4.25vw, 108px);
+    font-weight: 300;
+    line-height: 1;
     transform: translateY(-50%);
   }
-  .context-impact-slide .impact-overlay { display: none; }
-  .attention-video-shell {
-    position: absolute;
-    inset: 0;
-    z-index: 6;
-    overflow: hidden;
-    background: #000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .28s ease;
-  }
-  .context-impact-slide.impact-playing .attention-video-shell {
-    opacity: 1;
-  }
-  .attention-video-shell video {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: contain;
-    background: #000;
-  }
-  .impact-overlay .impact-flow {
-    fill: none;
-    stroke: rgba(244, 237, 196, .78);
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-dasharray: 2600;
-    stroke-dashoffset: 2600;
-    opacity: 0;
-  }
-  .impact-overlay .impact-flow.cool {
-    stroke: rgba(204, 219, 190, .62);
-    stroke-width: 1.25;
-  }
-  .impact-overlay .impact-particle {
-    fill: #fff7c7;
-    opacity: 0;
-  }
-  .impact-overlay .impact-bottleneck {
-    fill: none;
-    stroke: rgba(255, 246, 204, .9);
-    stroke-width: 3;
-    opacity: 0;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  .impact-overlay .impact-output {
-    fill: rgba(247, 240, 202, .12);
-    stroke: rgba(247, 240, 202, .68);
-    stroke-width: 1.5;
-    opacity: 0;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  .impact-overlay .impact-output-bracket {
-    fill: none;
-    stroke: rgba(247, 240, 202, .7);
-    stroke-width: 2;
-    stroke-linecap: round;
-    opacity: 0;
-  }
-  .context-impact-slide.impact-playing .impact-source {
-    animation: impact-source 1.15s 7.8s ease-out both;
-  }
-  .context-impact-slide.impact-playing .impact-source.s2 { animation-delay: 8.05s; }
-  .context-impact-slide.impact-playing .impact-source.s3 { animation-delay: 1.05s; }
-  .context-impact-slide.impact-playing .impact-source.s4 { animation-delay: 1.09s; }
-  .context-impact-slide.impact-playing .impact-flow {
-    animation: impact-flow var(--duration, 3.1s) var(--delay, .75s) cubic-bezier(.2,.68,.24,1) both;
-  }
-  .context-impact-slide.impact-playing .impact-bottleneck {
-    animation: impact-bottleneck .9s 2.55s ease-out both;
-  }
-  .context-impact-slide.impact-playing .impact-output {
-    animation: impact-output .72s var(--delay, 3.05s) cubic-bezier(.2,.8,.2,1) both;
-  }
-  .context-impact-slide.impact-playing .impact-output-bracket {
-    animation: impact-bracket 1.15s 3.8s ease-out both;
-  }
-  @keyframes impact-source {
-    0% { opacity: 0; transform: scale(.92); }
-    28% { opacity: .95; transform: scale(1.03); }
-    100% { opacity: .18; transform: scale(1); }
-  }
-  @keyframes prompt-collapse {
-    0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-    72% { opacity: .34; }
-    100% { opacity: 0; transform: translateY(122px) scale(.66); filter: blur(1px); }
-  }
-  @keyframes article-zoom-sequence {
-    0% { opacity: 0; transform: translateY(105px) scale(1.28); filter: blur(2px); }
-    12% { opacity: 1; transform: translateY(105px) scale(1.28); filter: blur(0); }
-    66% { opacity: 1; transform: translateY(105px) scale(1.28); filter: blur(0); }
-    86%, 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  }
-  @keyframes context-brighten {
-    0%, 66% { opacity: .25; }
-    86%, 100% { opacity: .8; }
-  }
-  @keyframes impact-flow {
-    0% { opacity: 0; stroke-dashoffset: 2600; }
-    16% { opacity: .72; }
-    78% { opacity: .5; }
-    100% { opacity: 0; stroke-dashoffset: 0; }
-  }
-  @keyframes impact-bottleneck {
-    0% { opacity: 0; transform: scale(.55); }
-    45% { opacity: 1; transform: scale(1.28); }
-    100% { opacity: .18; transform: scale(1); }
-  }
-  @keyframes impact-output {
-    0% { opacity: 0; transform: translateX(-8px) scaleX(.72); }
-    48% { opacity: .9; transform: translateX(4px) scaleX(1.1); }
-    100% { opacity: .16; transform: translateX(0) scaleX(1); }
-  }
-  @keyframes impact-bracket {
-    0% { opacity: 0; stroke-dasharray: 0 520; }
-    100% { opacity: .82; stroke-dasharray: 520 0; }
+  /* 顶部箭头中心与标签文字行中心对齐。 */
+  .task-flow.top .task-arrow { top: 85.9%; }
+  .task-flow.bottom .task-arrow { top: 9%; }
+  .task-flow.top > :nth-child(1) { left: 2%; width: 16%; }
+  .task-flow.top > :nth-child(2) { left: 18.5%; }
+  .task-flow.top > :nth-child(3) { left: 21.4%; width: 12%; }
+  .task-flow.top > :nth-child(4) { left: 32.2%; }
+  .task-flow.top > :nth-child(5) { left: 35.5%; width: 12%; }
+  .task-flow.top > :nth-child(6) { left: 46.4%; }
+  .task-flow.top > :nth-child(7) { left: 50.7%; width: 23.3%; }
+  .task-flow.top > :nth-child(8) { left: 72.5%; }
+  .task-flow.top > :nth-child(9) { left: 75%; width: 11.5%; }
+  .task-flow.top > :nth-child(10) { left: 85.1%; }
+  .task-flow.top > :nth-child(11) { left: 89%; width: 10%; }
+  .task-flow.bottom > :nth-child(1) { left: 3%; width: 15%; }
+  .task-flow.bottom > :nth-child(2) { left: 16.25%; }
+  .task-flow.bottom > :nth-child(3) { left: 20.5%; width: 11%; }
+  .task-flow.bottom > :nth-child(4) { left: 30.85%; }
+  .task-flow.bottom > :nth-child(5) { left: 34.5%; width: 11%; }
+  .task-flow.bottom > :nth-child(6) { left: 45.95%; }
+  .task-flow.bottom > :nth-child(7) { left: 50%; width: 23.5%; }
+  .task-flow.bottom > :nth-child(8) { left: 72.55%; }
+  .task-flow.bottom > :nth-child(9) { left: 75.5%; width: 13%; }
+  .task-flow.bottom > :nth-child(10) { left: 86.55%; }
+  .task-flow.bottom > :nth-child(11) { left: 90%; width: 9.5%; }
+  @media (prefers-reduced-motion: reduce) {
+    .task-split-slide *, .task-split-slide *::before { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
 
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
@@ -411,14 +586,6 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .step-slide img.step-overlay { transition-duration: .01ms; }
-    .context-impact-slide.impact-playing .impact-source,
-    .context-impact-slide.impact-playing .impact-flow,
-    .context-impact-slide.impact-playing .impact-bottleneck,
-    .context-impact-slide.impact-playing .impact-output,
-    .context-impact-slide.impact-playing .impact-output-bracket { animation-duration: .01ms; animation-delay: 0s; }
-    .impact-overlay .impact-particle { display: none; }
-    .context-impact-slide.impact-expanded .prompt-large,
-    .context-impact-slide.impact-expanded .article-page { animation-duration: .01ms; animation-delay: 0s; }
     .final-map-slide.is-revealing .map-reveal,
     .final-map-slide.is-revealed .map-reveal { transition-duration: .01ms; }
     .final-map-slide.is-revealing .map-glow { animation-duration: .01ms; }
@@ -767,6 +934,54 @@
     return s;
   }
 
+  function createHeroCardSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide hero-card-slide card-step-0';
+    s.innerHTML = '<h2 class="hero-card-title">选择你的英雄</h2>' +
+      '<div class="hero-card-stage">' +
+        '<article class="hero-card sr" data-card-index="1"><img src="assets/cards/horse-sr.png" alt="盘发棕马"><span class="hero-rarity">SR</span></article>' +
+        '<article class="hero-card a" data-card-index="2"><img src="assets/cards/horse-a.png" alt="吐舌小马"><span class="hero-rarity">A</span></article>' +
+        '<article class="hero-card ssr" data-card-index="3"><img src="assets/cards/horse-ssr.png" alt="白马"><span class="hero-rarity">SSR</span></article>' +
+      '</div><div class="draw-stack" role="button" aria-label="抽取下一张英雄卡"></div>';
+    return s;
+  }
+
+  function createTaskSplitSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide task-split-slide';
+    const scholar = 'assets/task-split/ancient-scholar.png';
+    const review = 'assets/task-split/ancient-review.png';
+    const controller = 'assets/task-split/agent-controller.png';
+    const step = function (className, label, image, alt) {
+      return '<div class="task-step ' + className + '" data-task-step="' + className + '">' +
+        (label ? '<div class="task-label ' + (className === 'agent' ? 'agent' : '') + '">' + label + '</div>' : '') +
+        '<img src="' + image + '" alt="' + alt + '"></div>';
+    };
+    const arrow = '<div class="task-arrow" aria-hidden="true">→</div>';
+    const top =
+      step('design', '看设计图', scholar, '古代文人看设计图') + arrow +
+      step('code', 'code', scholar, '古代文人编写代码') + arrow +
+      step('self-test', '自测', scholar, '古代文人自测') + arrow +
+      step('review', '其他部门验收', review, '其他部门验收') + arrow +
+      step('revise', '改', scholar, '古代文人修改') + arrow +
+      step('launch', '上线', scholar, '古代文人上线');
+    const bottom =
+      step('plug', 'Figma<br>MCP', 'assets/task-split/figma-plug.png', 'Figma MCP 插头') + arrow +
+      step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
+      step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
+      step('review', '其他部门验收', review, '其他部门验收') + arrow +
+      step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
+      step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
+    s.innerHTML = '<div class="task-split-canvas">' +
+      '<h2 class="task-split-title">CASE高考：Task 拆分</h2>' +
+      '<div class="task-era ancient">古法</div>' +
+      '<div class="task-flow top">' + top + '</div>' +
+      '<div class="task-flow bottom">' + bottom + '</div>' +
+      '<div class="task-era now"><span>Now</span></div>' +
+      '</div>';
+    return s;
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
@@ -779,6 +994,14 @@
       continue;
     }
     if (i === 29) {
+      continue;
+    }
+    if (i === 42) {
+      deck.appendChild(createHeroCardSlide());
+      continue;
+    }
+    if (i === 47) {
+      deck.appendChild(createTaskSplitSlide());
       continue;
     }
     const s = document.createElement('section');
@@ -816,7 +1039,7 @@
     const img = document.createElement('img');
     img.className = 'main';
     img.src = i === 1
-      ? 'assets/generated/slide-1-top-extended.png'
+      ? 'assets/generated/slide-1-stitched-v2.png'
       : i === 56
         ? 'assets/generated/slide-56-no-baseline.png'
         : 'assets/slides/slide-' + i + '.webp';
@@ -824,101 +1047,22 @@
     img.decoding = 'async';
     s.appendChild(img);
     if (i === 7) {
-      s.classList.add('context-impact-slide');
+      s.classList.add('context-video-slide');
       const attentionTitle = document.createElement('div');
       attentionTitle.className = 'attention-title';
       attentionTitle.innerHTML = '预测<br>下一个词汇';
-      s.appendChild(attentionTitle);
       const videoShell = document.createElement('div');
       videoShell.className = 'attention-video-shell';
       videoShell.innerHTML = '<video class="attention-video" src="assets/generated/attention-3m59-4m29.mp4" muted playsinline preload="metadata" aria-label="Attention mechanism animation, 3:59 to 4:29"></video>';
+      s.appendChild(attentionTitle);
       s.appendChild(videoShell);
-      const impact = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      impact.setAttribute('class', 'impact-overlay');
-      impact.setAttribute('viewBox', '0 0 2560 1440');
-      impact.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-      impact.setAttribute('aria-hidden', 'true');
-      impact.innerHTML =
-        '<defs>' +
-          '<filter id="impact-soft-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
-          '<filter id="impact-strong-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
-        '</defs>' +
-        '<foreignObject x="1475" y="48" width="640" height="875">' +
-          '<div xmlns="http://www.w3.org/1999/xhtml" class="article-viewport">' +
-            '<div class="prompt-large">' +
-              '<span class="prompt-lead">Sarah compared the muddy footprints, the missing watch, and every suspect’s alibi. One clue finally connected the entire story.</span>' +
-              '<span class="prompt-conclusion">Therefore, the murderer <span class="circled-word">was</span><span class="token-blank"></span></span>' +
-            '</div>' +
-            '<div class="article-page">' +
-              '<p class="article-paragraph context-old">The guests were Adam, Jonathan’s business partner; Bella, Jonathan’s estranged sister; Claire, the caretaker of the mansion; and Derek, an old college friend. Sarah began her investigation, noting the muddy footprints that led to Jonathan’s room, the absence of Adam’s trademark pocket watch, Bella’s nervous fidgeting, and Derek’s calm demeanor.</p>' +
-              '<p class="article-paragraph context-old">Adam’s motive was strong, but his alibi was solid. Bella, despite her estrangement, revealed she had the opposite side of the secret diary. Claire had access to all rooms but lacked any visible dirt. Derek, however, had been near Jonathan’s room, his whereabouts unaccounted for.</p>' +
-              '<p class="article-paragraph">Finally, Sarah dusted for prints and found a faint mark on the outside window ledge matching Derek’s shoe. “Why would you climb out the window?” she asked. Under a loose floorboard, Sarah found the missing pocket watch engraved with his initials. The truth was clear: he came to steal the watch.</p>' +
-              '<p class="article-prompt">Therefore, the murderer was<span class="token-blank"></span></p>' +
-            '</div>' +
-          '</div>' +
-        '</foreignObject>' +
-        '<ellipse class="impact-source s1" cx="1745" cy="150" rx="190" ry="108"/>' +
-        '<ellipse class="impact-source s2" cx="1745" cy="330" rx="190" ry="118"/>' +
-        '<ellipse class="impact-source s3" cx="1750" cy="625" rx="195" ry="130"/>' +
-        '<circle class="impact-bottleneck" cx="1940" cy="805" r="28"/>';
-
-      const sourceBands = [
-        { y: 78, rows: 7, step: 23 },
-        { y: 248, rows: 8, step: 22 },
-        { y: 525, rows: 9, step: 22 }
-      ];
-      const vectorYs = [1004, 1042, 1080, 1118, 1156, 1194, 1232, 1270, 1308, 1346, 1384];
-      for (let line = 0; line < 42; line++) {
-        const localContext = line < 12;
-        const band = localContext ? sourceBands[2] : sourceBands[(line - 12) % sourceBands.length];
-        const sourceX = 1580 + ((line * 83) % 355);
-        const sourceY = band.y + ((line * 5) % band.rows) * band.step;
-        const targetX = 1748 + ((line * 17) % 46);
-        const targetY = vectorYs[line % vectorYs.length];
-        const leftSide = line % 2 === 0;
-        const control1X = leftSide ? 1420 - (line % 6) * 36 : 2075 + (line % 6) * 34;
-        const control2X = leftSide ? 1515 + (line % 4) * 28 : 1990 - (line % 4) * 26;
-        const pathData = 'M' + sourceX + ' ' + sourceY +
-          ' C' + control1X + ' ' + (sourceY + 150) +
-          ' ' + control2X + ' ' + (targetY - 170) +
-          ' ' + targetX + ' ' + targetY;
-        const delay = localContext
-          ? 1.45 + line * .105
-          : 8.15 + ((line - 12) % 10) * .085 + Math.floor((line - 12) / 10) * .12;
-        const duration = 4.8 + (line % 5) * .12;
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('class', 'impact-flow ' + (localContext ? 'local-flow' : 'global-flow') + (line % 3 === 1 ? ' cool' : ''));
-        path.setAttribute('d', pathData);
-        path.style.setProperty('--delay', delay + 's');
-        path.style.setProperty('--duration', duration + 's');
-        impact.appendChild(path);
-
-        if (line % 3 === 0) {
-          const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          particle.setAttribute('class', 'impact-particle');
-          particle.setAttribute('r', String(3.5 + (line % 4) * .55));
-          particle.innerHTML =
-            '<animateMotion dur="' + duration + 's" begin="' + delay + 's" fill="freeze" path="' + pathData + '"/>' +
-            '<animate attributeName="opacity" values="0;.9;.9;0" keyTimes="0;.1;.84;1" dur="' + duration + 's" begin="' + delay + 's" fill="freeze"/>';
-          impact.appendChild(particle);
-        }
-      }
-      vectorYs.forEach(function (y, index) {
-        const row = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        row.setAttribute('class', 'impact-output');
-        row.setAttribute('x', '1732');
-        row.setAttribute('y', String(y - 14));
-        row.setAttribute('width', '82');
-        row.setAttribute('height', '28');
-        row.setAttribute('rx', '5');
-        row.style.setProperty('--delay', (2.35 + index * .12) + 's');
-        impact.appendChild(row);
-      });
-      const vectorBracket = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      vectorBracket.setAttribute('class', 'impact-output-bracket');
-      vectorBracket.setAttribute('d', 'M1818 982 h18 v424 h-18');
-      impact.appendChild(vectorBracket);
-      s.appendChild(impact);
+    }
+    if (i === 1) {
+      const copy = document.createElement('div');
+      copy.className = 'stitch-upper-copy';
+      copy.innerHTML = '<div class="corner l">Harness</div><div class="corner r">Engineering</div>' +
+        '<div class="headline"><span>人类早期</span><span>驯服野马指南</span></div>';
+      s.appendChild(copy);
     }
     if (i === 11) {
       s.classList.add('step-slide');
@@ -945,8 +1089,11 @@
   let current = 0;
   const finalMapSlide = document.querySelector('.final-map-slide');
   const stepSlide = document.querySelector('.step-slide');
-  const impactSlide = document.querySelector('.context-impact-slide');
-  const attentionVideo = impactSlide.querySelector('.attention-video');
+  const contextVideoSlide = document.querySelector('.context-video-slide');
+  const attentionVideo = contextVideoSlide.querySelector('.attention-video');
+  const heroCardSlide = document.querySelector('.hero-card-slide');
+  const HERO_CARD_PAGE = 41;
+  let heroCardStep = 0;
   let mapRevealTimer = null;
 
   function clamp(n) { return Math.max(0, Math.min(TOTAL - 1, n)); }
@@ -956,8 +1103,9 @@
     if (n === current && !instant) return;
     const previous = current;
     current = n;
-    resetImpact();
+    resetAttentionVideo();
     if (current !== TOTAL - 1) resetMapReveal();
+    if (current !== HERO_CARD_PAGE || previous !== HERO_CARD_PAGE) setHeroCardStep(0);
     const promptState = current === 28 ? 'trend' : 'removed';
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
@@ -978,28 +1126,6 @@
     finalMapSlide.classList.remove('is-revealing', 'is-revealed');
   }
 
-  function resetImpact() {
-    impactSlide.classList.remove('impact-playing', 'impact-expanded');
-    attentionVideo.pause();
-    attentionVideo.currentTime = 0;
-    const overlay = impactSlide.querySelector('.impact-overlay');
-    if (overlay && overlay.pauseAnimations) overlay.pauseAnimations();
-  }
-
-  function playImpact() {
-    impactSlide.classList.remove('impact-playing', 'impact-expanded');
-    void impactSlide.offsetWidth;
-    attentionVideo.currentTime = 0;
-    attentionVideo.play().catch(function () {});
-    impactSlide.classList.add('impact-playing', 'impact-expanded');
-    const overlay = impactSlide.querySelector('.impact-overlay');
-    if (overlay && overlay.pauseAnimations) {
-      overlay.pauseAnimations();
-      overlay.setCurrentTime(0);
-      overlay.unpauseAnimations();
-    }
-  }
-
   function playMapReveal() {
     clearTimeout(mapRevealTimer);
     finalMapSlide.classList.remove('is-revealing', 'is-revealed');
@@ -1011,22 +1137,45 @@
     }, 5650);
   }
 
+  function resetAttentionVideo() {
+    contextVideoSlide.classList.remove('video-playing');
+    attentionVideo.pause();
+    attentionVideo.currentTime = 0;
+  }
+
+  function playAttentionVideo() {
+    attentionVideo.currentTime = 0;
+    attentionVideo.play().catch(function () {});
+    contextVideoSlide.classList.add('video-playing');
+  }
+
+  function setHeroCardStep(step) {
+    heroCardStep = Math.max(0, Math.min(3, step));
+    heroCardSlide.classList.remove('card-step-0', 'card-step-1', 'card-step-2', 'card-step-3');
+    heroCardSlide.classList.add('card-step-' + heroCardStep);
+    heroCardSlide.querySelectorAll('[data-card-index]').forEach(function (card) {
+      card.classList.toggle('is-visible', Number(card.dataset.cardIndex) <= heroCardStep);
+    });
+  }
+
   function advance() {
-    if (current === 7 && !impactSlide.classList.contains('impact-expanded')) {
-      playImpact();
-      return;
-    }
-    if (current === TOTAL - 1) playMapReveal();
+    if (current === 7 && !contextVideoSlide.classList.contains('video-playing')) playAttentionVideo();
+    else if (current === HERO_CARD_PAGE && heroCardStep < 3) setHeroCardStep(heroCardStep + 1);
+    else if (current === TOTAL - 1) playMapReveal();
     else go(current + 1);
   }
 
   function retreat() {
-    if (current === 7 && impactSlide.classList.contains('impact-expanded')) {
-      resetImpact();
-      return;
-    }
-    go(current - 1);
+    if (current === 7 && contextVideoSlide.classList.contains('video-playing')) resetAttentionVideo();
+    else if (current === HERO_CARD_PAGE && heroCardStep > 0) setHeroCardStep(heroCardStep - 1);
+    else go(current - 1);
   }
+
+  heroCardSlide.addEventListener('click', function (e) {
+    if (current !== HERO_CARD_PAGE) return;
+    e.preventDefault();
+    advance();
+  });
 
   // 填充/适应 切换（F 键），默认适应并记住后续选择
   const FIT_STORAGE_KEY = 'deck-fit-v2';
@@ -1040,9 +1189,6 @@
   }
   function setFit(mode, silent) {
     document.body.classList.toggle('fit-contain', mode === 'contain');
-    document.querySelectorAll('.impact-overlay').forEach(function (overlay) {
-      overlay.setAttribute('preserveAspectRatio', mode === 'contain' ? 'xMidYMid meet' : 'xMidYMid slice');
-    });
     localStorage.setItem(FIT_STORAGE_KEY, mode);
     if (!silent) showToast(mode === 'contain' ? '适应：完整显示，可能有边' : '填充：铺满屏幕，边缘可能裁切');
   }
@@ -1055,7 +1201,7 @@
       setFit(document.body.classList.contains('fit-contain') ? 'cover' : 'contain');
       return;
     }
-    if (e.key === ' ' && current === 7 && impactSlide.classList.contains('impact-expanded')) {
+    if (e.key === ' ' && current === 7 && contextVideoSlide.classList.contains('video-playing')) {
       e.preventDefault();
       if (attentionVideo.paused) {
         if (attentionVideo.ended) attentionVideo.currentTime = 0;
