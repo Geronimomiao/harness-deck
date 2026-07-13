@@ -135,7 +135,7 @@
   .stitch-upper-copy .corner.r { right: 3.8%; }
   .stitch-upper-copy .headline {
     position: absolute;
-    top: 20%;
+    top: 29%;
     left: 50%;
     transform: translateX(-50%);
     width: 70%;
@@ -367,8 +367,8 @@
 
   /* ========== 第 47 页：Task 拆分（HTML 分层，便于后续逐步加动效） ========== */
   .task-split-slide {
-    /* 非 16:9 视口会在画布上下留边：顶部接白底，底部接 Now 区域。 */
-    background: linear-gradient(to bottom, #fff 0 50%, #f3efea 50% 100%);
+    /* 渐变只画在 slide 上（与 .ride-slide 一致），画布透明，避免留边时两条分界线错位。 */
+    background: linear-gradient(to bottom, #fff 0 53%, #f3efea 53% 100%);
     color: #050505;
   }
   .task-split-canvas {
@@ -376,7 +376,6 @@
     width: min(100vw, 177.7778vh);
     height: min(100vh, 56.25vw);
     overflow: hidden;
-    background: linear-gradient(to bottom, #fff 0 53%, #f3efea 53% 100%);
   }
   .task-split-title {
     position: absolute;
@@ -470,10 +469,11 @@
   .task-flow.bottom .task-step.thumb img {
     top: 25%;
     left: auto;
-    right: -22%;
+    right: -48%;
     margin-inline: 0;
-    width: 100%;
-    transform: scale(2.5);
+    width: auto;
+    height: 46%;
+    transform: scale(1.85);
     transform-origin: right center;
   }
   .task-label {
@@ -607,12 +607,13 @@
   .ride-flow.bottom .ride-step.controller img { top: 25%; height: 54%; }
   .ride-flow.bottom .ride-step.approve img { top: 23%; height: 44%; }
   .ride-flow.bottom .ride-step.thumb img {
-    top: 25%;
-    left: auto;
-    right: -48%;
-    height: 46%;
-    transform: scale(1.85);
-    transform-origin: right center;
+    top: 14%;
+    left: 50%;
+    right: auto;
+    height: 70%;
+    width: auto;
+    transform: translateX(-50%);
+    transform-origin: center;
   }
   .ride-label {
     position: absolute;
@@ -642,6 +643,32 @@
   }
   .ride-flow.top .ride-arrow { align-self: end; transform: translateY(-5%); }
   .ride-flow.bottom .ride-arrow { align-self: start; transform: translateY(-18%); }
+  /* ========== 评估轴（替换原「平台」页）：复用 .ride-* 体系 ========== */
+  .ride-era.now { left: 3.2%; bottom: 6.2%; }
+  .ride-era.now::before { background: #db765b; }
+  /* 上排 6 个评估同学锁死为同一尺寸（与圈中「出汇总」一致），避免任何变体类导致大小不一 */
+  .eval-slide .ride-flow.top .ride-step img { bottom: 37%; height: 58%; }
+  /* Now 行「评估」节点：Agent 评 + 评估同学 check，竖排（手在上、小红人在下） */
+  .eval-slide .ride-flow.bottom .ride-step.eval-check { overflow: visible; }
+  .eval-slide .ride-flow.bottom .ride-step.eval-check img.er-agent {
+    top: 25%;
+    left: 50%;
+    height: 54%;
+    width: auto;
+    max-width: none;
+    transform: translateX(-50%);
+  }
+  .eval-slide .ride-flow.bottom .ride-step.eval-check img.er-person {
+    top: 84%;
+    left: 50%;
+    height: 46%;
+    width: auto;
+    max-width: none;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 3px 8px rgba(0,0,0,.2));
+    z-index: 2;
+  }
+
   /* ========== Harness 出处（第 15–19 步）：同一组件的目录与四个 Tab 状态 ========== */
   .origin-slide {
     display: block;
@@ -772,6 +799,18 @@
   }
   .origin-profile h3 { margin-top: .45em; font-size: clamp(28px, 2.45vw, 46px); line-height: 1; }
   .origin-profile p { margin-top: 1em; font-size: clamp(14px, 1.16vw, 22px); line-height: 1.48; }
+  .origin-profile .origin-link {
+    display: table;
+    margin: 1.15em auto 0;
+    color: #2f4a6d;
+    font-size: clamp(13px, 1.05vw, 20px);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(47, 74, 109, .5);
+    padding-bottom: .1em;
+    transition: opacity .18s ease;
+  }
+  .origin-profile .origin-link:hover { opacity: .68; }
+  .origin-profile .origin-link .external-arrow { margin-left: .3em; font-size: .88em; }
   .origin-evidence {
     min-height: 0;
     width: 100%;
@@ -836,7 +875,7 @@
 
   /* ========== Workflow（原第 35 步）：复刻参考 deck 的三页 HTML 组件 ========== */
   .workflow-slide {
-    --wf-bg: #faf9f7;
+    --wf-bg: #f0efe9;
     --wf-surface: #fff;
     --wf-surface-2: #f1efe8;
     --wf-text: #26241f;
@@ -851,37 +890,37 @@
     --wf-red: #a32d2d;
     --wf-amber: #854f0b;
     --wf-amber-bg: #faeeda;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
     background: var(--wf-bg);
     color: var(--wf-text);
-    padding: clamp(44px, 7vh, 64px) clamp(48px, 8vw, 104px) clamp(42px, 6vh, 58px);
+    padding: clamp(30px, 4vh, 46px) clamp(36px, 3.4vw, 60px);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
   }
   .workflow-inner {
-    width: min(100%, 1080px);
+    width: min(100%, 1440px);
     margin: auto;
   }
   .workflow-kick {
-    margin-bottom: 18px;
+    margin-bottom: 10px;
     color: var(--wf-text-3);
     font-size: clamp(12px, 1.18vw, 15px);
     letter-spacing: .06em;
   }
   .workflow-slide h2 {
     margin: 0 0 18px;
-    font-size: clamp(28px, 3.05vw, 42px);
-    font-weight: 650;
-    line-height: 1.25;
-    letter-spacing: -.025em;
+    font-family: "Deck Serif", "Songti SC", "STSong", Georgia, serif;
+    font-size: clamp(44px, 5vw, 80px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -.035em;
   }
   .workflow-slide a { color: var(--wf-blue); }
   .workflow-title-link {
     color: inherit !important;
     text-decoration: none;
-    border-bottom: 3px solid rgba(24, 95, 165, .28);
   }
   .workflow-timeline {
     display: grid;
@@ -957,9 +996,7 @@
     text-decoration: none;
     border-bottom: 1px solid rgba(24, 95, 165, .32);
   }
-  .workflow-case-slide { padding-inline: clamp(48px, 6vw, 72px); }
-  .workflow-case-slide .workflow-inner { width: min(100%, 1080px); }
-  .workflow-case-slide h2 { margin-bottom: 16px; font-size: clamp(30px, 3vw, 38px); }
+  /* 与 #34/#36 对齐：不再单独覆盖内边距、栏宽、标题大小，统一走基础 .workflow-slide 样式 */
   .workflow-real-shot {
     margin-top: 20px;
     overflow: hidden;
@@ -1449,10 +1486,7 @@
   .references-slide {
     display: block;
     color: #191815;
-    background:
-      radial-gradient(circle at 88% 8%, rgba(111, 83, 229, .055), transparent 28%),
-      radial-gradient(circle at 5% 92%, rgba(226, 105, 68, .06), transparent 30%),
-      #f3f0e8;
+    background: #f3f0e8;
     font-family: "Deck Serif", "Songti SC", "STSong", serif;
   }
   .references-thanks {
@@ -1486,7 +1520,7 @@
   }
   .references-kicker {
     margin-bottom: .2em;
-    color: #e06f50;
+    color: rgba(25, 24, 21, .42);
     font-family: Arial, "PingFang SC", sans-serif;
     font-size: clamp(8px, .62vw, 13px);
     font-weight: 700;
@@ -1524,7 +1558,7 @@
   }
   .reference-link {
     display: grid;
-    grid-template-columns: clamp(46px, 4vw, 80px) minmax(0, 1fr) auto;
+    grid-template-columns: clamp(46px, 4vw, 80px) minmax(0, 1fr);
     align-items: center;
     gap: clamp(9px, .8vw, 16px);
     min-width: 0;
@@ -1537,7 +1571,7 @@
   .reference-link:hover,
   .reference-link:focus-visible {
     outline: none;
-    color: #6f53e5;
+    color: #000;
     padding-left: .45em;
   }
   .reference-meta {
@@ -1550,7 +1584,7 @@
     letter-spacing: .06em;
   }
   .reference-page {
-    color: #6f53e5;
+    color: rgba(25, 24, 21, .72);
   }
   .reference-date { color: rgba(25, 24, 21, .48); }
   .reference-copy { min-width: 0; }
@@ -1586,7 +1620,7 @@
   }
   body.references-mode #counter { color: rgba(25, 24, 21, .48); text-shadow: none; }
   body.references-mode #progress { background: rgba(25, 24, 21, .09); }
-  body.references-mode #progress-bar { background: linear-gradient(90deg, #e06f50, #6f53e5); }
+  body.references-mode #progress-bar { background: rgba(25, 24, 21, .45); }
 
   /* 页码指示 */
   #counter {
@@ -1786,7 +1820,7 @@
       step('controller merged-agent', 'Agent', controller, '未来由 Agent 参与研发', 'agent-beige') + arrow +
       step('controller', 'Agent', controller, '未来由 Agent 参与验收', 'agent-purple') + arrow +
       step('controller', 'Agent', controller, '未来由 Agent 参与修改', 'agent-beige') + arrow +
-      step('thumb', '上线', 'assets/task-split/thumbs-up.webp', '竖起大拇指');
+      step('thumb', '上线', 'assets/task-split/thumbs-trio.webp', '多方竖起大拇指');
     s.innerHTML = '<div class="ride-canvas">' +
       '<h2 class="ride-title">先骑带后骑</h2>' +
       '<div class="ride-era ancient">古法</div>' +
@@ -1797,16 +1831,62 @@
     return s;
   }
 
+  function createEvalAxisSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide ride-slide eval-slide';
+    // 红袍文人 = 评估同学；所有"人"都用红袍统一表示
+    const red = 'assets/task-split/ancient-red.webp';
+    const controller = 'assets/task-split/agent-controller.webp';
+    const step = function (className, label, image, alt, labelClass) {
+      return '<div class="ride-step ' + className + '">' +
+        '<div class="ride-label ' + (labelClass || '') + '">' + label + '</div>' +
+        '<img src="' + image + '" alt="' + alt + '"></div>';
+    };
+    const arrow = '<div class="ride-arrow" aria-hidden="true">→</div>';
+    // 古法：每一步都靠评估同学（红袍）
+    const top =
+      step('red', '拉数据', red, '评估同学拉取评估数据') + arrow +
+      step('red', '拉指标', red, '评估同学拉搜索指标') + arrow +
+      step('red', '抓快照', red, '评估同学抓快照') + arrow +
+      step('red', '出汇总', red, '评估同学生成汇总文档') + arrow +
+      step('red', '评估', red, '评估同学按规则评估') + arrow +
+      step('red', '反馈', red, '评估同学反馈 Case');
+    // Now：每步都交给 Agent；「评估」这步是模型评 + 评估同学复核（Re）
+    const evalCheck =
+      '<div class="ride-step eval-check">' +
+        '<div class="ride-label agent-purple">Agent</div>' +
+        '<img class="er-agent" src="' + controller + '" alt="Agent 评估">' +
+        '<img class="er-person" src="' + red + '" alt="评估同学 check 评估结果">' +
+      '</div>';
+    const bottom =
+      step('controller', 'Agent', controller, 'Agent 拉取评估数据', 'agent-red') + arrow +
+      step('controller', 'Agent', controller, 'Agent 拉搜索指标', 'agent-green') + arrow +
+      step('controller', 'Agent', controller, 'Agent 抓快照', 'agent-beige') + arrow +
+      step('controller', 'Agent', controller, 'Agent 生成汇总', 'agent-purple') + arrow +
+      evalCheck + arrow +
+      step('controller', 'Agent', controller, 'Agent 反馈 Case', 'agent-beige');
+    s.innerHTML = '<div class="ride-canvas">' +
+      '<h2 class="ride-title">评估</h2>' +
+      '<div class="ride-era ancient">古法</div>' +
+      '<div class="ride-flow top">' + top + '</div>' +
+      '<div class="ride-flow bottom">' + bottom + '</div>' +
+      '<div class="ride-era now">Now</div>' +
+      '</div>';
+    return s;
+  }
+
   const ORIGIN_ITEMS = [
     {
       label: '命名', date: '2026.02.05', name: 'Mitchell',
       summary: '每次出错都把教训固化为 AGENTS.md 约束，或可执行的验证工具。',
+      url: 'https://mitchellh.com/writing/my-ai-adoption-journey',
       portrait: 'assets/harness-origins/mitchell.webp',
       evidence: ['assets/harness-origins/mitchell-quote.webp']
     },
     {
       label: '工程化传播', date: '2026.02.11', name: 'Ryan Lopopolo',
       summary: 'Codex 把 repo 内知识、架构边界、lint 和反馈回路当作 agent 的工作环境。',
+      url: 'https://openai.com/index/harness-engineering/#enforcing-architecture-and-taste',
       portrait: 'assets/harness-origins/ryan-lopopolo.webp',
       badge: 'assets/harness-origins/openai.webp',
       evidence: ['assets/harness-origins/ryan-article.webp']
@@ -1814,12 +1894,14 @@
     {
       label: '编排成型', date: '2026.03.24', name: 'Anthropic',
       summary: 'Planner / Generator / Evaluator 三类 agent 分工，让长期任务可以持续运行。',
+      url: 'https://www.anthropic.com/engineering/harness-design-long-running-apps',
       portrait: 'assets/harness-origins/anthropic.webp',
       evidence: ['assets/harness-origins/anthropic-article.webp']
     },
     {
       label: '给出定义', date: '2026.03.10', name: 'Vivek Trivedy',
       summary: 'Agent = Model + Harness；harness 是模型之外、让任务真正运行的一切。',
+      url: 'https://www.langchain.com/blog/the-anatomy-of-an-agent-harness',
       portrait: 'assets/harness-origins/vivek-trivedy.webp',
       badge: 'assets/harness-origins/vivek-logo.webp',
       evidence: ['assets/harness-origins/vivek-article.webp', 'assets/harness-origins/vivek-definition.webp']
@@ -1844,7 +1926,9 @@
       return '<div class="' + detailClass + '" data-origin-panel="' + (index + 1) + '">' +
         '<aside class="origin-profile"><div class="origin-photo"><img src="' + item.portrait + '" alt="' + item.name + '">' + badge + '</div>' +
         '<div class="origin-profile-copy"><time>' + item.date + '</time><span class="origin-label">' + item.label + '</span>' +
-        '<h3>' + item.name + '</h3><p>' + item.summary + '</p></div></aside>' +
+        '<h3>' + item.name + '</h3><p>' + item.summary + '</p>' +
+        (item.url ? '<a class="origin-link" href="' + item.url + '" target="_blank" rel="noopener">原文地址<span class="external-arrow" aria-hidden="true">↗</span></a>' : '') +
+        '</div></aside>' +
         '<div class="' + evidenceClass + '">' + evidence + '</div></div>';
     }).join('');
     s.innerHTML = '<div class="origin-header"><button class="origin-title" type="button" data-origin-index="0" aria-label="返回 Harness 出处目录">Harness出处</button></div>' +
@@ -1957,7 +2041,6 @@
       return '<a class="reference-link" href="' + item.href + '" target="_blank" rel="noopener">' +
         '<div class="reference-meta"><span class="reference-page">' + item.pages + '</span><time class="reference-date">' + item.date + '</time></div>' +
         '<div class="reference-copy"><h3>' + item.title + '</h3><div class="reference-source">' + item.source + '</div></div>' +
-        '<span class="reference-arrow" aria-hidden="true">↗</span>' +
         '</a>';
     }).join('');
     s.innerHTML = '<header class="references-head"><h1 class="references-thanks">Thanks</h1>' +
@@ -2005,6 +2088,10 @@
     }
     if (i === 51) {
       deck.appendChild(createRideSlide());
+      continue;
+    }
+    if (i === 52) {
+      deck.appendChild(createEvalAxisSlide());   // 替换原「平台」文字页
       continue;
     }
     const s = document.createElement('section');
@@ -2101,11 +2188,11 @@
     if (i === 23) {
       const comparisonLink = document.createElement('a');
       comparisonLink.className = 'subagent-link packet-compare-link';
-      comparisonLink.href = 'https://geronimomiao.github.io/agent-lab-site/dashboard/compare/?left=57b3973e-2585-411d-8658-908b4102917c&right=6c61c59b-d100-46dd-92d7-b9e6ef2531f6';
+      comparisonLink.href = 'https://geronimomiao.github.io/agent-lab-site/dashboard/';
       comparisonLink.target = '_blank';
       comparisonLink.rel = 'noopener';
-      comparisonLink.setAttribute('aria-label', '查看抓包对比实验（新标签页打开）');
-      comparisonLink.innerHTML = '<span>查看抓包对比实验</span><span class="external-arrow" aria-hidden="true">↗</span>';
+      comparisonLink.setAttribute('aria-label', '查看抓包信息（新标签页打开）');
+      comparisonLink.innerHTML = '<span>查看抓包信息</span><span class="external-arrow" aria-hidden="true">↗</span>';
       s.appendChild(comparisonLink);
     }
     if (i === 37) {
