@@ -92,7 +92,26 @@
   .slide.stitch-upper { background: #b3aeaf; }
   .slide.stitch-upper img.main { bottom: 0; }
   .slide.stitch-lower { background: #dadada; }
-  .slide.stitch-lower img.main { top: 0; }
+  .slide.stitch-lower img.main {
+    top: calc(100vw * 584 / 4640 - 100vw * 320 / 2560);
+    clip-path: inset(calc(100vw * 320 / 2560) 0 0 0);
+  }
+  .slide.stitch-lower img.stitch-continuation,
+  .slide.stitch-lower img.stitch-ear-foreground {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+  }
+  .slide.stitch-lower img.stitch-continuation { z-index: 2; }
+  .slide.stitch-lower img.stitch-ear-foreground {
+    z-index: 3;
+    -webkit-mask-image: radial-gradient(ellipse 11% 21% at 84% 16%, #000 0 56%, transparent 82%);
+    mask-image: radial-gradient(ellipse 11% 21% at 84% 16%, #000 0 56%, transparent 82%);
+  }
   .stitch-upper-copy {
     position: absolute;
     left: 0;
@@ -1789,6 +1808,21 @@
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
     s.appendChild(img);
+    if (i === 2) {
+      const continuation = document.createElement('img');
+      continuation.className = 'stitch-continuation';
+      continuation.src = 'assets/generated/slide-2-user-continuation.png';
+      continuation.alt = '';
+      continuation.decoding = 'async';
+      s.appendChild(continuation);
+
+      const earForeground = document.createElement('img');
+      earForeground.className = 'stitch-ear-foreground';
+      earForeground.src = img.src;
+      earForeground.alt = '';
+      earForeground.decoding = 'async';
+      s.appendChild(earForeground);
+    }
     if (i === 7) {
       s.classList.add('context-video-slide');
       const attentionTitle = document.createElement('div');
