@@ -644,6 +644,18 @@
   .ride-flow.top .ride-arrow { align-self: end; transform: translateY(-5%); }
   .ride-flow.bottom .ride-arrow { align-self: start; transform: translateY(-18%); }
   /* ========== 评估轴（替换原「平台」页）：复用 .ride-* 体系 ========== */
+  .eval-slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #f3efea;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .48s cubic-bezier(.22, 1, .36, 1);
+  }
+  .eval-slide .ride-canvas { z-index: 1; }
+  .eval-slide.is-now::before { opacity: 1; }
   .ride-era.now { left: 3.2%; bottom: 6.2%; }
   .ride-era.now::before { background: #db765b; }
   /* 上排 6 个评估同学锁死为同一尺寸（与圈中「出汇总」一致），避免任何变体类导致大小不一 */
@@ -667,6 +679,123 @@
     transform: translateX(-50%);
     filter: drop-shadow(0 3px 8px rgba(0,0,0,.2));
     z-index: 2;
+  }
+  .eval-slide .ride-title,
+  .eval-slide .ride-era.ancient,
+  .eval-slide .ride-flow {
+    transition: opacity .28s ease, visibility .28s ease;
+  }
+  .eval-slide .ride-era.now {
+    display: inline-flex;
+    align-items: center;
+    transition:
+      left .42s cubic-bezier(.22, 1, .36, 1),
+      top .42s cubic-bezier(.22, 1, .36, 1),
+      bottom .42s cubic-bezier(.22, 1, .36, 1),
+      font-size .42s cubic-bezier(.22, 1, .36, 1);
+  }
+  .eval-now-links {
+    position: absolute;
+    left: calc(100% + clamp(18px, 1.8vw, 36px));
+    top: 50%;
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, .7vw, 14px);
+    width: max-content;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(-8px);
+    transition: opacity .24s ease .2s, transform .3s ease .2s;
+  }
+  .eval-platform-link {
+    display: inline-flex;
+    align-items: center;
+    padding: .52em .85em .48em;
+    border: 1px solid rgba(17, 17, 15, .24);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .72);
+    color: #22211e;
+    font-family: Arial, "PingFang SC", sans-serif;
+    font-size: clamp(13px, 1.05vw, 22px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+    text-decoration: none;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .eval-platform-link:hover { border-color: rgba(17, 17, 15, .42); background: #fff; }
+  .eval-now-panel {
+    position: absolute;
+    left: 4.2%;
+    right: 4.2%;
+    top: 15%;
+    bottom: 4.8%;
+    display: grid;
+    grid-template-columns: minmax(0, .93fr) minmax(0, 1.07fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 1.4vw, 28px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px);
+    transition:
+      opacity .34s ease .12s,
+      transform .42s cubic-bezier(.22, 1, .36, 1) .12s,
+      visibility .42s ease .12s;
+  }
+  .eval-now-shot {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid rgba(20, 39, 72, .16);
+    border-radius: clamp(10px, 1vw, 20px);
+    background: #f7f9fd;
+    box-shadow: 0 12px 34px rgba(31, 49, 76, .13);
+    opacity: 0;
+    transform: translateY(18px) scale(.985);
+    transition:
+      opacity .34s ease,
+      transform .42s cubic-bezier(.22, 1, .36, 1);
+  }
+  .eval-now-shot.configure { grid-row: 1 / span 2; }
+  .eval-now-shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .eval-slide.is-now .ride-title,
+  .eval-slide.is-now .ride-era.ancient,
+  .eval-slide.is-now .ride-flow {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .eval-slide.is-now .ride-era.now {
+    left: 5%;
+    top: 4.2%;
+    bottom: auto;
+    z-index: 4;
+    font-size: clamp(42px, 5.1vw, 112px);
+  }
+  .eval-slide.is-now .eval-now-links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
+  }
+  .eval-slide.is-now .eval-now-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .eval-slide[data-eval-step="2"] .eval-now-shot.configure,
+  .eval-slide[data-eval-step="3"] .eval-now-shot.configure,
+  .eval-slide[data-eval-step="4"] .eval-now-shot.configure,
+  .eval-slide[data-eval-step="3"] .eval-now-shot.run-detail,
+  .eval-slide[data-eval-step="4"] .eval-now-shot.run-detail,
+  .eval-slide[data-eval-step="4"] .eval-now-shot.feishu-result {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 
   /* ========== Harness 出处（第 15–19 步）：同一组件的目录与四个 Tab 状态 ========== */
@@ -1690,14 +1819,14 @@
   <button type="button" aria-label="关闭放大图片">×</button>
   <img src="" alt="">
 </div>
-<div id="counter">1 / 58</div>
+<div id="counter">1 / 62</div>
 <div id="progress"><div id="progress-bar"></div></div>
 <div id="toast"></div>
 
 <script>
 (function () {
   const IMAGES = 56;            // 原稿截图页数
-  const TOTAL = IMAGES + 2;     // Workflow 净增 1 步，再加入 Thanks + 引用合并页
+  const TOTAL = IMAGES + 6;     // Workflow 净增 1 步，评估 Now 分 4 步展开，再加入 Thanks + 引用合并页
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
@@ -1834,6 +1963,7 @@
   function createEvalAxisSlide() {
     const s = document.createElement('section');
     s.className = 'slide ride-slide eval-slide';
+    s.dataset.evalStep = '0';
     // 红袍文人 = 评估同学；所有"人"都用红袍统一表示
     const red = 'assets/task-split/ancient-red.webp';
     const controller = 'assets/task-split/agent-controller.webp';
@@ -1866,11 +1996,19 @@
       evalCheck + arrow +
       step('controller', 'Agent', controller, 'Agent 反馈 Case', 'agent-beige');
     s.innerHTML = '<div class="ride-canvas">' +
-      '<h2 class="ride-title">评估</h2>' +
+      '<h2 class="ride-title">如意卡片评估</h2>' +
       '<div class="ride-era ancient">古法</div>' +
       '<div class="ride-flow top">' + top + '</div>' +
       '<div class="ride-flow bottom">' + bottom + '</div>' +
-      '<div class="ride-era now">Now</div>' +
+      '<div class="ride-era now">Now<span class="eval-now-links">' +
+        '<a class="eval-platform-link" href="https://bytedance.larkoffice.com/wiki/ChBww27iDiqJrSkWFP5cpGernpc" target="_blank" rel="noopener">平台介绍 <span aria-hidden="true">↗</span></a>' +
+        '<a class="eval-platform-link" href="https://ihvnzxc1.fn-boe.bytedance.net/?tab=0" target="_blank" rel="noopener">打开平台 <span aria-hidden="true">↗</span></a>' +
+      '</span></div>' +
+      '<div class="eval-now-panel" aria-label="当前自动化评估实现">' +
+        '<figure class="eval-now-shot configure"><img src="assets/eval-now/configure.png" alt="配置自动化评估"></figure>' +
+        '<figure class="eval-now-shot run-detail"><img src="assets/eval-now/run-detail.png" alt="自动化评估执行明细"></figure>' +
+        '<figure class="eval-now-shot feishu-result"><img src="assets/eval-now/feishu-result.png" alt="评估完成后的飞书推送"></figure>' +
+      '</div>' +
       '</div>';
     return s;
   }
@@ -2396,6 +2534,7 @@
   const HERO_CARD_PAGE = 42;
   let heroCardStep = 0;
   const originSlide = document.querySelector('.origin-slide');
+  const evalSlide = document.querySelector('.eval-slide');
   const referencesSlide = document.querySelector('.references-slide');
   let referencesRevealStep = 0;
   let mapRevealTimer = null;
@@ -2428,16 +2567,21 @@
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
     });
     stepSlide.classList.toggle('step-revealed', current >= 12);
+    const evalStep = current >= 53 && current <= 56 ? current - 52 : 0;
+    evalSlide.classList.toggle('is-now', evalStep > 0);
+    evalSlide.dataset.evalStep = String(evalStep);
     const originState = current >= 14 && current <= 18 ? current - 14 : 0;
     originSlide.querySelectorAll('[data-origin-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', Number(panel.dataset.originPanel) === originState);
     });
     const originOffset = Math.max(0, Math.min(current - 14, 4));
-    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 27 ? 1 : 0);
+    const evalOffset = Math.max(0, Math.min(current - 52, 4));
+    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 27 ? 1 : 0) - evalOffset;
     const swappingStepState = (previous === 11 || previous === 12) && (current === 11 || current === 12);
     const swappingOriginState = previous >= 14 && previous <= 18 && current >= 14 && current <= 18;
     const swappingPromptState = (previous === 27 || previous === 28) && (current === 27 || current === 28);
-    deck.style.transition = instant || swappingStepState || swappingOriginState || swappingPromptState ? 'none' : '';
+    const swappingEvalState = previous >= 52 && previous <= 56 && current >= 52 && current <= 56;
+    deck.style.transition = instant || swappingStepState || swappingOriginState || swappingPromptState || swappingEvalState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
