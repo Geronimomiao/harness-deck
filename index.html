@@ -797,6 +797,280 @@
     .origin-title { transition-duration: .01ms; }
   }
 
+  /* ========== Workflow（原第 35 步）：复刻参考 deck 的三页 HTML 组件 ========== */
+  .workflow-slide {
+    --wf-bg: #faf9f7;
+    --wf-surface: #fff;
+    --wf-surface-2: #f1efe8;
+    --wf-text: #26241f;
+    --wf-text-2: #5f5e5a;
+    --wf-text-3: #8a8980;
+    --wf-border: rgba(0, 0, 0, .12);
+    --wf-blue-bg: #e6f1fb;
+    --wf-blue: #0c447c;
+    --wf-blue-border: #185fa5;
+    --wf-ok: #085041;
+    --wf-ok-bg: #e1f5ee;
+    --wf-red: #a32d2d;
+    --wf-amber: #854f0b;
+    --wf-amber-bg: #faeeda;
+    align-items: stretch;
+    justify-content: center;
+    background: var(--wf-bg);
+    color: var(--wf-text);
+    padding: clamp(44px, 7vh, 64px) clamp(48px, 8vw, 104px) clamp(42px, 6vh, 58px);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+  .workflow-inner {
+    width: min(100%, 1080px);
+    margin: auto;
+  }
+  .workflow-kick {
+    margin-bottom: 18px;
+    color: var(--wf-text-3);
+    font-size: clamp(12px, 1.18vw, 15px);
+    letter-spacing: .06em;
+  }
+  .workflow-slide h2 {
+    margin: 0 0 18px;
+    font-size: clamp(28px, 3.05vw, 42px);
+    font-weight: 650;
+    line-height: 1.25;
+    letter-spacing: -.025em;
+  }
+  .workflow-slide a { color: var(--wf-blue); }
+  .workflow-title-link {
+    color: inherit !important;
+    text-decoration: none;
+    border-bottom: 3px solid rgba(24, 95, 165, .28);
+  }
+  .workflow-timeline {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 16px 0 10px;
+  }
+  .workflow-time {
+    display: block;
+    padding: 10px 12px;
+    border: 1px solid var(--wf-border);
+    border-radius: 10px;
+    background: var(--wf-surface);
+    text-decoration: none;
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  .workflow-time:hover,
+  .workflow-time:focus-visible {
+    border-color: var(--wf-blue-border);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .08);
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .workflow-time b {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--wf-text);
+    font-size: clamp(14px, 1.35vw, 17px);
+    line-height: 1.25;
+  }
+  .workflow-time span {
+    display: block;
+    color: var(--wf-text-2);
+    font-size: clamp(11px, 1.12vw, 14px);
+    line-height: 1.42;
+  }
+  .workflow-origin {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .workflow-shot,
+  .workflow-real-shot {
+    margin: 0;
+    border: 1px solid var(--wf-border);
+    border-radius: 14px;
+    background: var(--wf-surface);
+    cursor: zoom-in;
+  }
+  .workflow-shot { padding: 12px; }
+  .workflow-shot img {
+    display: block;
+    width: 100%;
+    height: clamp(174px, 34.7vh, 250px);
+    border-radius: 10px;
+    object-fit: contain;
+    background: #fff;
+  }
+  .workflow-origin-note {
+    margin-top: 14px;
+    color: var(--wf-text-2);
+    font-size: clamp(15px, 1.58vw, 20px);
+    line-height: 1.55;
+  }
+  .workflow-source {
+    margin-top: 20px;
+    color: var(--wf-text-3);
+    font-size: clamp(12px, 1.25vw, 16px);
+    line-height: 1.5;
+  }
+  .workflow-source a {
+    text-decoration: none;
+    border-bottom: 1px solid rgba(24, 95, 165, .32);
+  }
+  .workflow-case-slide { padding-inline: clamp(48px, 6vw, 72px); }
+  .workflow-case-slide .workflow-inner { width: min(100%, 1080px); }
+  .workflow-case-slide h2 { margin-bottom: 16px; font-size: clamp(30px, 3vw, 38px); }
+  .workflow-real-shot {
+    margin-top: 20px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .06);
+  }
+  .workflow-real-shot img { display: block; width: 100%; height: auto; }
+  .workflow-run-caption {
+    margin-top: 14px;
+    color: var(--wf-text-2);
+    font-size: clamp(14px, 1.42vw, 18px);
+    line-height: 1.55;
+  }
+  .workflow-run-caption b { color: var(--wf-text); }
+  .workflow-play h2 { margin-bottom: 18px; }
+  .wf-live {
+    padding: 14px 16px;
+    border: 1px solid var(--wf-border);
+    border-radius: 16px;
+    background: var(--wf-surface);
+  }
+  .wf-code {
+    padding: 10px 12px;
+    border: 1px solid var(--wf-border);
+    border-radius: 12px;
+    background: var(--wf-surface-2);
+    color: var(--wf-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(10px, .98vw, 12.5px);
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  .wf-code .ln { margin: 0 -5px; padding: 1px 5px; border-radius: 5px; transition: background .15s, box-shadow .15s; }
+  .wf-code .ln.af { background: var(--wf-blue-bg); box-shadow: inset 3px 0 0 var(--wf-blue-border); }
+  .wf-code .ln.av { background: var(--wf-amber-bg); box-shadow: inset 3px 0 0 var(--wf-amber); }
+  .wf-code .cmt { color: var(--wf-text-3); }
+  .wf-ctrl { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 9px 0 8px; }
+  .wf-btn {
+    padding: 7px 12px;
+    border: 1px solid rgba(24, 95, 165, .28);
+    border-radius: 10px;
+    background: var(--wf-blue-bg);
+    color: var(--wf-blue);
+    font: 600 14px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    cursor: pointer;
+  }
+  .wf-btn.secondary { border-color: var(--wf-border); background: var(--wf-surface); color: var(--wf-text-2); }
+  .wf-btn:disabled { opacity: .48; cursor: default; }
+  .wf-count { color: var(--wf-text-2); font-size: clamp(12px, 1.14vw, 14.5px); }
+  .wf-count b { color: var(--wf-blue); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 18px; }
+  .wf-status-find { color: var(--wf-blue); }
+  .wf-status-verify { color: var(--wf-amber); }
+  .wf-status-done { color: var(--wf-ok); }
+  .wf-prog { height: 4px; margin-bottom: 8px; overflow: hidden; border-radius: 999px; background: var(--wf-border); }
+  .wf-prog i { display: block; width: 0; height: 100%; background: var(--wf-blue-border); }
+  .wf-lanes { display: flex; flex-direction: column; gap: 4px; }
+  .wf-lane { display: flex; align-items: center; gap: 8px; }
+  .wf-find {
+    flex-shrink: 0;
+    width: 156px;
+    padding: 5px 8px;
+    overflow: hidden;
+    border: 1px solid var(--wf-border);
+    border-radius: 8px;
+    background: var(--wf-surface-2);
+    color: var(--wf-text-3);
+    font: 11.5px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: .2s;
+  }
+  .wf-find.running { border-color: rgba(24, 95, 165, .32); background: var(--wf-blue-bg); color: var(--wf-blue); animation: wf-pulse 1s infinite; }
+  .wf-find.done { border-color: var(--wf-blue-border); background: var(--wf-blue-bg); color: var(--wf-blue); }
+  @keyframes wf-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+  .wf-verifies { display: flex; flex: 1; flex-wrap: wrap; gap: 4px; min-width: 0; }
+  .wf-v { width: 12px; height: 12px; border: 1px solid var(--wf-border); border-radius: 4px; background: var(--wf-surface-2); transform: scale(0); transition: transform .18s; }
+  .wf-v.spawned { transform: scale(1); }
+  .wf-v.running { border-color: rgba(133, 79, 11, .28); background: var(--wf-amber-bg); animation: wf-pulse .9s infinite; }
+  .wf-v.ok { border-color: var(--wf-ok); background: var(--wf-ok); }
+  .wf-v.no { border-color: var(--wf-red); background: var(--wf-red); }
+  .workflow-footer {
+    position: absolute;
+    left: 26px;
+    right: 26px;
+    bottom: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: var(--wf-text-3);
+    font-size: 13px;
+    pointer-events: none;
+  }
+  .workflow-footer span:nth-child(2) { text-align: center; }
+  #workflow-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 5vw;
+    background: rgba(0, 0, 0, .72);
+  }
+  #workflow-lightbox.show { display: flex; }
+  #workflow-lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 14px; object-fit: contain; background: #fff; box-shadow: 0 24px 80px rgba(0, 0, 0, .42); }
+  #workflow-lightbox button { position: absolute; top: 22px; right: 26px; width: 44px; height: 44px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 50%; background: rgba(255, 255, 255, .12); color: #fff; font-size: 28px; cursor: pointer; }
+  body.workflow-mode #counter { color: rgba(38, 36, 31, .58); text-shadow: none; }
+  body.workflow-mode #progress { background: rgba(24, 95, 165, .12); }
+  body.workflow-mode #progress-bar { background: #185fa5; }
+  .subagent-link {
+    position: absolute;
+    top: clamp(34px, 6.5vh, 68px);
+    right: clamp(34px, 5vw, 88px);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: .55em;
+    padding: .72em 1.05em .76em;
+    border: 1.5px solid rgba(24, 24, 22, .72);
+    border-radius: 999px;
+    background: rgba(250, 249, 245, .9);
+    color: #1c1b18;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    font-size: clamp(13px, 1.16vw, 20px);
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(38, 36, 31, .08);
+    backdrop-filter: blur(8px);
+    transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+  }
+  .subagent-link:hover,
+  .subagent-link:focus-visible {
+    background: #1c1b18;
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(38, 36, 31, .18);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .subagent-link .external-arrow { font-size: 1.18em; line-height: .8; }
+  @media (max-width: 900px), (max-aspect-ratio: 4/3) {
+    .workflow-slide { padding-inline: 40px; }
+    .workflow-origin { grid-template-columns: 1fr 1fr; }
+    .workflow-shot img { height: 190px; }
+    .wf-find { width: 140px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .workflow-time, .wf-find, .wf-v, .wf-code .ln { transition-duration: .01ms; animation-duration: .01ms !important; }
+  }
+
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
   .final-map-slide img.main { z-index: 1; }
   .final-map-slide .map-reveal {
@@ -831,6 +1105,30 @@
     opacity: .68;
     filter: blur(.15px) drop-shadow(0 0 5px rgba(255, 238, 190, .14));
   }
+  .final-map-slide .map-expansion {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    clip-path: inset(0 45% 0 55%);
+    transition:
+      opacity .35s ease,
+      clip-path 2.45s cubic-bezier(.18,.74,.2,1);
+    filter: drop-shadow(0 0 4px rgba(255, 238, 190, .1));
+  }
+  .final-map-slide .map-expansion .frontier-map {
+    position: absolute;
+    left: -2%;
+    top: 36%;
+    width: 74%;
+    height: 62%;
+    object-fit: contain;
+    object-position: right bottom;
+    transform: scaleX(-1);
+    opacity: .68;
+    filter: blur(.15px) drop-shadow(0 0 5px rgba(255, 238, 190, .14));
+  }
   .final-map-slide .map-glow {
     position: absolute;
     left: 72%;
@@ -857,6 +1155,10 @@
   .final-map-slide.is-revealing .map-glow {
     animation: map-glow 5.6s ease-out both;
   }
+  .final-map-slide.is-expanded .map-expansion {
+    opacity: 1;
+    clip-path: inset(0 45% 0 0);
+  }
   @keyframes map-glow {
     0% { opacity: .25; transform: translate(-50%, -50%) scale(.72); }
     22% { opacity: .72; }
@@ -868,6 +1170,7 @@
     .final-map-slide.is-revealing .map-reveal,
     .final-map-slide.is-revealed .map-reveal { transition-duration: .01ms; }
     .final-map-slide.is-revealing .map-glow { animation-duration: .01ms; }
+    .final-map-slide .map-expansion { transition-duration: .01ms; }
   }
 
   /* 原稿本身是纯色背景的页面：保留整张内容图，外侧留白使用同色填充。 */
@@ -1158,14 +1461,18 @@
   </section>
 </div>
 
-<div id="counter">1 / 56</div>
+<div id="workflow-lightbox" aria-hidden="true">
+  <button type="button" aria-label="关闭放大图片">×</button>
+  <img src="" alt="">
+</div>
+<div id="counter">1 / 57</div>
 <div id="progress"><div id="progress-bar"></div></div>
 <div id="toast"></div>
 
 <script>
 (function () {
   const IMAGES = 56;            // 原稿截图页数
-  const TOTAL = IMAGES;         // 删除原第 22 页后，共 56 个播放步骤
+  const TOTAL = IMAGES + 1;     // 删除旧 Workflow 截图，再加入 3 个 HTML 页面，净增 1 步
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
@@ -1354,6 +1661,56 @@
     return s;
   }
 
+  function workflowFooter() {
+    return '<div class="workflow-footer"><span>← → 翻页</span><span>拆 Harness</span><span></span></div>';
+  }
+
+  function createWorkflowSlides() {
+    const overview = document.createElement('section');
+    overview.className = 'slide workflow-slide workflow-overview-slide';
+    overview.innerHTML = '<div class="workflow-inner">' +
+      '<div class="workflow-kick">控制流与编排 · Claude Code Workflow</div>' +
+      '<h2><a class="workflow-title-link" href="https://geronimomiao.github.io/agent-talk-deck/deck.html" target="_blank" rel="noopener">Workflow</a>：</h2>' +
+      '<div class="workflow-timeline">' +
+        '<a class="workflow-time" href="https://code.claude.com/docs/en/workflows#:~:text=Dynamic%20workflows%20require%20Claude%20Code%20v2.1.154" target="_blank" rel="noopener"><b>2026-05-28</b><span>Claude Code v2.1.154+ 开始支持 dynamic workflows</span></a>' +
+        '<a class="workflow-time" href="https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code" target="_blank" rel="noopener"><b>2026-06-02</b><span>A harness for every task: Dynamic workflows in Claude Code</span></a>' +
+        '<a class="workflow-time" href="https://code.claude.com/docs/en/workflows#let-claude-decide-with-ultracode" target="_blank" rel="noopener"><b>2026-07-07</b><span>v2.1.203+ 把 xhigh + 自动 workflow 编排打包成 Ultracode</span></a>' +
+      '</div>' +
+      '<div class="workflow-origin">' +
+        '<figure class="workflow-shot" role="button" tabindex="0" aria-label="放大 Anthropic dynamic workflows 图"><img src="assets/workflow/claude-workflow-dynamic-wide.png?v=1" alt="Anthropic dynamic workflows article illustration"></figure>' +
+        '<figure class="workflow-shot" role="button" tabindex="0" aria-label="放大 Anthropic workflow patterns 图"><img src="assets/workflow/claude-workflow-patterns.png?v=1" alt="Anthropic Claude Code workflow illustration"></figure>' +
+      '</div>' +
+      '<div class="workflow-origin-note">所以 Ultracode 不是“换了一个更聪明的模型”，而是把更高推理档位和 workflow harness 编排绑成一个入口。</div>' +
+      '<div class="workflow-source">来源：<a href="https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code" target="_blank" rel="noopener">Anthropic · A harness for every task: Dynamic workflows in Claude Code</a> · <a href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Claude Code workflows docs</a></div>' +
+      '</div>' + workflowFooter();
+
+    const realCase = document.createElement('section');
+    realCase.className = 'slide workflow-slide workflow-case-slide';
+    realCase.innerHTML = '<div class="workflow-inner">' +
+      '<div class="workflow-kick">控制流与编排 · 真实案例</div>' +
+      '<h2>一句真实 prompt，触发了一套 workflow</h2>' +
+      '<figure class="workflow-real-shot" role="button" tabindex="0" aria-label="放大 Claude Code Ultracode 真实截图"><img src="assets/workflow/claude-code-ultracode-real-redacted.jpg?v=1" alt="Claude Code 中输入真实 prompt 并打开 Ultracode 的脱敏截图"></figure>' +
+      '<div class="workflow-run-caption">关键不是“prompt 写得多长”，而是 <b>Claude Code Ultracode</b> 判断任务需要先探索、再复核，于是自行触发 workflow。</div>' +
+      '<div class="workflow-source">数据：脱敏 workflow 示例 <code>wf_public_demo_81</code> · 见 <a href="https://geronimomiao.github.io/agent-talk-deck/workflow.html#code" target="_blank" rel="noopener">workflow.html#code</a></div>' +
+      '</div>' + workflowFooter();
+
+    const playback = document.createElement('section');
+    playback.className = 'slide workflow-slide workflow-play-slide';
+    playback.innerHTML = '<div class="workflow-inner workflow-play">' +
+      '<div class="workflow-kick">控制流与编排 · 播放 workflow</div>' +
+      '<h2>从一句话到两层 agent 网络</h2>' +
+      '<div class="wf-live" aria-label="81 个 agent workflow 播放面板">' +
+        '<div class="wf-code" id="wfFoSync"></div>' +
+        '<div class="wf-ctrl"><button class="wf-btn" id="wfFoPlay" type="button">▶ 播放</button><button class="wf-btn secondary" id="wfFoReset" type="button">↺ 重置</button><div class="wf-count" id="wfFoCount">第一层：11 个 find agent · 等待播放</div></div>' +
+        '<div class="wf-prog"><i id="wfFoBar"></i></div>' +
+        '<div class="wf-lanes" id="wfFoLanes"></div>' +
+      '</div>' +
+      '<div class="workflow-source">播放逻辑同 <a href="https://geronimomiao.github.io/agent-talk-deck/workflow.html#code" target="_blank" rel="noopener">workflow.html#code</a> · 11 个 find agent 先跑，70 个 verify agent 随 findings 生成。</div>' +
+      '</div>' + workflowFooter();
+
+    return [overview, realCase, playback];
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
@@ -1373,6 +1730,13 @@
       continue;
     }
     if (i === 29) {
+      continue;
+    }
+    if (i === 34) {
+      continue;                 // 删除旧 Workflow 截图页
+    }
+    if (i === 35) {
+      createWorkflowSlides().forEach(function (slide) { deck.appendChild(slide); });
       continue;
     }
     if (i === 42) {
@@ -1456,17 +1820,200 @@
       overlay.decoding = 'async';
       s.appendChild(overlay);
     }
+    if (i === 23) {
+      const comparisonLink = document.createElement('a');
+      comparisonLink.className = 'subagent-link packet-compare-link';
+      comparisonLink.href = 'https://geronimomiao.github.io/agent-lab-site/dashboard/compare/?left=57b3973e-2585-411d-8658-908b4102917c&right=6c61c59b-d100-46dd-92d7-b9e6ef2531f6';
+      comparisonLink.target = '_blank';
+      comparisonLink.rel = 'noopener';
+      comparisonLink.setAttribute('aria-label', '查看抓包对比实验（新标签页打开）');
+      comparisonLink.innerHTML = '<span>查看抓包对比实验</span><span class="external-arrow" aria-hidden="true">↗</span>';
+      s.appendChild(comparisonLink);
+    }
+    if (i === 37) {
+      const experimentLink = document.createElement('a');
+      experimentLink.className = 'subagent-link';
+      experimentLink.href = 'https://geronimomiao.github.io/agent-lab-site/dashboard/session/6c61c59b-d100-46dd-92d7-b9e6ef2531f6/';
+      experimentLink.target = '_blank';
+      experimentLink.rel = 'noopener';
+      experimentLink.setAttribute('aria-label', '查看真实 SubAgent 抓包实验（新标签页打开）');
+      experimentLink.innerHTML = '<span>查看真实 SubAgent 抓包实验</span><span class="external-arrow" aria-hidden="true">↗</span>';
+      s.appendChild(experimentLink);
+    }
     if (i === 56) {
       s.classList.add('final-map-slide');
       const reveal = document.createElement('div');
       reveal.className = 'map-reveal';
       reveal.innerHTML = '<img class="exploration-map" src="assets/generated/exploration-map.png" alt="">';
+      const expansion = document.createElement('div');
+      expansion.className = 'map-expansion';
+      expansion.innerHTML = '<img class="frontier-map" src="assets/generated/exploration-map.png" alt="">';
       const glow = document.createElement('div');
       glow.className = 'map-glow';
       s.appendChild(reveal);
+      s.appendChild(expansion);
       s.appendChild(glow);
     }
     deck.appendChild(s);
+  }
+
+  function escapeWorkflowHtml(value) {
+    return String(value).replace(/[&<>]/g, function (char) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[char];
+    });
+  }
+
+  async function initWorkflowFanout() {
+    const root = document.getElementById('wfFoLanes');
+    if (!root) return;
+    const sync = document.getElementById('wfFoSync');
+    const play = document.getElementById('wfFoPlay');
+    const reset = document.getElementById('wfFoReset');
+    const count = document.getElementById('wfFoCount');
+    const bar = document.getElementById('wfFoBar');
+    let data;
+    try {
+      data = await fetch('assets/workflow/chain-data.json').then(function (response) {
+        if (!response.ok) throw new Error('workflow data ' + response.status);
+        return response.json();
+      });
+    } catch (error) {
+      count.textContent = '数据加载失败';
+      play.disabled = true;
+      reset.disabled = true;
+      return;
+    }
+    const lanes = data.real.zonesFull.map(function (zone) {
+      const total = zone.confirmed + zone.rejected;
+      const findDuration = 1.4 + total * .22;
+      const sequence = [];
+      let confirmed = zone.confirmed;
+      let rejected = zone.rejected;
+      while (confirmed || rejected) {
+        if (confirmed) { sequence.push('ok'); confirmed -= 1; }
+        if (rejected) { sequence.push('no'); rejected -= 1; }
+      }
+      return {
+        zone: zone,
+        findEnd: findDuration,
+        verifies: sequence.map(function (result, index) {
+          return { result: result, start: findDuration + .06 * index, end: findDuration + .06 * index + 1 };
+        })
+      };
+    });
+    const maxTime = Math.max.apply(null, lanes.map(function (lane) {
+      return lane.verifies.length
+        ? Math.max.apply(null, lane.verifies.map(function (verify) { return verify.end; }))
+        : lane.findEnd;
+    }));
+    let animationFrame = null;
+
+    function buildWorkflowFanout() {
+      root.innerHTML = lanes.map(function (lane, laneIndex) {
+        const dots = lane.verifies.map(function (_, verifyIndex) {
+          return '<span class="wf-v" id="wf_v_' + laneIndex + '_' + verifyIndex + '"></span>';
+        }).join('');
+        return '<div class="wf-lane"><div class="wf-find" id="wf_f_' + laneIndex + '" title="' + escapeWorkflowHtml(lane.zone.label) + '">find · ' + escapeWorkflowHtml(lane.zone.label) + '</div><div class="wf-verifies">' + dots + '</div></div>';
+      }).join('');
+      sync.innerHTML =
+        '<span class="ln" id="wfLnPipe">await pipeline(ZONES,</span>\n' +
+        '  <span class="ln" id="wfLnFind">(zone) =&gt; agent(findPrompt(zone), {…}),  <span class="cmt">// 第一层：11 个 find</span></span>\n' +
+        '  <span class="ln" id="wfLnVerify">(res)  =&gt; parallel(res.findings.map(f =&gt;\n           agent(verifyPrompt(f), {…})))  <span class="cmt">// 第二层：每条发现 1 个 verify</span></span>\n)';
+    }
+
+    function renderWorkflowFanout(time) {
+      let runningFind = false;
+      let runningVerify = false;
+      let spawned = 11;
+      lanes.forEach(function (lane, laneIndex) {
+        const find = document.getElementById('wf_f_' + laneIndex);
+        if (time < lane.findEnd) {
+          find.className = 'wf-find running';
+          runningFind = true;
+        } else {
+          find.className = 'wf-find done';
+        }
+        lane.verifies.forEach(function (verify, verifyIndex) {
+          const dot = document.getElementById('wf_v_' + laneIndex + '_' + verifyIndex);
+          if (time < verify.start) {
+            dot.className = 'wf-v';
+          } else if (time < verify.end) {
+            dot.className = 'wf-v spawned running';
+            spawned += 1;
+            runningVerify = true;
+          } else {
+            dot.className = 'wf-v spawned ' + verify.result;
+            spawned += 1;
+          }
+        });
+      });
+      count.innerHTML = '当前 <b>' + spawned + '</b> 个 agent' +
+        (runningFind ? ' · <span class="wf-status-find">find 执行中</span>' : '') +
+        (runningFind && runningVerify ? ' + ' : (runningVerify ? ' · ' : '')) +
+        (runningVerify ? '<span class="wf-status-verify">verify 执行中</span>' : '') +
+        (!runningFind && !runningVerify && time > 0 ? ' · <span class="wf-status-done">全部完成（11 find + 70 verify）</span>' : '');
+      document.getElementById('wfLnFind').className = 'ln' + (runningFind ? ' af' : '');
+      document.getElementById('wfLnVerify').className = 'ln' + (runningVerify ? ' av' : '');
+      bar.style.width = Math.min(100, time / maxTime * 100) + '%';
+    }
+
+    function resetWorkflowFanout() {
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+      animationFrame = null;
+      buildWorkflowFanout();
+      count.textContent = '第一层：11 个 find agent · 等待播放';
+      bar.style.width = '0';
+      play.disabled = false;
+    }
+
+    function playWorkflowFanout() {
+      resetWorkflowFanout();
+      play.disabled = true;
+      const startedAt = performance.now();
+      const duration = 6200;
+      function step(now) {
+        const time = (now - startedAt) / duration * maxTime;
+        renderWorkflowFanout(Math.min(time, maxTime));
+        if (time < maxTime) animationFrame = requestAnimationFrame(step);
+        else play.disabled = false;
+      }
+      animationFrame = requestAnimationFrame(step);
+    }
+
+    play.addEventListener('click', playWorkflowFanout);
+    reset.addEventListener('click', resetWorkflowFanout);
+    resetWorkflowFanout();
+  }
+
+  function initWorkflowLightbox() {
+    const lightbox = document.getElementById('workflow-lightbox');
+    const lightboxImage = lightbox.querySelector('img');
+    const closeButton = lightbox.querySelector('button');
+    function close() {
+      lightbox.classList.remove('show');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+    }
+    document.querySelectorAll('.workflow-shot, .workflow-real-shot').forEach(function (shot) {
+      function open() {
+        const image = shot.querySelector('img');
+        lightboxImage.src = image.currentSrc || image.src;
+        lightboxImage.alt = image.alt || '';
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden', 'false');
+      }
+      shot.addEventListener('click', open);
+      shot.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.stopPropagation();
+          open();
+        }
+      });
+    });
+    closeButton.addEventListener('click', close);
+    lightbox.addEventListener('click', function (event) { if (event.target === lightbox) close(); });
+    return { element: lightbox, close: close };
   }
 
   let current = 0;
@@ -1475,20 +2022,30 @@
   const contextVideoSlide = document.querySelector('.context-video-slide');
   const attentionVideo = contextVideoSlide.querySelector('.attention-video');
   const heroCardSlide = document.querySelector('.hero-card-slide');
-  const HERO_CARD_PAGE = 41;
+  const HERO_CARD_PAGE = 42;
   let heroCardStep = 0;
   const originSlide = document.querySelector('.origin-slide');
   let mapRevealTimer = null;
+  let mapRevealStep = 0;
+  const workflowLightbox = initWorkflowLightbox();
+  initWorkflowFanout();
 
   function clamp(n) { return Math.max(0, Math.min(TOTAL - 1, n)); }
+
+  function isFinalMapCurrent() {
+    const rect = finalMapSlide.getBoundingClientRect();
+    return Math.abs(rect.top) < window.innerHeight * .05;
+  }
 
   function go(n, instant) {
     n = clamp(n);
     if (n === current && !instant) return;
+    const leavingFinalMap = isFinalMapCurrent();
     const previous = current;
     current = n;
+    document.body.classList.toggle('workflow-mode', current >= 33 && current <= 35);
     resetAttentionVideo();
-    if (current !== TOTAL - 1) resetMapReveal();
+    if (leavingFinalMap) resetMapReveal();
     if (current !== HERO_CARD_PAGE || previous !== HERO_CARD_PAGE) setHeroCardStep(0);
     const promptState = current === 28 ? 'trend' : 'removed';
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
@@ -1519,18 +2076,27 @@
 
   function resetMapReveal() {
     clearTimeout(mapRevealTimer);
-    finalMapSlide.classList.remove('is-revealing', 'is-revealed');
+    mapRevealStep = 0;
+    finalMapSlide.classList.remove('is-revealing', 'is-revealed', 'is-expanded');
   }
 
   function playMapReveal() {
     clearTimeout(mapRevealTimer);
-    finalMapSlide.classList.remove('is-revealing', 'is-revealed');
+    mapRevealStep = 1;
+    finalMapSlide.classList.remove('is-revealing', 'is-revealed', 'is-expanded');
     void finalMapSlide.offsetWidth;
     finalMapSlide.classList.add('is-revealing');
     mapRevealTimer = setTimeout(function () {
       finalMapSlide.classList.remove('is-revealing');
       finalMapSlide.classList.add('is-revealed');
     }, 5650);
+  }
+
+  function expandMapReveal() {
+    clearTimeout(mapRevealTimer);
+    mapRevealStep = 2;
+    finalMapSlide.classList.remove('is-revealing');
+    finalMapSlide.classList.add('is-revealed', 'is-expanded');
   }
 
   function resetAttentionVideo() {
@@ -1557,13 +2123,18 @@
   function advance() {
     if (current === 7 && !contextVideoSlide.classList.contains('video-playing')) playAttentionVideo();
     else if (current === HERO_CARD_PAGE && heroCardStep < 3) setHeroCardStep(heroCardStep + 1);
-    else if (current === TOTAL - 1) playMapReveal();
+    else if (isFinalMapCurrent() && mapRevealStep === 0) playMapReveal();
+    else if (isFinalMapCurrent() && mapRevealStep === 1) expandMapReveal();
     else go(current + 1);
   }
 
   function retreat() {
     if (current === 7 && contextVideoSlide.classList.contains('video-playing')) resetAttentionVideo();
     else if (current === HERO_CARD_PAGE && heroCardStep > 0) setHeroCardStep(heroCardStep - 1);
+    else if (isFinalMapCurrent() && mapRevealStep === 2) {
+      mapRevealStep = 1;
+      finalMapSlide.classList.remove('is-expanded');
+    } else if (isFinalMapCurrent() && mapRevealStep === 1) resetMapReveal();
     else go(current - 1);
   }
 
@@ -1592,6 +2163,14 @@
 
   // 键盘
   window.addEventListener('keydown', function (e) {
+    if (workflowLightbox.element.classList.contains('show')) {
+      if (e.key === 'Escape') workflowLightbox.close();
+      e.preventDefault();
+      return;
+    }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('.workflow-slide button, .workflow-slide a, .workflow-shot, .workflow-real-shot, .subagent-link')) {
+      return;
+    }
     if (e.key === 'f' || e.key === 'F') {
       e.preventDefault();
       setFit(document.body.classList.contains('fit-contain') ? 'cover' : 'contain');
