@@ -287,7 +287,7 @@
     right: -12%;
     bottom: -2%;
     width: 132%;
-    clip-path: inset(-100% 9.1% 2.1% -100%);
+    clip-path: inset(-100% 9.1% 2.1% -100% round 0 0 6% 0);
   }
   .hero-rarity {
     position: absolute;
@@ -302,30 +302,6 @@
   .sr .hero-rarity { left: -1%; bottom: 1%; color: #172e99; font-size: clamp(92px, 12vw, 280px); }
   .a .hero-rarity { right: 7%; top: 1%; color: #27791e; font-size: clamp(100px, 12.5vw, 290px); }
   .ssr .hero-rarity { left: -2%; bottom: 1%; color: #49a5a5; font-size: clamp(78px, 10.2vw, 240px); }
-  .draw-stack {
-    position: absolute;
-    left: 50%;
-    bottom: 3.2%;
-    z-index: 6;
-    width: clamp(62px, 5.2vw, 126px);
-    aspect-ratio: .66;
-    transform: translateX(-50%);
-    border-radius: 12%;
-    background: linear-gradient(145deg, #272727, #080808);
-    border: 1px solid rgba(255,255,255,.32);
-    box-shadow: -8px 7px 0 #151515, -15px 13px 0 #0b0b0b, 0 18px 34px rgba(0,0,0,.75);
-    transition: opacity .28s ease, transform .28s ease;
-  }
-  .draw-stack::after {
-    content: "?";
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: rgba(255,255,255,.8);
-    font: 700 clamp(30px, 3vw, 70px)/1 Georgia, serif;
-  }
-  .hero-card-slide.card-step-3 .draw-stack { opacity: 0; transform: translateX(-50%) scale(.7); }
   @media (prefers-reduced-motion: reduce) {
     .hero-card { transition-duration: .01ms; }
     .hero-card.is-visible::after { animation: none; }
@@ -942,7 +918,7 @@
         '<article class="hero-card sr" data-card-index="1"><img src="assets/cards/horse-sr.png" alt="盘发棕马"><span class="hero-rarity">SR</span></article>' +
         '<article class="hero-card a" data-card-index="2"><img src="assets/cards/horse-a.png" alt="吐舌小马"><span class="hero-rarity">A</span></article>' +
         '<article class="hero-card ssr" data-card-index="3"><img src="assets/cards/horse-ssr.png" alt="白马"><span class="hero-rarity">SSR</span></article>' +
-      '</div><div class="draw-stack" role="button" aria-label="抽取下一张英雄卡"></div>';
+      '</div>';
     return s;
   }
 
