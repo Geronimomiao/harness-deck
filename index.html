@@ -497,6 +497,115 @@
     .task-split-slide *, .task-split-slide *::before { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
 
+  /* ========== 第 51 页：先骑带后骑（复用第 47 页素材体系） ========== */
+  .ride-slide {
+    background: linear-gradient(to bottom, #fff 0 42.4%, #f3efea 42.4% 100%);
+    color: #050505;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
+  }
+  .ride-canvas {
+    position: relative;
+    width: min(100vw, 177.7778vh);
+    height: min(100vh, 56.25vw);
+    overflow: hidden;
+  }
+  .ride-title {
+    position: absolute;
+    left: 4.25%;
+    top: 3.2%;
+    z-index: 2;
+    font-size: clamp(48px, 5.2vw, 134px);
+    line-height: 1;
+    letter-spacing: -.035em;
+    white-space: nowrap;
+  }
+  .ride-era {
+    position: absolute;
+    left: 3.35%;
+    z-index: 2;
+    font-size: clamp(32px, 3.25vw, 83px);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .ride-era::before {
+    content: "";
+    position: absolute;
+    left: -.16em;
+    right: -.18em;
+    bottom: -.12em;
+    height: .56em;
+    z-index: -1;
+    transform: skewX(-13deg);
+    border-radius: .08em;
+  }
+  .ride-era.ancient { top: 13.8%; }
+  .ride-era.ancient::before { background: #a9c8ff; }
+  .ride-era.now { left: 3.2%; bottom: 6.2%; }
+  .ride-era.now::before { background: #db765b; }
+  .ride-flow {
+    position: absolute;
+    left: 1.5%;
+    right: 1.5%;
+    display: grid;
+    grid-template-columns: 11% 2.5% 10% 2.5% 11% 2.5% 10% 2.5% 10% 2.5% 11% 2.5% 9% 2.5% 10.5%;
+    align-items: stretch;
+  }
+  .ride-flow.top { top: 18.9%; height: 20.9%; }
+  .ride-flow.bottom { top: 45.1%; height: 31.2%; }
+  .ride-step { position: relative; min-width: 0; height: 100%; text-align: center; }
+  .ride-step img {
+    position: absolute;
+    left: 50%;
+    display: block;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform: translateX(-50%);
+  }
+  .ride-flow.top .ride-step img { bottom: 29%; height: 58%; }
+  .ride-flow.top .ride-step.scholar img { height: 75%; }
+  .ride-flow.top .ride-step.approve img { height: 62%; }
+  .ride-flow.bottom .ride-step img { top: 32%; height: 35%; }
+  .ride-flow.bottom .ride-step.plug img { height: 42%; }
+  .ride-flow.bottom .ride-step.controller img { top: 25%; height: 54%; }
+  .ride-flow.bottom .ride-step.approve img { top: 23%; height: 50%; }
+  .ride-flow.bottom .ride-step.thumb img {
+    top: 25%;
+    left: auto;
+    right: -25%;
+    height: 46%;
+    transform: scale(1.85);
+    transform-origin: right center;
+  }
+  .ride-label {
+    position: absolute;
+    left: 50%;
+    width: max-content;
+    transform: translateX(-50%);
+    font-size: clamp(27px, 3.15vw, 80px);
+    line-height: 1.02;
+    letter-spacing: -.018em;
+    white-space: nowrap;
+  }
+  .ride-flow.top .ride-label { bottom: 0; }
+  .ride-flow.bottom .ride-label { top: 0; min-height: 1.12em; }
+  .ride-label.figma, .ride-label.agent-orange { color: #db765b; }
+  .ride-label.agent-red { color: #b5203f; }
+  .ride-label.agent-purple { color: #7057d8; }
+  .ride-arrow {
+    position: relative;
+    align-self: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: clamp(34px, 3.85vw, 98px);
+    font-weight: 300;
+    line-height: 1;
+  }
+  .ride-flow.top .ride-arrow { align-self: end; transform: translateY(-5%); }
+  .ride-flow.bottom .ride-arrow { align-self: start; transform: translateY(-18%); }
+
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
   .final-map-slide img.main { z-index: 1; }
   .final-map-slide .map-reveal {
@@ -961,6 +1070,48 @@
     return s;
   }
 
+  function createRideSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide ride-slide';
+    const red = 'assets/task-split/ancient-red.png';
+    const green = 'assets/task-split/ancient-green.png';
+    const scholar = 'assets/task-split/ancient-scholar.png';
+    const approve = 'assets/task-split/ancient-approve.png';
+    const controller = 'assets/task-split/agent-controller.png';
+    const step = function (className, label, image, alt, labelClass) {
+      return '<div class="ride-step ' + className + '">' +
+        '<div class="ride-label ' + (labelClass || '') + '">' + label + '</div>' +
+        '<img src="' + image + '" alt="' + alt + '"></div>';
+    };
+    const arrow = '<div class="ride-arrow" aria-hidden="true">→</div>';
+    const top =
+      step('red', '评估', red, '红衣文人评估') + arrow +
+      step('green', '产需', green, '绿衣文人梳理产需') + arrow +
+      step('scholar', '看稿', scholar, '古代文人看稿') + arrow +
+      step('scholar', 'code', scholar, '古代文人编写代码') + arrow +
+      step('scholar', '自测', scholar, '古代文人自测') + arrow +
+      step('approve', '验收', approve, '古代文人验收') + arrow +
+      step('scholar', '改', scholar, '古代文人修改') + arrow +
+      step('scholar', '上线', scholar, '古代文人上线');
+    const bottom =
+      step('red', '评估', red, '红衣文人评估') + arrow +
+      step('green', '产需', green, '绿衣文人梳理产需') + arrow +
+      step('plug', 'Figma<br>MCP', 'assets/task-split/figma-plug.png', 'Figma MCP 插头', 'figma') + arrow +
+      step('controller', 'Agent', controller, 'Agent 控制器', 'agent-orange') + arrow +
+      step('controller', 'Agent', controller, 'Agent 控制器', 'agent-red') + arrow +
+      step('approve', '验收', approve, '古代文人验收') + arrow +
+      step('controller', 'Agent', controller, 'Agent 控制器', 'agent-purple') + arrow +
+      step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
+    s.innerHTML = '<div class="ride-canvas">' +
+      '<h2 class="ride-title">先骑带后骑</h2>' +
+      '<div class="ride-era ancient">古法</div>' +
+      '<div class="ride-flow top">' + top + '</div>' +
+      '<div class="ride-flow bottom">' + bottom + '</div>' +
+      '<div class="ride-era now">Now</div>' +
+      '</div>';
+    return s;
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
@@ -981,6 +1132,10 @@
     }
     if (i === 47) {
       deck.appendChild(createTaskSplitSlide());
+      continue;
+    }
+    if (i === 51) {
+      deck.appendChild(createRideSlide());
       continue;
     }
     const s = document.createElement('section');
