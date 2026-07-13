@@ -104,6 +104,170 @@
   }
   body.fit-contain .step-slide img.step-overlay { object-fit: contain; }
 
+  /* ========== 第 47 页：Task 拆分（HTML 分层，便于后续逐步加动效） ========== */
+  .task-split-slide {
+    /* 非 16:9 视口会在画布上下留边：顶部接白底，底部接 Now 区域。 */
+    background: linear-gradient(to bottom, #fff 0 50%, #f3efea 50% 100%);
+    color: #050505;
+  }
+  .task-split-canvas {
+    position: relative;
+    width: min(100vw, 177.7778vh);
+    height: min(100vh, 56.25vw);
+    overflow: hidden;
+    background: linear-gradient(to bottom, #fff 0 53%, #f3efea 53% 100%);
+  }
+  .task-split-title {
+    position: absolute;
+    left: 4.25%;
+    top: 3.2%;
+    z-index: 2;
+    font-size: clamp(54px, 7.15vw, 184px);
+    line-height: 1;
+    letter-spacing: -.035em;
+    font-kerning: normal;
+    text-rendering: geometricPrecision;
+    white-space: nowrap;
+  }
+  .task-era {
+    position: absolute;
+    left: 3.35%;
+    z-index: 2;
+    font-size: clamp(32px, 3.25vw, 83px);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .task-era::before {
+    content: "";
+    position: absolute;
+    left: -.16em;
+    right: -.18em;
+    bottom: -.12em;
+    height: .56em;
+    z-index: -1;
+    transform: skewX(-13deg);
+    border-radius: .08em;
+  }
+  .task-era.ancient { top: 17.8%; }
+  .task-era.ancient::before { background: #a9c8ff; }
+  .task-era.now {
+    left: 3.2%;
+    bottom: 6.2%;
+    color: #050505;
+  }
+  .task-era.now::before { background: #db765b; }
+  .task-flow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: block;
+  }
+  .task-flow.top {
+    top: 28.4%;
+    height: 20.2%;
+  }
+  .task-flow.bottom {
+    top: 56.2%;
+    height: 29.8%;
+  }
+  .task-step {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    text-align: center;
+  }
+  .task-step img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    display: block;
+    max-width: 100%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  /* 顶部素材统一以文字上方为基线：同类人物同尺寸，且到标签留白一致。 */
+  .task-flow.top .task-step img {
+    top: auto;
+    bottom: 37%;
+    width: auto;
+    height: 110%;
+    max-width: none;
+  }
+  .task-flow.top .task-step.review img {
+    top: auto;
+    bottom: 37%;
+    width: auto;
+    height: 90%;
+    max-width: none;
+  }
+  .task-flow.bottom .task-step img { top: 34%; width: 86%; height: 69%; }
+  .task-flow.bottom .task-step.plug img { width: 63%; }
+  .task-flow.bottom .task-step.plug img { top: 35%; }
+  .task-flow.bottom .task-step.review img { top: 26%; width: 96%; }
+  .task-flow.bottom .task-step.thumb img {
+    top: 25%;
+    width: 100%;
+    transform: scale(2.5);
+    transform-origin: right center;
+  }
+  .task-label {
+    position: absolute;
+    left: 50%;
+    width: max-content;
+    transform: translateX(-50%);
+    font-size: clamp(27px, 3.15vw, 80px);
+    line-height: 1.02;
+    letter-spacing: -.018em;
+    font-kerning: normal;
+    text-rendering: geometricPrecision;
+    white-space: nowrap;
+  }
+  .task-flow.top .task-label { bottom: 0; }
+  .task-flow.bottom .task-label { top: 0; min-height: 1.12em; }
+  .task-label.agent { color: #7057d8; }
+  .task-label.figma { color: #db765b; }
+  .task-step.plug .task-label { color: #db765b; }
+  .task-arrow {
+    position: absolute;
+    width: 4.2%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: clamp(38px, 4.25vw, 108px);
+    font-weight: 300;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+  /* 顶部箭头中心与标签文字行中心对齐。 */
+  .task-flow.top .task-arrow { top: 85.9%; }
+  .task-flow.bottom .task-arrow { top: 9%; }
+  .task-flow.top > :nth-child(1) { left: 2%; width: 16%; }
+  .task-flow.top > :nth-child(2) { left: 18.5%; }
+  .task-flow.top > :nth-child(3) { left: 21.4%; width: 12%; }
+  .task-flow.top > :nth-child(4) { left: 32.2%; }
+  .task-flow.top > :nth-child(5) { left: 35.5%; width: 12%; }
+  .task-flow.top > :nth-child(6) { left: 46.4%; }
+  .task-flow.top > :nth-child(7) { left: 50.7%; width: 23.3%; }
+  .task-flow.top > :nth-child(8) { left: 72.5%; }
+  .task-flow.top > :nth-child(9) { left: 75%; width: 11.5%; }
+  .task-flow.top > :nth-child(10) { left: 85.1%; }
+  .task-flow.top > :nth-child(11) { left: 89%; width: 10%; }
+  .task-flow.bottom > :nth-child(1) { left: 3%; width: 15%; }
+  .task-flow.bottom > :nth-child(2) { left: 16.25%; }
+  .task-flow.bottom > :nth-child(3) { left: 20.5%; width: 11%; }
+  .task-flow.bottom > :nth-child(4) { left: 30.85%; }
+  .task-flow.bottom > :nth-child(5) { left: 34.5%; width: 11%; }
+  .task-flow.bottom > :nth-child(6) { left: 45.95%; }
+  .task-flow.bottom > :nth-child(7) { left: 50%; width: 23.5%; }
+  .task-flow.bottom > :nth-child(8) { left: 72.55%; }
+  .task-flow.bottom > :nth-child(9) { left: 75.5%; width: 13%; }
+  .task-flow.bottom > :nth-child(10) { left: 86.55%; }
+  .task-flow.bottom > :nth-child(11) { left: 90%; width: 9.5%; }
+  @media (prefers-reduced-motion: reduce) {
+    .task-split-slide *, .task-split-slide *::before { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
   .final-map-slide img.main { z-index: 1; }
   .final-map-slide .map-reveal {
@@ -520,6 +684,42 @@
     return s;
   }
 
+  function createTaskSplitSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide task-split-slide';
+    const scholar = 'assets/task-split/ancient-scholar.png';
+    const review = 'assets/task-split/ancient-review.png';
+    const controller = 'assets/task-split/agent-controller.png';
+    const step = function (className, label, image, alt) {
+      return '<div class="task-step ' + className + '" data-task-step="' + className + '">' +
+        (label ? '<div class="task-label ' + (className === 'agent' ? 'agent' : '') + '">' + label + '</div>' : '') +
+        '<img src="' + image + '" alt="' + alt + '"></div>';
+    };
+    const arrow = '<div class="task-arrow" aria-hidden="true">→</div>';
+    const top =
+      step('design', '看设计图', scholar, '古代文人看设计图') + arrow +
+      step('code', 'code', scholar, '古代文人编写代码') + arrow +
+      step('self-test', '自测', scholar, '古代文人自测') + arrow +
+      step('review', '其他部门验收', review, '其他部门验收') + arrow +
+      step('revise', '改', scholar, '古代文人修改') + arrow +
+      step('launch', '上线', scholar, '古代文人上线');
+    const bottom =
+      step('plug', 'Figma<br>MCP', 'assets/task-split/figma-plug.png', 'Figma MCP 插头') + arrow +
+      step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
+      step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
+      step('review', '其他部门验收', review, '其他部门验收') + arrow +
+      step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
+      step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
+    s.innerHTML = '<div class="task-split-canvas">' +
+      '<h2 class="task-split-title">CASE高考：Task 拆分</h2>' +
+      '<div class="task-era ancient">古法</div>' +
+      '<div class="task-flow top">' + top + '</div>' +
+      '<div class="task-flow bottom">' + bottom + '</div>' +
+      '<div class="task-era now"><span>Now</span></div>' +
+      '</div>';
+    return s;
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
@@ -532,6 +732,10 @@
       continue;
     }
     if (i === 29) {
+      continue;
+    }
+    if (i === 47) {
+      deck.appendChild(createTaskSplitSlide());
       continue;
     }
     const s = document.createElement('section');
