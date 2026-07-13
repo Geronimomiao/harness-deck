@@ -64,6 +64,167 @@
   }
   body.fit-contain .cover .layer { object-fit: contain; }
 
+  /* ========== System Prompt 趋势（第 29–30 页）：同一组件的两种状态 ========== */
+  .prompt-slide {
+    --paper: #f4f3ed;
+    --ink: #11110f;
+    --muted: #d9d5c8;
+    --accent: #ce745e;
+    background: var(--paper);
+    color: var(--ink);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding: clamp(28px, 4.6vh, 72px) clamp(30px, 4.2vw, 92px);
+    gap: clamp(22px, 3vh, 52px);
+    font-family: "Times New Roman", "Songti SC", serif;
+  }
+  .prompt-slide h2 {
+    font-size: clamp(44px, 6.4vw, 116px);
+    line-height: .94;
+    letter-spacing: -.035em;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .prompt-layout {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(190px, 22%) 1fr;
+    gap: clamp(38px, 6vw, 120px);
+    align-items: center;
+  }
+  .prompt-stage { min-width: 0; }
+  .prompt-panel.is-active { animation: prompt-panel-in .28s ease-out both; }
+  .prompt-panel:not(.is-active) { display: none; }
+  @keyframes prompt-panel-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .speaker-card {
+    width: min(100%, 400px);
+    justify-self: start;
+    background: #fff;
+    border-radius: clamp(16px, 1.5vw, 28px);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(38, 34, 24, .04);
+  }
+  .speaker-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1.02;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .speaker-meta { padding: clamp(12px, 1.25vw, 24px) clamp(14px, 1.5vw, 28px) clamp(16px, 1.6vw, 30px); }
+  .speaker-meta strong { display: block; font-size: clamp(20px, 1.9vw, 36px); line-height: 1.08; }
+  .speaker-meta .company { position: relative; display: inline-block; margin-top: .18em; z-index: 0; }
+  .speaker-meta .company::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -.12em; right: -.12em; bottom: -.04em;
+    height: .36em;
+    border-radius: 4px;
+    background: #f4c3ad;
+    transform: rotate(-1deg);
+  }
+  .speaker-meta p { margin-top: .75em; font-size: clamp(13px, 1.08vw, 21px); font-weight: 700; line-height: 1.42; }
+
+  .removed-content {
+    display: grid;
+    grid-template-columns: minmax(360px, 1fr) minmax(220px, .72fr);
+    gap: clamp(32px, 5vw, 96px);
+    align-items: center;
+  }
+  .removed-copy {
+    font-size: clamp(42px, 5.15vw, 96px);
+    line-height: .98;
+    letter-spacing: -.045em;
+    max-width: 9.4em;
+  }
+
+  .doc-icon {
+    --doc-line: var(--muted);
+    position: relative;
+    width: min(100%, 320px);
+    aspect-ratio: .72;
+    margin: auto;
+    background: #fff;
+    border: 2px solid rgba(90, 82, 63, .13);
+    border-radius: 8%;
+    box-shadow: 0 2px 7px rgba(40, 35, 24, .04);
+    padding: 13% 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 6.2%;
+  }
+  .doc-line { height: 3.2%; min-height: 4px; border-radius: 99px; background: var(--doc-line); }
+  .doc-line.dark { height: 4%; background: #0e0e0d; }
+  .doc-line.short { width: 76%; }
+  .doc-line.mid { width: 88%; }
+  .doc-icon.crossed::before,
+  .doc-icon.crossed::after {
+    content: "";
+    position: absolute;
+    left: 7%; top: 54%;
+    width: 87%; height: 2px;
+    background: var(--accent);
+    transform: rotate(13deg);
+    transform-origin: center;
+  }
+  .doc-icon.crossed::after { transform: rotate(-13deg); }
+
+  .trend-content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(22px, 3vw, 64px);
+    align-items: start;
+  }
+  .trend-step { min-width: 0; text-align: center; position: relative; }
+  .trend-step:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: calc(clamp(22px, 3vw, 64px) * -.68);
+    top: 24%;
+    color: var(--accent);
+    font-family: Arial, sans-serif;
+    font-size: clamp(38px, 4vw, 72px);
+    font-weight: 300;
+  }
+  .trend-visual {
+    height: clamp(210px, 31vh, 390px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 1.4vw, 26px);
+  }
+  .trend-step .doc-icon { width: clamp(88px, 8.7vw, 160px); margin: 0; }
+  .trend-step.large .doc-icon { width: clamp(120px, 11.8vw, 215px); }
+  .tool-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .tool {
+    width: clamp(34px, 3.1vw, 54px); aspect-ratio: 1;
+    border: 2px solid #d6d3ca; border-radius: 18%;
+    display: grid; place-items: center;
+    font-family: Arial, sans-serif; font-size: clamp(21px, 2vw, 36px); line-height: 1;
+  }
+  .cards { display: flex; gap: 8px; align-self: end; margin-bottom: 3%; }
+  .mini-card { width: clamp(70px, 6.6vw, 118px); aspect-ratio: 1.55; border: 2px solid var(--accent); border-radius: 9px; background: #fff; padding: 13%; }
+  .mini-card:nth-child(2) { margin-left: -22%; transform: translateY(16%); }
+  .mini-card i { display: block; height: 5px; margin-bottom: 10%; border-radius: 9px; background: var(--muted); }
+  .mini-card i:first-child { width: 68%; background: var(--accent); }
+  .search-mark { position: relative; width: clamp(90px, 8vw, 145px); aspect-ratio: 1; }
+  .search-mark::before { content: ""; position: absolute; width: 48%; aspect-ratio: 1; border: 5px solid var(--accent); border-radius: 50%; left: 12%; top: 8%; }
+  .search-mark::after { content: ""; position: absolute; width: 47%; height: 5px; border-radius: 9px; background: var(--accent); transform: rotate(47deg); left: 49%; top: 61%; transform-origin: left center; }
+  .trend-step h3 { margin: .1em auto 0; max-width: 15em; font-size: clamp(19px, 1.8vw, 34px); line-height: 1.13; }
+
+  @media (max-aspect-ratio: 4/3) {
+    .prompt-slide { padding-inline: clamp(24px, 4vw, 52px); }
+    .prompt-slide h2 { font-size: clamp(40px, 7.2vw, 80px); }
+    .prompt-layout { grid-template-columns: minmax(150px, 24%) 1fr; gap: clamp(24px, 4vw, 52px); }
+    .removed-content { grid-template-columns: 1fr; }
+    .removed-content .doc-icon { width: min(42%, 230px); }
+    .trend-visual { height: clamp(190px, 25vh, 300px); }
+  }
+
   .cover .corner {
     position: absolute;
     top: 4.5%;
@@ -198,7 +359,41 @@
   const progressBar = document.getElementById('progress-bar');
   const hint = document.getElementById('hint');
 
+  function documentLines(crossed) {
+    return '<div class="doc-icon' + (crossed ? ' crossed' : '') + '">' +
+      '<i class="doc-line dark"></i><i class="doc-line dark short"></i>' +
+      '<i class="doc-line"></i><i class="doc-line mid"></i><i class="doc-line"></i>' +
+      '<i class="doc-line short"></i><i class="doc-line"></i><i class="doc-line mid"></i>' +
+      '<i class="doc-line dark mid"></i><i class="doc-line"></i></div>';
+  }
+
+  function speakerCard() {
+    return '<aside class="speaker-card"><img src="assets/system-prompt/thariq-shihipar.png" alt="Thariq Shihipar">' +
+      '<div class="speaker-meta"><strong>Thariq Shihipar</strong><strong class="company">Anthropic</strong>' +
+      '<p>Jul 2, 2026<br>AI Engineer<br>《Field Guide to Fabl》</p></div></aside>';
+  }
+
+  function createPromptSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide prompt-slide';
+    const removed = '<div class="prompt-panel removed-content is-active" data-prompt-panel="removed"><div class="removed-copy">We removed 80%<br>of the system<br>prompt from<br>Claude Code</div>' + documentLines(true) + '</div>';
+    const trend = '<div class="prompt-panel trend-content" data-prompt-panel="trend">' +
+          '<div class="trend-step"><div class="trend-visual"><div class="tool-grid"><span class="tool">○</span><span class="tool">／</span></div><div class="cards"><span class="mini-card"><i></i><i></i><i></i></span><span class="mini-card"><i></i><i></i><i></i></span></div></div><h3>Small system prompt,<br>few tools, lots of examples</h3></div>' +
+          '<div class="trend-step large"><div class="trend-visual"><div class="tool-grid"><span class="tool">○</span><span class="tool">／</span><span class="tool">■</span><span class="tool">△</span><span class="tool">＋</span><span class="tool">●</span></div><div class="cards"><span class="mini-card"><i></i><i></i><i></i></span><span class="mini-card"><i></i><i></i><i></i></span></div></div><h3>Large system prompt,<br>lots of examples, many tools</h3></div>' +
+          '<div class="trend-step"><div class="trend-visual">' + documentLines(false) + '<div class="tool-grid"><span class="tool">○</span><span class="tool"></span><span class="tool"></span><span class="tool"></span></div><span class="search-mark"></span></div><h3>Smaller system prompt,<br>tool search, no examples</h3></div>' +
+        '</div>';
+    s.innerHTML = '<h2>System Prompt 趋势</h2><div class="prompt-layout">' + speakerCard() + '<div class="prompt-stage">' + removed + trend + '</div></div>';
+    return s;
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
+    if (i === 28) {
+      deck.appendChild(createPromptSlide());
+      continue;
+    }
+    if (i === 29) {
+      continue;
+    }
     const s = document.createElement('section');
     s.className = 'slide';
     const ambient = document.createElement('img');
@@ -224,9 +419,16 @@
   function go(n, instant) {
     n = clamp(n);
     if (n === current && !instant) return;
+    const previous = current;
     current = n;
-    deck.style.transition = instant ? 'none' : '';
-    deck.style.transform = 'translateY(' + (-current * 100) + 'vh)';
+    const promptState = current === 29 ? 'trend' : 'removed';
+    document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
+      panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
+    });
+    const physicalPage = current > 28 ? current - 1 : current;
+    const swappingPromptState = (previous === 28 || previous === 29) && (current === 28 || current === 29);
+    deck.style.transition = instant || swappingPromptState ? 'none' : '';
+    deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
     history.replaceState(null, '', '#' + (current + 1));
@@ -236,7 +438,8 @@
     }
   }
 
-  // 填充/适应 切换（F 键），记住上次选择
+  // 填充/适应 切换（F 键），默认适应并记住后续选择
+  const FIT_STORAGE_KEY = 'deck-fit-v2';
   const toast = document.getElementById('toast');
   let toastTimer = null;
   function showToast(msg) {
@@ -247,10 +450,10 @@
   }
   function setFit(mode, silent) {
     document.body.classList.toggle('fit-contain', mode === 'contain');
-    localStorage.setItem('deck-fit', mode);
+    localStorage.setItem(FIT_STORAGE_KEY, mode);
     if (!silent) showToast(mode === 'contain' ? '适应：完整显示，可能有边' : '填充：铺满屏幕，边缘可能裁切');
   }
-  setFit(localStorage.getItem('deck-fit') || 'cover', true);
+  setFit(localStorage.getItem(FIT_STORAGE_KEY) || 'contain', true);
 
   // 键盘
   window.addEventListener('keydown', function (e) {
