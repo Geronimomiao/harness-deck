@@ -76,7 +76,7 @@
 
   /* 第 2、3 页是上下连续构图：上一页锁定底边，下一页锁定顶边。 */
   body .slide.stitch-slide img.main { object-fit: contain; }
-  .slide.stitch-upper { background: #bbb6b8; }
+  .slide.stitch-upper { background: #b3aeaf; }
   .slide.stitch-upper img.main { object-position: center bottom; }
   .slide.stitch-lower { background: #dadada; }
   .slide.stitch-lower img.main { object-position: center top; }
@@ -607,9 +607,11 @@
     }
     const img = document.createElement('img');
     img.className = 'main';
-    img.src = i === 56
-      ? 'assets/generated/slide-56-no-baseline.png'
-      : 'assets/slides/slide-' + i + '.webp';
+    img.src = i === 1
+      ? 'assets/generated/slide-1-top-extended.png'
+      : i === 56
+        ? 'assets/generated/slide-56-no-baseline.png'
+        : 'assets/slides/slide-' + i + '.webp';
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
     s.appendChild(img);
