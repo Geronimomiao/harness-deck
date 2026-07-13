@@ -250,6 +250,10 @@
   .origin-overview.is-active,
   .origin-detail.is-active { display: grid; }
   .origin-detail.is-active { height: auto; animation: none; }
+  .origin-detail-dual {
+    grid-template-columns: minmax(220px, 23.4%) 1fr;
+    gap: clamp(18px, 2vw, 30px);
+  }
   .origin-profile {
     min-height: 0;
     border-radius: clamp(16px, 1.5vw, 28px);
@@ -287,19 +291,30 @@
   }
   .origin-evidence img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .origin-evidence.dual {
-    display: grid;
-    grid-template-rows: minmax(0, 1.35fr) minmax(0, .55fr);
-    gap: 12px;
+    position: relative;
+    display: block;
     background: transparent;
     box-shadow: none;
     padding: 0;
     overflow: visible;
   }
   .origin-evidence.dual img {
-    min-height: 0;
+    position: absolute;
+    height: auto;
+    object-fit: contain;
     border-radius: 0;
     background: transparent;
     box-shadow: none;
+  }
+  .origin-evidence.dual img:first-child {
+    top: 0;
+    right: 0;
+    width: 86%;
+  }
+  .origin-evidence.dual img:last-child {
+    left: 0;
+    bottom: 0;
+    width: 90%;
   }
   .origin-detail.is-active .origin-profile {
     animation: origin-profile-left .5s cubic-bezier(.22, 1, .36, 1) both;
@@ -786,7 +801,8 @@
       const badge = item.badge ? '<img class="origin-badge" src="' + item.badge + '" alt="">' : '';
       const evidenceClass = item.evidence.length > 1 ? 'origin-evidence dual' : 'origin-evidence';
       const evidence = item.evidence.map(function (src) { return '<img src="' + src + '" alt="">'; }).join('');
-      return '<div class="origin-panel origin-detail" data-origin-panel="' + (index + 1) + '">' +
+      const detailClass = item.evidence.length > 1 ? 'origin-panel origin-detail origin-detail-dual' : 'origin-panel origin-detail';
+      return '<div class="' + detailClass + '" data-origin-panel="' + (index + 1) + '">' +
         '<aside class="origin-profile"><div class="origin-photo"><img src="' + item.portrait + '" alt="' + item.name + '">' + badge + '</div>' +
         '<div class="origin-profile-copy"><time>' + item.date + '</time><span class="origin-label">' + item.label + '</span>' +
         '<h3>' + item.name + '</h3><p>' + item.summary + '</p></div></aside>' +
