@@ -348,12 +348,19 @@
     left: 4.25%;
     top: 3.2%;
     z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    gap: .22em;
     font-size: clamp(54px, 7.15vw, 184px);
     line-height: 1;
     letter-spacing: -.035em;
     font-kerning: normal;
     text-rendering: geometricPrecision;
     white-space: nowrap;
+  }
+  .task-split-title > span {
+    display: block;
+    line-height: .88;
   }
   .task-era {
     position: absolute;
@@ -489,7 +496,7 @@
   .task-flow.bottom > :nth-child(8) { left: 72.55%; }
   .task-flow.bottom > :nth-child(9) { left: 75.5%; width: 13%; }
   .task-flow.bottom > :nth-child(10) { left: 86.55%; }
-  .task-flow.bottom > :nth-child(11) { left: 90%; width: 9.5%; }
+  .task-flow.bottom > :nth-child(11) { left: 91.4%; width: 9.5%; }
   @media (prefers-reduced-motion: reduce) {
     .task-split-slide *, .task-split-slide *::before { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
@@ -949,7 +956,7 @@
       step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
       step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
     s.innerHTML = '<div class="task-split-canvas">' +
-      '<h2 class="task-split-title">CASE高考：Task 拆分</h2>' +
+      '<h2 class="task-split-title"><span>CASE高考：</span><span>Task 拆分</span></h2>' +
       '<div class="task-era ancient">古法</div>' +
       '<div class="task-flow top">' + top + '</div>' +
       '<div class="task-flow bottom">' + bottom + '</div>' +
