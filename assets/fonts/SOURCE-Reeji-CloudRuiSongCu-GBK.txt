@@ -1,0 +1,16 @@
+Reeji-CloudRuiSongCu-GBK / 锐字工房云字库锐宋粗GBK
+
+Source:
+https://github.com/zyh1102/fonts/blob/master/%E9%94%90%E5%AD%97%E5%B7%A5%E6%88%BF%E4%BA%91%E5%AD%97%E5%BA%93%E9%94%90%E5%AE%8B%E7%B2%97GBK.ttf
+
+Font metadata:
+Copyright (c) 2016 REEJI / Shanghai Rui Xian Creative Design Co. Ltd.
+
+Usage note:
+Bundled for this project's non-commercial presentation use. Do not assume this
+font is licensed for commercial use, redistribution in unrelated projects, or
+modification without obtaining the appropriate permission from the copyright
+holder.
+
+SHA-256:
+95d8db1816a79ec6360b0bbfa4a5ae1132af36977130e576e3d74bc6b9dc6dc8
