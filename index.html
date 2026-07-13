@@ -1839,8 +1839,8 @@
     13: '#ffffff', 14: '#dadada', 15: '#dadada', 16: '#dadada', 17: '#dadada', 18: '#dadada',
     19: '#dadada', 20: '#dadada', 22: '#f4efff',
     24: 'dual',
-    25: '#dadada', 26: '#dadada',
-    27: '#dadada', 30: '#dadada', 31: '#dadada', 32: '#ffffff', 33: '#dadada', 34: '#dadada',
+    25: '#f0eee6', 26: '#f0eee6',
+    27: '#f0eee6', 30: '#f0eee6', 31: '#f0eee6', 32: '#f0eee6', 33: '#f0eee6', 34: '#dadada',
     35: '#dadada', 36: '#ffffff', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
     41: '#dadada', 42: '#000000', 43: '#141412', 44: '#141412', 45: '#fbf9f5', 47: '#f3efea',
     48: '#dadada', 51: 'dual-51', 52: '#dadada', 53: '#000000', 54: '#000000', 55: '#ffffff',
@@ -2005,9 +2005,9 @@
         '<a class="eval-platform-link" href="https://ihvnzxc1.fn-boe.bytedance.net/?tab=0" target="_blank" rel="noopener">打开平台 <span aria-hidden="true">↗</span></a>' +
       '</span></div>' +
       '<div class="eval-now-panel" aria-label="当前自动化评估实现">' +
-        '<figure class="eval-now-shot configure"><img src="assets/eval-now/configure.png" alt="配置自动化评估"></figure>' +
-        '<figure class="eval-now-shot run-detail"><img src="assets/eval-now/run-detail.png" alt="自动化评估执行明细"></figure>' +
-        '<figure class="eval-now-shot feishu-result"><img src="assets/eval-now/feishu-result.png" alt="评估完成后的飞书推送"></figure>' +
+        '<figure class="eval-now-shot configure"><img src="assets/eval-now/configure.webp" alt="配置自动化评估"></figure>' +
+        '<figure class="eval-now-shot run-detail"><img src="assets/eval-now/run-detail.webp" alt="自动化评估执行明细"></figure>' +
+        '<figure class="eval-now-shot feishu-result"><img src="assets/eval-now/feishu-result.webp" alt="评估完成后的飞书推送"></figure>' +
       '</div>' +
       '</div>';
     return s;
@@ -2347,6 +2347,16 @@
       experimentLink.setAttribute('aria-label', '查看真实 SubAgent 抓包实验（新标签页打开）');
       experimentLink.innerHTML = '<span>查看真实 SubAgent 抓包实验</span><span class="external-arrow" aria-hidden="true">↗</span>';
       s.appendChild(experimentLink);
+    }
+    if (i === 38) {
+      const compactLink = document.createElement('a');
+      compactLink.className = 'subagent-link';
+      compactLink.href = 'https://geronimomiao.github.io/agent-lab-site/static/compaction-lab.html';
+      compactLink.target = '_blank';
+      compactLink.rel = 'noopener';
+      compactLink.setAttribute('aria-label', '查看抓包详情（新标签页打开）');
+      compactLink.innerHTML = '<span>查看抓包详情</span><span class="external-arrow" aria-hidden="true">↗</span>';
+      s.appendChild(compactLink);
     }
     if (i === 56) {
       s.classList.add('final-map-slide');
