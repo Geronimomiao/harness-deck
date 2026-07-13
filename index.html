@@ -149,10 +149,18 @@
   /* 原稿本身是纯色背景的页面：保留整张内容图，外侧留白使用同色填充。 */
   .slide.solid-bg img.main { object-fit: contain; }
   .slide.dual-bg { background: linear-gradient(to bottom, #fff 0 50%, #f4e9ea 50% 100%); }
+  .slide.dual-bg-51 { background: linear-gradient(to bottom, #fff 0 52.57%, #f3efea 52.57% 100%); }
   .slide.gradient-bg {
     background: linear-gradient(to bottom, #417a97 0%, #82adbc 50%, #c3dee2 100%);
   }
   @media (max-aspect-ratio: 16/9) {
+    .slide.dual-bg-51 {
+      background: linear-gradient(
+        to bottom,
+        #fff 0 calc((100vh - 56.25vw) / 2 + 29.57vw),
+        #f3efea calc((100vh - 56.25vw) / 2 + 29.57vw) 100%
+      );
+    }
     .slide.gradient-bg {
       background: linear-gradient(
         to bottom,
@@ -472,8 +480,8 @@
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
   const hint = document.getElementById('hint');
-  const EDGE_FILL_SLIDES = new Set([4, 46]);
-  const GRADIENT_BACKGROUND_SLIDES = new Set([11, 12, 23, 49]);
+  const EDGE_FILL_SLIDES = new Set([4, 46, 49]);
+  const GRADIENT_BACKGROUND_SLIDES = new Set([11, 12, 23]);
   const SOLID_BACKGROUNDS = {
     5: '#dadada', 6: '#000000', 7: '#000000', 8: '#dadada', 9: '#dadada', 10: '#dadada',
     13: '#ffffff', 14: '#dadada', 15: '#dadada', 16: '#dadada', 17: '#dadada', 18: '#dadada',
@@ -483,7 +491,7 @@
     27: '#dadada', 30: '#dadada', 31: '#dadada', 32: '#ffffff', 33: '#dadada', 34: '#dadada',
     35: '#dadada', 36: '#ffffff', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
     41: '#dadada', 42: '#000000', 43: '#141412', 44: '#141412', 45: '#fbf9f5', 47: '#f3efea',
-    48: '#dadada', 51: '#f3efea', 52: '#dadada', 53: '#000000', 54: '#000000', 55: '#ffffff',
+    48: '#dadada', 51: 'dual-51', 52: '#dadada', 53: '#000000', 54: '#000000', 55: '#ffffff',
     56: '#db7656'
   };
 
@@ -532,6 +540,8 @@
       s.classList.add('solid-bg');
       if (solidBackground === 'dual') {
         s.classList.add('dual-bg');
+      } else if (solidBackground === 'dual-51') {
+        s.classList.add('dual-bg-51');
       } else {
         s.style.background = solidBackground;
       }
