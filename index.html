@@ -330,6 +330,122 @@
   }
   body.fit-contain .step-slide img.step-overlay { object-fit: contain; }
 
+  /* ========== 第 46 页：固定骑手，草地向后流动 ========== */
+  .horse-motion-slide {
+    background: #0b311d;
+    color: #fff;
+  }
+  .horse-motion-stage {
+    position: relative;
+    width: min(100vw, 177.7778vh);
+    height: min(100vh, 56.25vw);
+    overflow: hidden;
+    background: #0b311d;
+    isolation: isolate;
+  }
+  .horse-ground {
+    position: absolute;
+    inset: -8%;
+    z-index: 0;
+    width: 116%;
+    height: 116%;
+    object-fit: cover;
+    filter: saturate(.96) brightness(.94);
+    transform: translateY(-2.8%) scale(1.035);
+    transform-origin: center;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .horse-motion-slide.is-active .horse-ground {
+    animation: horse-ground-scroll 10s linear both;
+  }
+  .horse-rider {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center;
+    user-select: none;
+    -webkit-user-drag: none;
+    filter: drop-shadow(0 .8vw 1.1vw rgba(0, 0, 0, .18));
+  }
+  .horse-rider.left { clip-path: inset(0 59% 0 20%); }
+  .horse-rider.middle { clip-path: inset(0 39% 0 39%); }
+  .horse-rider.right { clip-path: inset(0 17% 0 59%); }
+  .horse-motion-slide.is-active .horse-rider.left {
+    animation: horse-stride-a 1.08s ease-in-out infinite;
+  }
+  .horse-motion-slide.is-active .horse-rider.middle {
+    animation: horse-stride-b 1.08s -.32s ease-in-out infinite;
+  }
+  .horse-motion-slide.is-active .horse-rider.right {
+    animation: horse-stride-a 1.08s -.67s ease-in-out infinite;
+  }
+  .horse-wordmark {
+    position: absolute;
+    left: 50%;
+    top: 6.2%;
+    z-index: 3;
+    width: 76%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: clamp(20px, 3.2vw, 78px);
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: clamp(46px, 5.65vw, 145px);
+    font-weight: 400;
+    line-height: .8;
+    letter-spacing: -.035em;
+    text-shadow: 0 .04em .12em rgba(0, 0, 0, .24);
+    white-space: nowrap;
+  }
+  .horse-word { text-align: center; }
+  .horse-word strong {
+    font-size: 1.27em;
+    font-weight: 400;
+    letter-spacing: -.08em;
+  }
+  .horse-emblem {
+    font-family: Georgia, serif;
+    font-size: .58em;
+    line-height: 1;
+    transform: translateY(.06em);
+  }
+  .horse-title-cn {
+    position: absolute;
+    left: 50%;
+    bottom: 6.2%;
+    z-index: 3;
+    transform: translateX(-50%);
+    font-size: clamp(64px, 7.8vw, 200px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.04em;
+    text-shadow: 0 .04em .12em rgba(0, 0, 0, .24);
+    white-space: nowrap;
+  }
+  @keyframes horse-ground-scroll {
+    from { transform: translateY(-2.8%) scale(1.035); }
+    to { transform: translateY(3.8%) scale(1.055); }
+  }
+  @keyframes horse-stride-a {
+    0%, 100% { transform: translateY(-12%) scale(.68); }
+    50% { transform: translateY(-12.55%) scale(.684); }
+  }
+  @keyframes horse-stride-b {
+    0%, 100% { transform: translateY(-12.45%) scale(.682); }
+    50% { transform: translateY(-11.9%) scale(.678); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .horse-motion-slide.is-active .horse-ground,
+    .horse-motion-slide.is-active .horse-rider { animation: none; }
+    .horse-ground { transform: translateY(0) scale(1.02); }
+    .horse-rider { transform: translateY(-12%) scale(.68); }
+  }
+
   /* ========== 第 47 页：Task 拆分（HTML 分层，便于后续逐步加动效） ========== */
   .task-split-slide {
     /* 非 16:9 视口会在画布上下留边：顶部接白底，底部接 Now 区域。 */
@@ -1114,6 +1230,23 @@
     return s;
   }
 
+  function createHorseMotionSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide horse-motion-slide';
+    const riders = 'assets/horse-motion/horses-cutout.png';
+    s.innerHTML = '<div class="horse-motion-stage">' +
+      '<img class="horse-ground" src="assets/horse-motion/grass-clean.png" alt="">' +
+      '<img class="horse-rider left" src="' + riders + '" alt="三名骑手中的左侧骑手">' +
+      '<img class="horse-rider middle" src="' + riders + '" alt="三名骑手中的中间骑手">' +
+      '<img class="horse-rider right" src="' + riders + '" alt="三名骑手中的右侧骑手">' +
+      '<div class="horse-wordmark"><span class="horse-word"><strong>H</strong>ARNESS</span>' +
+        '<span class="horse-emblem" aria-hidden="true">♞</span>' +
+        '<span class="horse-word"><strong>E</strong>NGINEERING</span></div>' +
+      '<div class="horse-title-cn">我的马术</div>' +
+      '</div>';
+    return s;
+  }
+
   function createTaskSplitSlide() {
     const s = document.createElement('section');
     s.className = 'slide task-split-slide';
@@ -1230,6 +1363,10 @@
       deck.appendChild(createHeroCardSlide());
       continue;
     }
+    if (i === 46) {
+      deck.appendChild(createHorseMotionSlide());
+      continue;
+    }
     if (i === 47) {
       deck.appendChild(createTaskSplitSlide());
       continue;
@@ -1323,6 +1460,8 @@
   const attentionVideo = contextVideoSlide.querySelector('.attention-video');
   const heroCardSlide = document.querySelector('.hero-card-slide');
   const HERO_CARD_PAGE = 41;
+  const horseMotionSlide = document.querySelector('.horse-motion-slide');
+  const HORSE_MOTION_PAGE = 45;
   let heroCardStep = 0;
   const originSlide = document.querySelector('.origin-slide');
   let mapRevealTimer = null;
@@ -1335,6 +1474,11 @@
     const previous = current;
     current = n;
     resetAttentionVideo();
+    horseMotionSlide.classList.remove('is-active');
+    if (current === HORSE_MOTION_PAGE) {
+      void horseMotionSlide.offsetWidth;
+      horseMotionSlide.classList.add('is-active');
+    }
     if (current !== TOTAL - 1) resetMapReveal();
     if (current !== HERO_CARD_PAGE || previous !== HERO_CARD_PAGE) setHeroCardStep(0);
     const promptState = current === 28 ? 'trend' : 'removed';
