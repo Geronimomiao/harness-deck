@@ -1693,7 +1693,7 @@
   }
 
   function speakerCard() {
-    return '<aside class="speaker-card"><img src="assets/system-prompt/thariq-shihipar.png" alt="Thariq Shihipar">' +
+    return '<aside class="speaker-card"><img src="assets/system-prompt/thariq-shihipar.webp" alt="Thariq Shihipar">' +
       '<div class="speaker-meta"><strong>Thariq Shihipar</strong><strong class="company">Anthropic</strong>' +
       '<p>Jul 2, 2026<br>AI Engineer<br>《Field Guide to Fabl》</p></div></aside>';
   }
@@ -1716,9 +1716,9 @@
     s.className = 'slide hero-card-slide card-step-0';
     s.innerHTML = '<h2 class="hero-card-title">选择你的英雄</h2>' +
       '<div class="hero-card-stage">' +
-        '<article class="hero-card sr" data-card-index="1"><img src="assets/cards/horse-sr.png" alt="盘发棕马"><span class="hero-rarity">SR</span></article>' +
-        '<article class="hero-card a" data-card-index="2"><img src="assets/cards/horse-a.png" alt="吐舌小马"><span class="hero-rarity">A</span></article>' +
-        '<article class="hero-card ssr" data-card-index="3"><img src="assets/cards/horse-ssr.png" alt="白马"><span class="hero-rarity">SSR</span></article>' +
+        '<article class="hero-card sr" data-card-index="1"><img src="assets/cards/horse-sr.webp" alt="盘发棕马"><span class="hero-rarity">SR</span></article>' +
+        '<article class="hero-card a" data-card-index="2"><img src="assets/cards/horse-a.webp" alt="吐舌小马"><span class="hero-rarity">A</span></article>' +
+        '<article class="hero-card ssr" data-card-index="3"><img src="assets/cards/horse-ssr.webp" alt="白马"><span class="hero-rarity">SSR</span></article>' +
       '</div>';
     return s;
   }
@@ -1726,9 +1726,9 @@
   function createTaskSplitSlide() {
     const s = document.createElement('section');
     s.className = 'slide task-split-slide';
-    const scholar = 'assets/task-split/ancient-scholar.png';
-    const review = 'assets/task-split/ancient-review.png';
-    const controller = 'assets/task-split/agent-controller.png';
+    const scholar = 'assets/task-split/ancient-scholar.webp';
+    const review = 'assets/task-split/ancient-review.webp';
+    const controller = 'assets/task-split/agent-controller.webp';
     const step = function (className, label, image, alt) {
       return '<div class="task-step ' + className + '" data-task-step="' + className + '">' +
         (label ? '<div class="task-label ' + (className === 'agent' ? 'agent' : '') + '">' + label + '</div>' : '') +
@@ -1743,12 +1743,12 @@
       step('revise', '改', scholar, '古代文人修改') + arrow +
       step('launch', '上线', scholar, '古代文人上线');
     const bottom =
-      step('plug', 'Figma<br>MCP', 'assets/task-split/figma-plug.png', 'Figma MCP 插头') + arrow +
+      step('plug', 'Figma<br>MCP', 'assets/task-split/figma-plug.webp', 'Figma MCP 插头') + arrow +
       step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
       step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
       step('review', '其他部门验收', review, '其他部门验收') + arrow +
       step('agent', 'Agent', controller, 'Agent 控制器') + arrow +
-      step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
+      step('thumb', '上线', 'assets/task-split/thumbs-up.webp', '竖起大拇指');
     s.innerHTML = '<div class="task-split-canvas">' +
       '<h2 class="task-split-title">CASE高考：Task 拆分</h2>' +
       '<div class="task-era ancient">古法</div>' +
@@ -1762,11 +1762,11 @@
   function createRideSlide() {
     const s = document.createElement('section');
     s.className = 'slide ride-slide';
-    const red = 'assets/task-split/ancient-red.png';
-    const green = 'assets/task-split/ancient-green.png';
-    const scholar = 'assets/task-split/ancient-scholar.png';
-    const approve = 'assets/task-split/ancient-approve.png';
-    const controller = 'assets/task-split/agent-controller.png';
+    const red = 'assets/task-split/ancient-red.webp';
+    const green = 'assets/task-split/ancient-green.webp';
+    const scholar = 'assets/task-split/ancient-scholar.webp';
+    const approve = 'assets/task-split/ancient-approve.webp';
+    const controller = 'assets/task-split/agent-controller.webp';
     const step = function (className, label, image, alt, labelClass) {
       return '<div class="ride-step ' + className + '">' +
         '<div class="ride-label ' + (labelClass || '') + '">' + label + '</div>' +
@@ -1786,7 +1786,7 @@
       step('controller merged-agent', 'Agent', controller, '未来由 Agent 参与研发', 'agent-beige') + arrow +
       step('controller', 'Agent', controller, '未来由 Agent 参与验收', 'agent-purple') + arrow +
       step('controller', 'Agent', controller, '未来由 Agent 参与修改', 'agent-beige') + arrow +
-      step('thumb', '上线', 'assets/task-split/thumbs-up.png', '竖起大拇指');
+      step('thumb', '上线', 'assets/task-split/thumbs-up.webp', '竖起大拇指');
     s.innerHTML = '<div class="ride-canvas">' +
       '<h2 class="ride-title">先骑带后骑</h2>' +
       '<div class="ride-era ancient">古法</div>' +
@@ -1801,28 +1801,28 @@
     {
       label: '命名', date: '2026.02.05', name: 'Mitchell',
       summary: '每次出错都把教训固化为 AGENTS.md 约束，或可执行的验证工具。',
-      portrait: 'assets/harness-origins/mitchell.png',
-      evidence: ['assets/harness-origins/mitchell-quote.png']
+      portrait: 'assets/harness-origins/mitchell.webp',
+      evidence: ['assets/harness-origins/mitchell-quote.webp']
     },
     {
       label: '工程化传播', date: '2026.02.11', name: 'Ryan Lopopolo',
       summary: 'Codex 把 repo 内知识、架构边界、lint 和反馈回路当作 agent 的工作环境。',
-      portrait: 'assets/harness-origins/ryan-lopopolo.png',
-      badge: 'assets/harness-origins/openai.png',
-      evidence: ['assets/harness-origins/ryan-article.png']
+      portrait: 'assets/harness-origins/ryan-lopopolo.webp',
+      badge: 'assets/harness-origins/openai.webp',
+      evidence: ['assets/harness-origins/ryan-article.webp']
     },
     {
       label: '编排成型', date: '2026.03.24', name: 'Anthropic',
       summary: 'Planner / Generator / Evaluator 三类 agent 分工，让长期任务可以持续运行。',
-      portrait: 'assets/harness-origins/anthropic.png',
-      evidence: ['assets/harness-origins/anthropic-article.png']
+      portrait: 'assets/harness-origins/anthropic.webp',
+      evidence: ['assets/harness-origins/anthropic-article.webp']
     },
     {
       label: '给出定义', date: '2026.03.10', name: 'Vivek Trivedy',
       summary: 'Agent = Model + Harness；harness 是模型之外、让任务真正运行的一切。',
-      portrait: 'assets/harness-origins/vivek-trivedy.png',
-      badge: 'assets/harness-origins/vivek-logo.png',
-      evidence: ['assets/harness-origins/vivek-article.png', 'assets/harness-origins/vivek-definition.png']
+      portrait: 'assets/harness-origins/vivek-trivedy.webp',
+      badge: 'assets/harness-origins/vivek-logo.webp',
+      evidence: ['assets/harness-origins/vivek-article.webp', 'assets/harness-origins/vivek-definition.webp']
     }
   ];
 
@@ -1868,8 +1868,8 @@
         '<a class="workflow-time" href="https://code.claude.com/docs/en/workflows#let-claude-decide-with-ultracode" target="_blank" rel="noopener"><b>2026-07-07</b><span>v2.1.203+ 把 xhigh + 自动 workflow 编排打包成 Ultracode</span></a>' +
       '</div>' +
       '<div class="workflow-origin">' +
-        '<figure class="workflow-shot" role="button" tabindex="0" aria-label="放大 Anthropic dynamic workflows 图"><img src="assets/workflow/claude-workflow-dynamic-wide.png?v=1" alt="Anthropic dynamic workflows article illustration"></figure>' +
-        '<figure class="workflow-shot" role="button" tabindex="0" aria-label="放大 Anthropic workflow patterns 图"><img src="assets/workflow/claude-workflow-patterns.png?v=1" alt="Anthropic Claude Code workflow illustration"></figure>' +
+        '<figure class="workflow-shot" role="button" tabindex="0" aria-label="放大 Anthropic dynamic workflows 图"><img src="assets/workflow/claude-workflow-dynamic-wide.webp?v=1" alt="Anthropic dynamic workflows article illustration"></figure>' +
+        '<figure class="workflow-shot" role="button" tabindex="0" aria-label="放大 Anthropic workflow patterns 图"><img src="assets/workflow/claude-workflow-patterns.webp?v=1" alt="Anthropic Claude Code workflow illustration"></figure>' +
       '</div>' +
       '<div class="workflow-origin-note">所以 Ultracode 不是“换了一个更聪明的模型”，而是把更高推理档位和 workflow harness 编排绑成一个入口。</div>' +
       '<div class="workflow-source">来源：<a href="https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code" target="_blank" rel="noopener">Anthropic · A harness for every task: Dynamic workflows in Claude Code</a> · <a href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Claude Code workflows docs</a></div>' +
@@ -2042,9 +2042,9 @@
     const img = document.createElement('img');
     img.className = 'main';
     img.src = i === 1
-      ? 'assets/generated/slide-1-user-background.png'
+      ? 'assets/generated/slide-1-user-background.webp'
       : i === 56
-        ? 'assets/generated/slide-56-no-baseline.png'
+        ? 'assets/generated/slide-56-no-baseline.webp'
         : 'assets/slides/slide-' + i + '.webp';
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
@@ -2052,7 +2052,7 @@
     if (i === 2) {
       const continuation = document.createElement('img');
       continuation.className = 'stitch-continuation';
-      continuation.src = 'assets/generated/slide-2-user-continuation.png';
+      continuation.src = 'assets/generated/slide-2-user-continuation.webp';
       continuation.alt = '';
       continuation.decoding = 'async';
       s.appendChild(continuation);
@@ -2122,12 +2122,12 @@
       s.classList.add('final-map-slide');
       const reveal = document.createElement('div');
       reveal.className = 'map-reveal';
-      reveal.innerHTML = '<img class="exploration-map" src="assets/generated/exploration-map.png" alt="">';
+      reveal.innerHTML = '<img class="exploration-map" src="assets/generated/exploration-map.webp" alt="">';
       const expansion = document.createElement('div');
       expansion.className = 'map-expansion';
       expansion.innerHTML =
-        '<img class="frontier-map frontier-ridge" src="assets/generated/exploration-map.png" alt="">' +
-        '<img class="frontier-map frontier-valley" src="assets/generated/exploration-map.png" alt="">';
+        '<img class="frontier-map frontier-ridge" src="assets/generated/exploration-map.webp" alt="">' +
+        '<img class="frontier-map frontier-valley" src="assets/generated/exploration-map.webp" alt="">';
       const glow = document.createElement('div');
       glow.className = 'map-glow';
       s.appendChild(reveal);
