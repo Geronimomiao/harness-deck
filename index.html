@@ -75,11 +75,57 @@
   body .slide.edge-fill img.main { object-fit: cover; }
 
   /* 第 2、3 页是上下连续构图：上一页锁定底边，下一页锁定顶边。 */
-  body .slide.stitch-slide img.main { object-fit: contain; }
+  body .slide.stitch-slide img.main {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+  }
   .slide.stitch-upper { background: #b3aeaf; }
-  .slide.stitch-upper img.main { object-position: center bottom; }
+  .slide.stitch-upper img.main { bottom: 0; }
   .slide.stitch-lower { background: #dadada; }
-  .slide.stitch-lower img.main { object-position: center top; }
+  .slide.stitch-lower img.main { top: 0; }
+  .stitch-upper-copy {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    aspect-ratio: 2560 / 1733;
+    z-index: 2;
+    pointer-events: none;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
+  }
+  .stitch-upper-copy .corner {
+    position: absolute;
+    top: 20%;
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: clamp(34px, 5.3vw, 136px);
+    font-style: italic;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 .05em .04em rgba(84, 80, 80, .28);
+  }
+  .stitch-upper-copy .corner.l { left: 3.8%; }
+  .stitch-upper-copy .corner.r { right: 3.8%; }
+  .stitch-upper-copy .headline {
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 76%;
+    text-align: center;
+    color: #f4f3f1;
+    font-size: clamp(58px, 8vw, 205px);
+    font-weight: 700;
+    line-height: .84;
+    letter-spacing: -.04em;
+    text-shadow:
+      0 .035em 0 #d7d7d5,
+      .025em .07em .025em rgba(52, 53, 52, .72),
+      0 .1em .1em rgba(33, 34, 33, .25);
+  }
+  .stitch-upper-copy .headline span { display: block; }
 
   /* 第 12/13 个播放步骤共用一个舞台：论文截图从右下角展开。 */
   .step-slide img.step-overlay {
@@ -569,13 +615,20 @@
     const img = document.createElement('img');
     img.className = 'main';
     img.src = i === 1
-      ? 'assets/generated/slide-1-top-extended.png'
+      ? 'assets/generated/slide-1-stitched-v2.png'
       : i === 56
         ? 'assets/generated/slide-56-no-baseline.png'
         : 'assets/slides/slide-' + i + '.webp';
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
     s.appendChild(img);
+    if (i === 1) {
+      const copy = document.createElement('div');
+      copy.className = 'stitch-upper-copy';
+      copy.innerHTML = '<div class="corner l">Harness</div><div class="corner r">Engineering</div>' +
+        '<div class="headline"><span>人类早期</span><span>驯服野马指南</span></div>';
+      s.appendChild(copy);
+    }
     if (i === 11) {
       s.classList.add('step-slide');
       const overlay = document.createElement('img');
