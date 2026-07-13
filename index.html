@@ -104,6 +104,245 @@
   }
   body.fit-contain .step-slide img.step-overlay { object-fit: contain; }
 
+  /* ========== 第 8 页：前文沿既有轨迹汇聚，并改变下一词候选分布 ========== */
+  .context-impact-slide img.main { z-index: 1; }
+  .context-impact-slide .impact-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .impact-overlay .impact-source {
+    fill: rgba(244, 237, 196, .045);
+    stroke: none;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .impact-overlay .article-viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    color: rgba(246, 244, 235, .84);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .impact-overlay .article-page {
+    position: absolute;
+    left: 95px;
+    top: 0;
+    width: 445px;
+    height: 100%;
+    font-size: 23px;
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: .05px;
+    text-shadow: 0 0 5px rgba(255, 248, 220, .08);
+    opacity: 0;
+    transform: translateY(105px) scale(1.28);
+    transform-origin: 50% 86%;
+  }
+  .impact-overlay .prompt-large {
+    position: absolute;
+    left: 0;
+    top: 500px;
+    width: 100%;
+    padding: 0 34px;
+    color: rgba(250, 248, 240, .96);
+    font-size: 30px;
+    line-height: 1.3;
+    text-align: left;
+    transform-origin: 50% 50%;
+  }
+  .impact-overlay .prompt-lead {
+    display: block;
+    margin-bottom: 22px;
+    color: rgba(246, 244, 235, .82);
+  }
+  .impact-overlay .prompt-conclusion { white-space: nowrap; }
+  .impact-overlay .circled-word {
+    display: inline-block;
+    margin: 0 3px;
+    padding: 0 7px 2px;
+    border: 2px solid #eee96a;
+    border-radius: 999px;
+    line-height: 1;
+    transform: rotate(-3deg);
+  }
+  .impact-overlay .article-paragraph {
+    margin: 0 0 27px;
+    opacity: .84;
+  }
+  .impact-overlay .article-paragraph.context-old { opacity: .25; }
+  .context-impact-slide.impact-expanded .article-paragraph.context-old {
+    animation: context-brighten 8.35s .12s ease both;
+  }
+  .impact-overlay .article-prompt {
+    margin: 2px 0 0;
+    color: rgba(250, 248, 240, .92);
+    font-size: 24px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .impact-overlay .token-blank {
+    display: inline-block;
+    width: 72px;
+    margin-left: 8px;
+    border-bottom: 3px solid #eee96a;
+    transform: translateY(-3px);
+  }
+  .context-impact-slide.impact-expanded .prompt-large {
+    animation: prompt-collapse 1.02s cubic-bezier(.22,.75,.2,1) both;
+  }
+  .context-impact-slide.impact-expanded .article-page {
+    animation: article-zoom-sequence 8.35s .12s cubic-bezier(.22,.75,.2,1) both;
+  }
+  /* 第 8 页直接播放原讲解片段，避免用静态图或近似线条复刻。 */
+  .context-impact-slide {
+    background: #000;
+  }
+  .context-impact-slide > img.main,
+  .context-impact-slide > img.ambient {
+    display: none;
+  }
+  .attention-title {
+    position: absolute;
+    left: 5.7%;
+    top: 49%;
+    z-index: 2;
+    color: #f7f6f1;
+    font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+    font-size: clamp(58px, 7.15vw, 132px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -.04em;
+    white-space: nowrap;
+    transform: translateY(-50%);
+  }
+  .context-impact-slide .impact-overlay { display: none; }
+  .attention-video-shell {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    overflow: hidden;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .28s ease;
+  }
+  .context-impact-slide.impact-playing .attention-video-shell {
+    opacity: 1;
+  }
+  .attention-video-shell video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #000;
+  }
+  .impact-overlay .impact-flow {
+    fill: none;
+    stroke: rgba(244, 237, 196, .78);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-dasharray: 2600;
+    stroke-dashoffset: 2600;
+    opacity: 0;
+  }
+  .impact-overlay .impact-flow.cool {
+    stroke: rgba(204, 219, 190, .62);
+    stroke-width: 1.25;
+  }
+  .impact-overlay .impact-particle {
+    fill: #fff7c7;
+    opacity: 0;
+  }
+  .impact-overlay .impact-bottleneck {
+    fill: none;
+    stroke: rgba(255, 246, 204, .9);
+    stroke-width: 3;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .impact-overlay .impact-output {
+    fill: rgba(247, 240, 202, .12);
+    stroke: rgba(247, 240, 202, .68);
+    stroke-width: 1.5;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .impact-overlay .impact-output-bracket {
+    fill: none;
+    stroke: rgba(247, 240, 202, .7);
+    stroke-width: 2;
+    stroke-linecap: round;
+    opacity: 0;
+  }
+  .context-impact-slide.impact-playing .impact-source {
+    animation: impact-source 1.15s 7.8s ease-out both;
+  }
+  .context-impact-slide.impact-playing .impact-source.s2 { animation-delay: 8.05s; }
+  .context-impact-slide.impact-playing .impact-source.s3 { animation-delay: 1.05s; }
+  .context-impact-slide.impact-playing .impact-source.s4 { animation-delay: 1.09s; }
+  .context-impact-slide.impact-playing .impact-flow {
+    animation: impact-flow var(--duration, 3.1s) var(--delay, .75s) cubic-bezier(.2,.68,.24,1) both;
+  }
+  .context-impact-slide.impact-playing .impact-bottleneck {
+    animation: impact-bottleneck .9s 2.55s ease-out both;
+  }
+  .context-impact-slide.impact-playing .impact-output {
+    animation: impact-output .72s var(--delay, 3.05s) cubic-bezier(.2,.8,.2,1) both;
+  }
+  .context-impact-slide.impact-playing .impact-output-bracket {
+    animation: impact-bracket 1.15s 3.8s ease-out both;
+  }
+  @keyframes impact-source {
+    0% { opacity: 0; transform: scale(.92); }
+    28% { opacity: .95; transform: scale(1.03); }
+    100% { opacity: .18; transform: scale(1); }
+  }
+  @keyframes prompt-collapse {
+    0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    72% { opacity: .34; }
+    100% { opacity: 0; transform: translateY(122px) scale(.66); filter: blur(1px); }
+  }
+  @keyframes article-zoom-sequence {
+    0% { opacity: 0; transform: translateY(105px) scale(1.28); filter: blur(2px); }
+    12% { opacity: 1; transform: translateY(105px) scale(1.28); filter: blur(0); }
+    66% { opacity: 1; transform: translateY(105px) scale(1.28); filter: blur(0); }
+    86%, 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  }
+  @keyframes context-brighten {
+    0%, 66% { opacity: .25; }
+    86%, 100% { opacity: .8; }
+  }
+  @keyframes impact-flow {
+    0% { opacity: 0; stroke-dashoffset: 2600; }
+    16% { opacity: .72; }
+    78% { opacity: .5; }
+    100% { opacity: 0; stroke-dashoffset: 0; }
+  }
+  @keyframes impact-bottleneck {
+    0% { opacity: 0; transform: scale(.55); }
+    45% { opacity: 1; transform: scale(1.28); }
+    100% { opacity: .18; transform: scale(1); }
+  }
+  @keyframes impact-output {
+    0% { opacity: 0; transform: translateX(-8px) scaleX(.72); }
+    48% { opacity: .9; transform: translateX(4px) scaleX(1.1); }
+    100% { opacity: .16; transform: translateX(0) scaleX(1); }
+  }
+  @keyframes impact-bracket {
+    0% { opacity: 0; stroke-dasharray: 0 520; }
+    100% { opacity: .82; stroke-dasharray: 520 0; }
+  }
+
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
   .final-map-slide img.main { z-index: 1; }
   .final-map-slide .map-reveal {
@@ -172,6 +411,14 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .step-slide img.step-overlay { transition-duration: .01ms; }
+    .context-impact-slide.impact-playing .impact-source,
+    .context-impact-slide.impact-playing .impact-flow,
+    .context-impact-slide.impact-playing .impact-bottleneck,
+    .context-impact-slide.impact-playing .impact-output,
+    .context-impact-slide.impact-playing .impact-output-bracket { animation-duration: .01ms; animation-delay: 0s; }
+    .impact-overlay .impact-particle { display: none; }
+    .context-impact-slide.impact-expanded .prompt-large,
+    .context-impact-slide.impact-expanded .article-page { animation-duration: .01ms; animation-delay: 0s; }
     .final-map-slide.is-revealing .map-reveal,
     .final-map-slide.is-revealed .map-reveal { transition-duration: .01ms; }
     .final-map-slide.is-revealing .map-glow { animation-duration: .01ms; }
@@ -576,6 +823,103 @@
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
     s.appendChild(img);
+    if (i === 7) {
+      s.classList.add('context-impact-slide');
+      const attentionTitle = document.createElement('div');
+      attentionTitle.className = 'attention-title';
+      attentionTitle.innerHTML = '预测<br>下一个词汇';
+      s.appendChild(attentionTitle);
+      const videoShell = document.createElement('div');
+      videoShell.className = 'attention-video-shell';
+      videoShell.innerHTML = '<video class="attention-video" src="assets/generated/attention-3m59-4m29.mp4" muted playsinline preload="metadata" aria-label="Attention mechanism animation, 3:59 to 4:29"></video>';
+      s.appendChild(videoShell);
+      const impact = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      impact.setAttribute('class', 'impact-overlay');
+      impact.setAttribute('viewBox', '0 0 2560 1440');
+      impact.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      impact.setAttribute('aria-hidden', 'true');
+      impact.innerHTML =
+        '<defs>' +
+          '<filter id="impact-soft-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+          '<filter id="impact-strong-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+        '</defs>' +
+        '<foreignObject x="1475" y="48" width="640" height="875">' +
+          '<div xmlns="http://www.w3.org/1999/xhtml" class="article-viewport">' +
+            '<div class="prompt-large">' +
+              '<span class="prompt-lead">Sarah compared the muddy footprints, the missing watch, and every suspect’s alibi. One clue finally connected the entire story.</span>' +
+              '<span class="prompt-conclusion">Therefore, the murderer <span class="circled-word">was</span><span class="token-blank"></span></span>' +
+            '</div>' +
+            '<div class="article-page">' +
+              '<p class="article-paragraph context-old">The guests were Adam, Jonathan’s business partner; Bella, Jonathan’s estranged sister; Claire, the caretaker of the mansion; and Derek, an old college friend. Sarah began her investigation, noting the muddy footprints that led to Jonathan’s room, the absence of Adam’s trademark pocket watch, Bella’s nervous fidgeting, and Derek’s calm demeanor.</p>' +
+              '<p class="article-paragraph context-old">Adam’s motive was strong, but his alibi was solid. Bella, despite her estrangement, revealed she had the opposite side of the secret diary. Claire had access to all rooms but lacked any visible dirt. Derek, however, had been near Jonathan’s room, his whereabouts unaccounted for.</p>' +
+              '<p class="article-paragraph">Finally, Sarah dusted for prints and found a faint mark on the outside window ledge matching Derek’s shoe. “Why would you climb out the window?” she asked. Under a loose floorboard, Sarah found the missing pocket watch engraved with his initials. The truth was clear: he came to steal the watch.</p>' +
+              '<p class="article-prompt">Therefore, the murderer was<span class="token-blank"></span></p>' +
+            '</div>' +
+          '</div>' +
+        '</foreignObject>' +
+        '<ellipse class="impact-source s1" cx="1745" cy="150" rx="190" ry="108"/>' +
+        '<ellipse class="impact-source s2" cx="1745" cy="330" rx="190" ry="118"/>' +
+        '<ellipse class="impact-source s3" cx="1750" cy="625" rx="195" ry="130"/>' +
+        '<circle class="impact-bottleneck" cx="1940" cy="805" r="28"/>';
+
+      const sourceBands = [
+        { y: 78, rows: 7, step: 23 },
+        { y: 248, rows: 8, step: 22 },
+        { y: 525, rows: 9, step: 22 }
+      ];
+      const vectorYs = [1004, 1042, 1080, 1118, 1156, 1194, 1232, 1270, 1308, 1346, 1384];
+      for (let line = 0; line < 42; line++) {
+        const localContext = line < 12;
+        const band = localContext ? sourceBands[2] : sourceBands[(line - 12) % sourceBands.length];
+        const sourceX = 1580 + ((line * 83) % 355);
+        const sourceY = band.y + ((line * 5) % band.rows) * band.step;
+        const targetX = 1748 + ((line * 17) % 46);
+        const targetY = vectorYs[line % vectorYs.length];
+        const leftSide = line % 2 === 0;
+        const control1X = leftSide ? 1420 - (line % 6) * 36 : 2075 + (line % 6) * 34;
+        const control2X = leftSide ? 1515 + (line % 4) * 28 : 1990 - (line % 4) * 26;
+        const pathData = 'M' + sourceX + ' ' + sourceY +
+          ' C' + control1X + ' ' + (sourceY + 150) +
+          ' ' + control2X + ' ' + (targetY - 170) +
+          ' ' + targetX + ' ' + targetY;
+        const delay = localContext
+          ? 1.45 + line * .105
+          : 8.15 + ((line - 12) % 10) * .085 + Math.floor((line - 12) / 10) * .12;
+        const duration = 4.8 + (line % 5) * .12;
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('class', 'impact-flow ' + (localContext ? 'local-flow' : 'global-flow') + (line % 3 === 1 ? ' cool' : ''));
+        path.setAttribute('d', pathData);
+        path.style.setProperty('--delay', delay + 's');
+        path.style.setProperty('--duration', duration + 's');
+        impact.appendChild(path);
+
+        if (line % 3 === 0) {
+          const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          particle.setAttribute('class', 'impact-particle');
+          particle.setAttribute('r', String(3.5 + (line % 4) * .55));
+          particle.innerHTML =
+            '<animateMotion dur="' + duration + 's" begin="' + delay + 's" fill="freeze" path="' + pathData + '"/>' +
+            '<animate attributeName="opacity" values="0;.9;.9;0" keyTimes="0;.1;.84;1" dur="' + duration + 's" begin="' + delay + 's" fill="freeze"/>';
+          impact.appendChild(particle);
+        }
+      }
+      vectorYs.forEach(function (y, index) {
+        const row = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        row.setAttribute('class', 'impact-output');
+        row.setAttribute('x', '1732');
+        row.setAttribute('y', String(y - 14));
+        row.setAttribute('width', '82');
+        row.setAttribute('height', '28');
+        row.setAttribute('rx', '5');
+        row.style.setProperty('--delay', (2.35 + index * .12) + 's');
+        impact.appendChild(row);
+      });
+      const vectorBracket = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      vectorBracket.setAttribute('class', 'impact-output-bracket');
+      vectorBracket.setAttribute('d', 'M1818 982 h18 v424 h-18');
+      impact.appendChild(vectorBracket);
+      s.appendChild(impact);
+    }
     if (i === 11) {
       s.classList.add('step-slide');
       const overlay = document.createElement('img');
@@ -601,6 +945,8 @@
   let current = 0;
   const finalMapSlide = document.querySelector('.final-map-slide');
   const stepSlide = document.querySelector('.step-slide');
+  const impactSlide = document.querySelector('.context-impact-slide');
+  const attentionVideo = impactSlide.querySelector('.attention-video');
   let mapRevealTimer = null;
 
   function clamp(n) { return Math.max(0, Math.min(TOTAL - 1, n)); }
@@ -610,6 +956,7 @@
     if (n === current && !instant) return;
     const previous = current;
     current = n;
+    resetImpact();
     if (current !== TOTAL - 1) resetMapReveal();
     const promptState = current === 28 ? 'trend' : 'removed';
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
@@ -631,6 +978,28 @@
     finalMapSlide.classList.remove('is-revealing', 'is-revealed');
   }
 
+  function resetImpact() {
+    impactSlide.classList.remove('impact-playing', 'impact-expanded');
+    attentionVideo.pause();
+    attentionVideo.currentTime = 0;
+    const overlay = impactSlide.querySelector('.impact-overlay');
+    if (overlay && overlay.pauseAnimations) overlay.pauseAnimations();
+  }
+
+  function playImpact() {
+    impactSlide.classList.remove('impact-playing', 'impact-expanded');
+    void impactSlide.offsetWidth;
+    attentionVideo.currentTime = 0;
+    attentionVideo.play().catch(function () {});
+    impactSlide.classList.add('impact-playing', 'impact-expanded');
+    const overlay = impactSlide.querySelector('.impact-overlay');
+    if (overlay && overlay.pauseAnimations) {
+      overlay.pauseAnimations();
+      overlay.setCurrentTime(0);
+      overlay.unpauseAnimations();
+    }
+  }
+
   function playMapReveal() {
     clearTimeout(mapRevealTimer);
     finalMapSlide.classList.remove('is-revealing', 'is-revealed');
@@ -643,8 +1012,20 @@
   }
 
   function advance() {
+    if (current === 7 && !impactSlide.classList.contains('impact-expanded')) {
+      playImpact();
+      return;
+    }
     if (current === TOTAL - 1) playMapReveal();
     else go(current + 1);
+  }
+
+  function retreat() {
+    if (current === 7 && impactSlide.classList.contains('impact-expanded')) {
+      resetImpact();
+      return;
+    }
+    go(current - 1);
   }
 
   // 填充/适应 切换（F 键），默认适应并记住后续选择
@@ -659,6 +1040,9 @@
   }
   function setFit(mode, silent) {
     document.body.classList.toggle('fit-contain', mode === 'contain');
+    document.querySelectorAll('.impact-overlay').forEach(function (overlay) {
+      overlay.setAttribute('preserveAspectRatio', mode === 'contain' ? 'xMidYMid meet' : 'xMidYMid slice');
+    });
     localStorage.setItem(FIT_STORAGE_KEY, mode);
     if (!silent) showToast(mode === 'contain' ? '适应：完整显示，可能有边' : '填充：铺满屏幕，边缘可能裁切');
   }
@@ -671,11 +1055,23 @@
       setFit(document.body.classList.contains('fit-contain') ? 'cover' : 'contain');
       return;
     }
+    if (e.key === ' ' && current === 7 && impactSlide.classList.contains('impact-expanded')) {
+      e.preventDefault();
+      if (attentionVideo.paused) {
+        if (attentionVideo.ended) attentionVideo.currentTime = 0;
+        attentionVideo.play().catch(function () {});
+        showToast('继续播放');
+      } else {
+        attentionVideo.pause();
+        showToast('已暂停');
+      }
+      return;
+    }
     switch (e.key) {
       case 'ArrowDown': case 'PageDown': case ' ': case 'Enter':
         e.preventDefault(); advance(); break;
       case 'ArrowUp': case 'PageUp':
-        e.preventDefault(); go(current - 1); break;
+        e.preventDefault(); retreat(); break;
       case 'Home':
         e.preventDefault(); go(0); break;
       case 'End':
@@ -690,7 +1086,7 @@
     if (wheelLock || Math.abs(e.deltaY) < 12) return;
     wheelLock = true;
     if (e.deltaY > 0) advance();
-    else go(current - 1);
+    else retreat();
     setTimeout(function () { wheelLock = false; }, 620);
   }, { passive: false });
 
@@ -704,7 +1100,7 @@
     const dy = touchY - e.changedTouches[0].clientY;
     if (Math.abs(dy) > 40) {
       if (dy > 0) advance();
-      else go(current - 1);
+      else retreat();
     }
     touchY = null;
   }, { passive: true });
