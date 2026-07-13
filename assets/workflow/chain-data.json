@@ -1,0 +1,170 @@
+{
+  "real": {
+    "summary": {
+      "agents": 81,
+      "zones": 11,
+      "findings": 70,
+      "confirmed": 36,
+      "rejected": 34,
+      "tokens": 3640435,
+      "toolCalls": 1890
+    },
+    "userPrompt": "读一下这个示例项目，找出要修的漏洞、缺陷、重构点，发现问题就修一下",
+    "pieces": {
+      "zones": "const ZONES = [\n  {\n    key: 'eval-runner',\n    label: '评估编排核心',\n    files: [\"src/core/eval-runner.ts\"],\n    focus: '步骤树、事件映射、超时兜底、并发状态机一致性',\n  },\n  {\n    key: 'http-routes',\n    label: 'HTTP 入口与路由',\n    files: [\"src/server.ts\", \"src/routes/approvals.ts\", \"src/routes/release.ts\", \"src/ui/html.ts\"],\n    focus: '路由鉴权挂载顺序、输入校验、路径穿越、未捕获异常、Host header 语义',\n  },\n  {\n    key: 'auth-gate',\n    label: '鉴权与门禁（安全关键）',\n    files: [\"src/auth/session.ts\", \"src/auth/group-gate.ts\", \"src/auth/search-gate.ts\", \"src/audit/audit-log.ts\"],\n    focus: 'token 校验时序安全、fail-open vs fail-close、CSRF、身份伪造、审计脱敏',\n  },\n  {\n    key: 'state-config',\n    label: '持久化/状态/配置',\n    files: [\"src/state/task-store.ts\", \"src/config.ts\", \"src/util.ts\"],\n    focus: '并发写文件竞态、JSON 损坏恢复、配置解析回退、原子写、锁',\n  },\n  {\n    key: 'external-io',\n    label: '外部 IO（消息/文档/播报）',\n    files: [\"src/integrations/chat.ts\", \"src/integrations/docs.ts\", \"src/notify/release-announce.ts\"],\n    focus: 'await 缺失导致推送丢失、重试/幂等、token 过期处理、网络错误吞没',\n  },\n  {\n    key: 'pipeline-batch',\n    label: '抓取批处理与资源管理',\n    files: [\"pipeline/run-batch.ts\", \"pipeline/run-one.ts\", \"pipeline/collect/collect-one.ts\", \"shared/proc.ts\"],\n    focus: '浏览器进程/上下文泄漏、fetch 无超时挂起、孤儿进程、并发名额争抢',\n  },\n  {\n    key: 'pipeline-eval',\n    label: '终判/规则/LLM 评估',\n    files: [\"pipeline/evaluate/final-judge.ts\", \"pipeline/evaluate/rules.ts\", \"pipeline/evaluate/landing-probe.ts\"],\n    focus: '子进程超时与进程树杀、规则判定口径、结果解析健壮性、统计漏算',\n  },\n  {\n    key: 'pipeline-write',\n    label: '写表与共享工具',\n    files: [\"pipeline/write/write-sheet.ts\", \"pipeline/write/render-report.ts\", \"shared/io.ts\"],\n    focus: '写表行定位错位、并发 addSheet 竞态、部分失败处理、目标行计算',\n  },\n  {\n    key: 'promote',\n    label: '发布晋级与重启',\n    files: [\"scripts/promote.ts\", \"scripts/safe-restart.ts\"],\n    focus: '受保护分支直推、预演合并测试还原、并发锁、重启前任务检查、事务幂等',\n  },\n  {\n    key: 'scripts-fetch',\n    label: '抓取数据脚本',\n    files: [\"scripts/create-fetch-task.ts\", \"scripts/chunked-resume.ts\", \"scripts/fetch-review-top3.ts\"],\n    focus: 'fetch 无超时、查询拼接注入、cookie 过期、并发浏览器堆积、错误吞没',\n  },\n  {\n    key: 'frontend',\n    label: '前端逻辑',\n    files: [\"public/app.ts\", \"public/dashboard.ts\", \"public/board-schema.ts\"],\n    focus: 'XSS、轮询泄漏、状态不一致、错误未处理的 fetch、内存泄漏',\n  },\n]",
+      "findPrompt": "function findPrompt(zone) {\n  return `你是资深代码审查者，正在审计「示例评估看板项目」（公开脱敏示例）。\n主链路：读取任务 → 抓取页面/接口结果 → 规则+LLM 终判 → 写回报告。\n项目根目录：${ROOT}\n\n【你负责的审查分区：${zone.label}】\n请用 Read 工具完整读取以下文件（必要时 Grep 它们调用/被调用的上下文，但审查范围聚焦这些文件）：\n${zone.files.map(f => `  - ${ROOT}/${f}`).join('\\n')}\n\n【重点关注】${zone.focus}\n\n【要求】\n- 找真实的漏洞、缺陷、需重构处。优先正确性 bug、安全漏洞、资源泄漏、并发竞态、错误处理缺口。\n- 每条发现必须引用具体代码作为 evidence（行号 + 关键片段），不能泛泛而谈、不能臆测。\n- 宁缺毋滥：没把握成立的不要报。\n\n返回结构化 findings 数组。`\n}",
+      "verifyPrompt": "function verifyPrompt(f) {\n  return `你是严格的代码审查验证者，任务是【对抗性地验证】下面这条审查发现是否真实成立。默认怀疑它是误报，除非代码证据确凿。\n项目根目录：${ROOT}\n\n【待验证的发现】\n标题：${f.title}\n文件：${f.file}\n行号：${f.line}\n严重度：${f.severity}（${f.category}）\n描述：${f.description}\n建议：${f.suggestion}\n\n【你必须做的】\n1. 用 Read 工具打开 ${ROOT}/${f.file}，定位到 ${f.line} 附近的示例代码。\n2. 核对上下文是否支持这个判断。\n3. 给出裁决：isReal=true 仅当证据确凿。`\n}",
+      "pipeline": "const zoneResults = await pipeline(\n  ZONES,\n  (zone) => agent(findPrompt(zone), {\n    label: `审:${zone.key}`,\n    phase: 'Find',\n    schema: FINDINGS_SCHEMA,\n    agentType: 'Explore',\n  }).then(r => ({ zone, findings: (r && r.findings) || [] })),\n  (res) => parallel(res.findings.map(f => () =>\n    agent(verifyPrompt(f), {\n      label: `验:${f.file.split('/').pop()}:${f.line}`,\n      phase: 'Verify',\n      schema: VERDICT_SCHEMA,\n      agentType: 'Explore',\n    }).then(v => ({ ...f, verdict: v }))\n  ))\n)",
+      "fschema": "const FINDINGS_SCHEMA = {\n  type: 'object',\n  properties: { findings: { type: 'array', items: { type: 'object' } } },\n  required: ['findings'],\n}",
+      "vschema": "const VERDICT_SCHEMA = {\n  type: 'object',\n  properties: { isReal: { type: 'boolean' }, confidence: { type: 'string' }, reasoning: { type: 'string' } },\n  required: ['isReal', 'confidence', 'reasoning'],\n}"
+    },
+    "zonesFull": [
+      {
+        "key": "eval-runner",
+        "label": "评估编排核心",
+        "files": [
+          "src/core/eval-runner.ts"
+        ],
+        "focus": "步骤树、事件映射、超时兜底、并发状态机一致性",
+        "confirmed": 4,
+        "rejected": 7
+      },
+      {
+        "key": "http-routes",
+        "label": "HTTP 入口与路由",
+        "files": [
+          "src/server.ts",
+          "src/routes/approvals.ts",
+          "src/routes/release.ts",
+          "src/ui/html.ts"
+        ],
+        "focus": "路由鉴权挂载顺序、输入校验、路径穿越、未捕获异常、Host header 语义",
+        "confirmed": 3,
+        "rejected": 0
+      },
+      {
+        "key": "auth-gate",
+        "label": "鉴权与门禁（安全关键）",
+        "files": [
+          "src/auth/session.ts",
+          "src/auth/group-gate.ts",
+          "src/auth/search-gate.ts",
+          "src/audit/audit-log.ts"
+        ],
+        "focus": "token 校验时序安全、fail-open vs fail-close、CSRF、身份伪造、审计脱敏",
+        "confirmed": 2,
+        "rejected": 1
+      },
+      {
+        "key": "state-config",
+        "label": "持久化/状态/配置",
+        "files": [
+          "src/state/task-store.ts",
+          "src/config.ts",
+          "src/util.ts"
+        ],
+        "focus": "并发写文件竞态、JSON 损坏恢复、配置解析回退、原子写、锁",
+        "confirmed": 3,
+        "rejected": 2
+      },
+      {
+        "key": "external-io",
+        "label": "外部 IO（消息/文档/播报）",
+        "files": [
+          "src/integrations/chat.ts",
+          "src/integrations/docs.ts",
+          "src/notify/release-announce.ts"
+        ],
+        "focus": "await 缺失导致推送丢失、重试/幂等、token 过期处理、网络错误吞没",
+        "confirmed": 4,
+        "rejected": 3
+      },
+      {
+        "key": "pipeline-batch",
+        "label": "抓取批处理与资源管理",
+        "files": [
+          "pipeline/run-batch.ts",
+          "pipeline/run-one.ts",
+          "pipeline/collect/collect-one.ts",
+          "shared/proc.ts"
+        ],
+        "focus": "浏览器进程/上下文泄漏、fetch 无超时挂起、孤儿进程、并发名额争抢",
+        "confirmed": 4,
+        "rejected": 6
+      },
+      {
+        "key": "pipeline-eval",
+        "label": "终判/规则/LLM 评估",
+        "files": [
+          "pipeline/evaluate/final-judge.ts",
+          "pipeline/evaluate/rules.ts",
+          "pipeline/evaluate/landing-probe.ts"
+        ],
+        "focus": "子进程超时与进程树杀、规则判定口径、结果解析健壮性、统计漏算",
+        "confirmed": 2,
+        "rejected": 3
+      },
+      {
+        "key": "pipeline-write",
+        "label": "写表与共享工具",
+        "files": [
+          "pipeline/write/write-sheet.ts",
+          "pipeline/write/render-report.ts",
+          "shared/io.ts"
+        ],
+        "focus": "写表行定位错位、并发 addSheet 竞态、部分失败处理、目标行计算",
+        "confirmed": 3,
+        "rejected": 0
+      },
+      {
+        "key": "promote",
+        "label": "发布晋级与重启",
+        "files": [
+          "scripts/promote.ts",
+          "scripts/safe-restart.ts"
+        ],
+        "focus": "受保护分支直推、预演合并测试还原、并发锁、重启前任务检查、事务幂等",
+        "confirmed": 4,
+        "rejected": 4
+      },
+      {
+        "key": "scripts-fetch",
+        "label": "抓取数据脚本",
+        "files": [
+          "scripts/create-fetch-task.ts",
+          "scripts/chunked-resume.ts",
+          "scripts/fetch-review-top3.ts"
+        ],
+        "focus": "fetch 无超时、查询拼接注入、cookie 过期、并发浏览器堆积、错误吞没",
+        "confirmed": 2,
+        "rejected": 5
+      },
+      {
+        "key": "frontend",
+        "label": "前端逻辑",
+        "files": [
+          "public/app.ts",
+          "public/dashboard.ts",
+          "public/board-schema.ts"
+        ],
+        "focus": "XSS、轮询泄漏、状态不一致、错误未处理的 fetch、内存泄漏",
+        "confirmed": 5,
+        "rejected": 3
+      }
+    ],
+    "worked": {
+      "finding": {
+        "title": "Token comparison uses direct equality in write gate",
+        "file": "src/core/eval-runner.ts",
+        "line": "40",
+        "severity": "high",
+        "category": "security",
+        "description": "脱敏示例：该发现展示 workflow 如何携带证据、文件、行号和建议；内容已替换为公开示例，不对应真实内部代码。",
+        "suggestion": "补充边界检查、超时/清理逻辑，或将关键校验封装为可复用 helper。",
+        "verify_confidence": "high",
+        "verify_reasoning": "脱敏示例：verify agent 独立读取相关文件后确认该问题成立，并引用了示例代码路径与行号。"
+      },
+      "verifyPromptReal": "你是严格的代码审查验证者，任务是【对抗性地验证】下面这条审查发现是否真实成立。\n项目根目录：/workspace/sample-agent-app\n\n标题：Token comparison uses direct equality in write gate\n文件：src/core/eval-runner.ts\n行号：40\n描述：脱敏示例：该发现展示 workflow 如何携带证据、文件、行号和建议；内容已替换为公开示例，不对应真实内部代码。"
+    }
+  }
+}
