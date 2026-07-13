@@ -28,7 +28,17 @@ python3 serve.py 8092
 - `assets/slides/slide-N.webp` — 56 页原稿（2560×1440，源自 5760×3240 PNG 导出）
 - `assets/slides/blur-N.webp` — 各页氛围模糊底图（160px）
 - `assets/cover/` — 扉页分层素材：`cover-bg`（AI 修复的干净背景）、`cover-laptop`（无马电脑帧）、`cover-horse`（Keynote 原稿抽出的马图层，透明）。后两张当前未使用，留作日后动效
+- `assets/fonts/` — 英文字体 Libre Baskerville 及其 OFL 许可证
 - 素材源文件：`~/Downloads/猫分享/`（截图）与 `~/Desktop/猫分享 (1).key`（Keynote 原稿，`Data/` 内含全部图层素材）
+
+## 字体规范
+
+- 中文默认字体：**锐字云字库锐宋粗**（锐字云字库锐宋粗 GBK）。该字体属于商业字体，商用需取得版权方授权，因此字体文件不提交到仓库；页面通过 `local()` 使用设备上已安装且已获授权的字体，未安装时回退到 macOS 的 `Songti SC` / `STSong`。
+- 英文默认字体：**Libre Baskerville Bold**（`font-weight: 700`）。项目内置 Google Fonts 发布的可变字体 `assets/fonts/LibreBaskerville-wght.ttf`，授权协议为 SIL Open Font License 1.1，许可证见 `assets/fonts/OFL-Libre-Baskerville.txt`。
+- 中英文混排统一使用 CSS 字体族 `Deck Serif`。通过 `unicode-range` 分流：中文字符使用锐宋粗，拉丁字符使用 Libre Baskerville，避免中文字体自带的西文字形抢占英文排版。
+- 页码、操作提示等功能性 UI 可以继续使用系统无衬线字体，不受正文与标题字体规范限制。
+
+如需在新设备上获得一致的中文显示效果，请先安装已合法授权的“锐字云字库锐宋粗 GBK”，然后刷新页面；无需修改代码。
 
 ## 待办
 
