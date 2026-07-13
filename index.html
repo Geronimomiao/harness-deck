@@ -184,7 +184,8 @@
     user-select: none;
     -webkit-user-drag: none;
   }
-  body.fit-contain .cover .layer { object-fit: contain; }
+  /* 封面标题是独立 DOM 图层，背景始终铺满，不跟随全局“适应”模式留边。 */
+  body.fit-contain .cover .layer { object-fit: cover; }
 
   /* ========== System Prompt 趋势（第 29–30 页）：同一组件的两种状态 ========== */
   .prompt-slide {
