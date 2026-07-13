@@ -74,6 +74,29 @@
   body.fit-contain .slide img.main { object-fit: contain; }
   body .slide.edge-fill img.main { object-fit: cover; }
 
+  /* 第 12/13 个播放步骤共用一个舞台：论文截图从右下角展开。 */
+  .step-slide img.step-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    clip-path: inset(100% 0 0 100% round 18px);
+    filter: drop-shadow(-12px -10px 22px rgba(0, 0, 0, 0));
+    transition:
+      clip-path .72s cubic-bezier(.22, 1, .36, 1),
+      filter .72s ease;
+    z-index: 2;
+  }
+  .step-slide.step-revealed img.step-overlay {
+    clip-path: inset(0 0 0 0 round 0);
+    filter: drop-shadow(-12px -10px 22px rgba(0, 0, 0, .22));
+  }
+  body.fit-contain .step-slide img.step-overlay { object-fit: contain; }
+
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
   .final-map-slide img.main { z-index: 1; }
   .final-map-slide .map-reveal {
@@ -141,6 +164,7 @@
     100% { opacity: 0; transform: translate(-50%, -50%) scale(5.8); }
   }
   @media (prefers-reduced-motion: reduce) {
+    .step-slide img.step-overlay { transition-duration: .01ms; }
     .final-map-slide.is-revealing .map-reveal,
     .final-map-slide.is-revealed .map-reveal { transition-duration: .01ms; }
     .final-map-slide.is-revealing .map-glow { animation-duration: .01ms; }
@@ -528,6 +552,9 @@
   }
 
   for (let i = 1; i <= IMAGES; i++) {
+    if (i === 12) {
+      continue;                 // slide-12 是 slide-11 的第二个播放状态
+    }
     if (i === 21) {
       continue;                 // 删除原第 22 页
     }
@@ -575,6 +602,15 @@
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
     s.appendChild(img);
+    if (i === 11) {
+      s.classList.add('step-slide');
+      const overlay = document.createElement('img');
+      overlay.className = 'step-overlay';
+      overlay.src = 'assets/slides/slide-12.webp';
+      overlay.alt = '论文截图展开';
+      overlay.decoding = 'async';
+      s.appendChild(overlay);
+    }
     if (i === 56) {
       s.classList.add('final-map-slide');
       const reveal = document.createElement('div');
@@ -591,6 +627,7 @@
   let current = 0;
   let hintDismissed = false;
   const finalMapSlide = document.querySelector('.final-map-slide');
+  const stepSlide = document.querySelector('.step-slide');
   let mapRevealTimer = null;
 
   function clamp(n) { return Math.max(0, Math.min(TOTAL - 1, n)); }
@@ -605,9 +642,11 @@
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
     });
-    const physicalPage = current > 27 ? current - 1 : current;
+    stepSlide.classList.toggle('step-revealed', current >= 12);
+    const physicalPage = current - (current > 11 ? 1 : 0) - (current > 27 ? 1 : 0);
+    const swappingStepState = (previous === 11 || previous === 12) && (current === 11 || current === 12);
     const swappingPromptState = (previous === 27 || previous === 28) && (current === 27 || current === 28);
-    deck.style.transition = instant || swappingPromptState ? 'none' : '';
+    deck.style.transition = instant || swappingStepState || swappingPromptState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
