@@ -40,7 +40,6 @@
     filter: blur(28px) brightness(0.72) saturate(1.15);
     transform: scale(1.12);
   }
-
   .slide img.main {
     position: relative;
     width: 100%;
@@ -51,9 +50,27 @@
     -webkit-user-drag: none;
   }
   body.fit-contain .slide img.main { object-fit: contain; }
+  body .slide.edge-fill img.main { object-fit: cover; }
 
   /* 原稿本身是纯色背景的页面：保留整张内容图，外侧留白使用同色填充。 */
   .slide.solid-bg img.main { object-fit: contain; }
+  .slide.dual-bg { background: linear-gradient(to bottom, #fff 0 50%, #f4e9ea 50% 100%); }
+  .slide.gradient-bg {
+    background: linear-gradient(to bottom, #417a97 0%, #82adbc 50%, #c3dee2 100%);
+  }
+  @media (max-aspect-ratio: 16/9) {
+    .slide.gradient-bg {
+      background: linear-gradient(
+        to bottom,
+        #417a97 0 calc((100vh - 56.25vw) / 2),
+        #82adbc 50%,
+        #c3dee2 calc((100vh + 56.25vw) / 2) 100%
+      );
+    }
+  }
+  @media (min-aspect-ratio: 16/9) {
+    .slide.dual-bg { background: linear-gradient(to bottom, #fff 0 20.5%, #f4e9ea 20.5% 100%); }
+  }
 
   /* ========== 扉页（第 1 页）：背景 + 标题 ========== */
   .cover .layer {
@@ -348,7 +365,7 @@
   </section>
 </div>
 
-<div id="counter">1 / 57</div>
+<div id="counter">1 / 56</div>
 <div id="progress"><div id="progress-bar"></div></div>
 <div id="hint">↑ ↓ 方向键 / 滚轮 / 空格 翻页 · F 切换填充/适应</div>
 <div id="toast"></div>
@@ -356,15 +373,19 @@
 <script>
 (function () {
   const IMAGES = 56;            // 原稿截图页数
-  const TOTAL = IMAGES + 1;     // 加上扉页共 57 页
+  const TOTAL = IMAGES;         // 删除原第 22 页后，共 56 个播放步骤
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
   const hint = document.getElementById('hint');
+  const EDGE_FILL_SLIDES = new Set([4, 46]);
+  const GRADIENT_BACKGROUND_SLIDES = new Set([11, 12, 23, 49]);
   const SOLID_BACKGROUNDS = {
     5: '#dadada', 6: '#000000', 7: '#000000', 8: '#dadada', 9: '#dadada', 10: '#dadada',
     13: '#ffffff', 14: '#dadada', 15: '#dadada', 16: '#dadada', 17: '#dadada', 18: '#dadada',
-    19: '#dadada', 20: '#dadada', 22: '#f4efff', 24: '#f4e9ea', 25: '#dadada', 26: '#dadada',
+    19: '#dadada', 20: '#dadada', 22: '#f4efff',
+    24: 'dual',
+    25: '#dadada', 26: '#dadada',
     27: '#dadada', 30: '#dadada', 31: '#dadada', 32: '#ffffff', 33: '#dadada', 34: '#dadada',
     35: '#dadada', 36: '#ffffff', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
     41: '#dadada', 42: '#000000', 43: '#141412', 44: '#141412', 45: '#fbf9f5', 47: '#f3efea',
@@ -400,6 +421,9 @@
   }
 
   for (let i = 1; i <= IMAGES; i++) {
+    if (i === 21) {
+      continue;                 // 删除原第 22 页
+    }
     if (i === 28) {
       deck.appendChild(createPromptSlide());
       continue;
@@ -412,14 +436,25 @@
     const solidBackground = SOLID_BACKGROUNDS[i];
     if (solidBackground) {
       s.classList.add('solid-bg');
-      s.style.backgroundColor = solidBackground;
+      if (solidBackground === 'dual') {
+        s.classList.add('dual-bg');
+      } else {
+        s.style.background = solidBackground;
+      }
+    } else if (GRADIENT_BACKGROUND_SLIDES.has(i)) {
+      s.classList.add('gradient-bg');
     } else {
-      const ambient = document.createElement('img');
-      ambient.className = 'ambient';
-      ambient.src = 'assets/slides/blur-' + i + '.webp';
-      ambient.alt = '';
-      ambient.decoding = 'async';
-      s.appendChild(ambient);
+      const edgeFill = EDGE_FILL_SLIDES.has(i);
+      if (edgeFill) {
+        s.classList.add('edge-fill');
+      } else {
+        const ambient = document.createElement('img');
+        ambient.className = 'ambient';
+        ambient.src = 'assets/slides/blur-' + i + '.webp';
+        ambient.alt = '';
+        ambient.decoding = 'async';
+        s.appendChild(ambient);
+      }
     }
     const img = document.createElement('img');
     img.className = 'main';
@@ -440,12 +475,12 @@
     if (n === current && !instant) return;
     const previous = current;
     current = n;
-    const promptState = current === 29 ? 'trend' : 'removed';
+    const promptState = current === 28 ? 'trend' : 'removed';
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
     });
-    const physicalPage = current > 28 ? current - 1 : current;
-    const swappingPromptState = (previous === 28 || previous === 29) && (current === 28 || current === 29);
+    const physicalPage = current > 27 ? current - 1 : current;
+    const swappingPromptState = (previous === 27 || previous === 28) && (current === 27 || current === 28);
     deck.style.transition = instant || swappingPromptState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
