@@ -448,26 +448,6 @@
     transition: width 0.55s cubic-bezier(0.33, 1, 0.68, 1);
   }
 
-  /* 首屏操作提示 */
-  #hint {
-    position: fixed;
-    left: 50%;
-    bottom: 26px;
-    transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.75);
-    background: rgba(20, 20, 20, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(6px);
-    padding: 7px 16px;
-    border-radius: 999px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    z-index: 10;
-    pointer-events: none;
-    transition: opacity 0.8s ease;
-  }
-  #hint.hidden { opacity: 0; }
-
   /* 模式切换提示 */
   #toast {
     position: fixed;
@@ -504,7 +484,6 @@
 
 <div id="counter">1 / 56</div>
 <div id="progress"><div id="progress-bar"></div></div>
-<div id="hint">↑ ↓ 方向键 / 滚轮 / 空格 翻页 · F 切换填充/适应</div>
 <div id="toast"></div>
 
 <script>
@@ -514,7 +493,6 @@
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
-  const hint = document.getElementById('hint');
   const EDGE_FILL_SLIDES = new Set([4, 46, 49]);
   const GRADIENT_BACKGROUND_SLIDES = new Set([11, 12, 23]);
   const STITCH_SLIDES = { 1: 'stitch-upper', 2: 'stitch-lower' };
@@ -638,7 +616,6 @@
   }
 
   let current = 0;
-  let hintDismissed = false;
   const finalMapSlide = document.querySelector('.final-map-slide');
   const stepSlide = document.querySelector('.step-slide');
   let mapRevealTimer = null;
@@ -664,10 +641,6 @@
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
     history.replaceState(null, '', '#' + (current + 1));
-    if (!hintDismissed && current > 0) {
-      hintDismissed = true;
-      hint.classList.add('hidden');
-    }
   }
 
   function resetMapReveal() {
@@ -760,10 +733,6 @@
   });
   const start = parseInt(location.hash.slice(1), 10);
   go(isNaN(start) ? 0 : start - 1, true);
-
-  setTimeout(function () {
-    if (!hintDismissed) { hintDismissed = true; hint.classList.add('hidden'); }
-  }, 5000);
 })();
 </script>
 
