@@ -160,40 +160,24 @@
   .origin-header {
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
-    gap: 32px;
     margin-bottom: clamp(18px, 2.4vh, 34px);
   }
-  .origin-header h2 {
+  .origin-title {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
     font-family: Georgia, "Songti SC", "STSong", serif;
+    font-weight: 700;
     font-size: clamp(54px, 7.2vw, 132px);
     line-height: 1.08;
     letter-spacing: -.055em;
     white-space: nowrap;
-  }
-  .origin-tabs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.58);
-    box-shadow: inset 0 0 0 1px rgba(17,17,15,.08);
-  }
-  .origin-tab {
-    border: 0;
-    border-radius: 999px;
-    padding: 9px 16px;
-    background: transparent;
-    color: #3c3b37;
-    font: 700 clamp(12px, 1vw, 18px)/1 "Songti SC", "STSong", serif;
     cursor: pointer;
-    white-space: nowrap;
-    transition: background .2s ease, color .2s ease, transform .2s ease;
+    transition: transform .2s ease, opacity .2s ease;
   }
-  .origin-tab:hover { transform: translateY(-1px); }
-  .origin-tab.is-active { background: #151513; color: #fff; }
-  .origin-stage { height: calc(100vh - clamp(150px, 19vh, 220px)); min-height: 0; }
+  .origin-title:hover { transform: translateX(4px); opacity: .74; }
+  .origin-stage { height: calc(100vh - clamp(174px, 22vh, 244px)); min-height: 0; }
   .origin-panel { display: none; height: 100%; }
   .origin-panel.is-active { display: block; animation: origin-in .28s ease-out both; }
   @keyframes origin-in {
@@ -302,15 +286,13 @@
     box-shadow: 0 8px 28px rgba(31,30,27,.09);
   }
   @media (max-aspect-ratio: 4/3) {
-    .origin-header { align-items: flex-start; flex-direction: column; gap: 14px; }
-    .origin-header h2 { font-size: clamp(48px, 10vw, 92px); }
-    .origin-stage { height: calc(100vh - 190px); }
-    .origin-tab { padding-inline: 11px; }
+    .origin-title { font-size: clamp(48px, 10vw, 92px); }
+    .origin-stage { height: calc(100vh - 214px); }
     .origin-card p { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .origin-panel.is-active { animation-duration: .01ms; }
-    .origin-card, .origin-tab { transition-duration: .01ms; }
+    .origin-card, .origin-title { transition-duration: .01ms; }
   }
 
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
@@ -761,9 +743,6 @@
   function createOriginSlide() {
     const s = document.createElement('section');
     s.className = 'slide origin-slide';
-    const tabs = ['目录'].concat(ORIGIN_ITEMS.map(function (item) { return item.label; })).map(function (label, index) {
-      return '<button class="origin-tab' + (index === 0 ? ' is-active' : '') + '" type="button" data-origin-index="' + index + '">' + label + '</button>';
-    }).join('');
     const cards = ORIGIN_ITEMS.map(function (item, index) {
       const badge = item.badge ? '<img class="origin-badge" src="' + item.badge + '" alt="">' : '';
       return '<button class="origin-card" type="button" data-origin-index="' + (index + 1) + '">' +
@@ -781,7 +760,7 @@
         '<h3>' + item.name + '</h3><p>' + item.summary + '</p></div></aside>' +
         '<div class="' + evidenceClass + '">' + evidence + '</div></div>';
     }).join('');
-    s.innerHTML = '<div class="origin-header"><h2>Harness出处</h2><nav class="origin-tabs" aria-label="Harness 出处">' + tabs + '</nav></div>' +
+    s.innerHTML = '<div class="origin-header"><button class="origin-title" type="button" data-origin-index="0" aria-label="返回 Harness 出处目录">Harness出处</button></div>' +
       '<div class="origin-stage"><div class="origin-panel origin-overview is-active" data-origin-panel="0">' + cards + '</div>' + details + '</div>';
     return s;
   }
@@ -900,9 +879,6 @@
     const originState = current >= 14 && current <= 18 ? current - 14 : 0;
     originSlide.querySelectorAll('[data-origin-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', Number(panel.dataset.originPanel) === originState);
-    });
-    originSlide.querySelectorAll('.origin-tab').forEach(function (tab) {
-      tab.classList.toggle('is-active', Number(tab.dataset.originIndex) === originState);
     });
     const originOffset = Math.max(0, Math.min(current - 14, 4));
     const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 27 ? 1 : 0);
