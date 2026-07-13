@@ -1111,7 +1111,7 @@
     z-index: 3;
     pointer-events: none;
     opacity: 0;
-    clip-path: inset(0 45% 0 55%);
+    clip-path: inset(0 40% 0 60%);
     transition:
       opacity .35s ease,
       clip-path 2.45s cubic-bezier(.18,.74,.2,1);
@@ -1119,15 +1119,28 @@
   }
   .final-map-slide .map-expansion .frontier-map {
     position: absolute;
-    left: -2%;
-    top: 36%;
-    width: 74%;
-    height: 62%;
     object-fit: contain;
     object-position: right bottom;
-    transform: scaleX(-1);
     opacity: .68;
     filter: blur(.15px) drop-shadow(0 0 5px rgba(255, 238, 190, .14));
+  }
+  .final-map-slide .map-expansion .frontier-ridge {
+    left: -7%;
+    top: 37%;
+    width: 68%;
+    height: 57%;
+    transform: rotate(-3.1deg) skewY(1.2deg) scale(.95, 1.04);
+    transform-origin: 62% 60%;
+    clip-path: polygon(38% 0, 100% 0, 100% 59%, 81% 68%, 62% 54%, 49% 38%);
+  }
+  .final-map-slide .map-expansion .frontier-valley {
+    left: -13%;
+    top: 45%;
+    width: 65%;
+    height: 53%;
+    transform: rotate(2.4deg) skewY(-1.4deg) scale(.91, 1.08);
+    transform-origin: 46% 74%;
+    clip-path: polygon(4% 45%, 49% 34%, 76% 43%, 100% 58%, 100% 100%, 0 100%);
   }
   .final-map-slide .map-glow {
     position: absolute;
@@ -1157,7 +1170,7 @@
   }
   .final-map-slide.is-expanded .map-expansion {
     opacity: 1;
-    clip-path: inset(0 45% 0 0);
+    clip-path: inset(0 40% 0 0);
   }
   @keyframes map-glow {
     0% { opacity: .25; transform: translate(-50%, -50%) scale(.72); }
@@ -1490,7 +1503,7 @@
     35: '#dadada', 36: '#ffffff', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
     41: '#dadada', 42: '#000000', 43: '#141412', 44: '#141412', 45: '#fbf9f5', 47: '#f3efea',
     48: '#dadada', 51: 'dual-51', 52: '#dadada', 53: '#000000', 54: '#000000', 55: '#ffffff',
-    56: '#db7656'
+    56: 'linear-gradient(to bottom, #d57559 0%, #d47457 50%, #d3765a 100%)'
   };
 
   function documentLines(crossed) {
@@ -1847,7 +1860,9 @@
       reveal.innerHTML = '<img class="exploration-map" src="assets/generated/exploration-map.png" alt="">';
       const expansion = document.createElement('div');
       expansion.className = 'map-expansion';
-      expansion.innerHTML = '<img class="frontier-map" src="assets/generated/exploration-map.png" alt="">';
+      expansion.innerHTML =
+        '<img class="frontier-map frontier-ridge" src="assets/generated/exploration-map.png" alt="">' +
+        '<img class="frontier-map frontier-valley" src="assets/generated/exploration-map.png" alt="">';
       const glow = document.createElement('div');
       glow.className = 'map-glow';
       s.appendChild(reveal);
