@@ -30,10 +30,16 @@
 
   html, body {
     height: 100%;
-    overflow: hidden;
+    overflow: clip;
     background: #1a1917;
     font-family: "Deck Serif", "Songti SC", "STSong", serif;
     font-weight: 700;
+  }
+
+  body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
   }
 
   #deck {
@@ -136,7 +142,7 @@
   }
   .hero-card-title {
     position: absolute;
-    top: 3.8%;
+    top: 6.5%;
     left: 5.4%;
     z-index: 5;
     font-size: clamp(52px, 6.4vw, 150px);
@@ -146,7 +152,7 @@
   }
   .hero-card-stage {
     position: absolute;
-    inset: 15% 4.2% 5%;
+    inset: 13% 2.2% 2.2%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0;
@@ -158,12 +164,13 @@
     --start-x: 0%;
     --rest-x: 0%;
     --lift: 0%;
+    --rest-scale: 1;
     position: relative;
-    height: 94%;
+    height: 96%;
     width: auto;
     aspect-ratio: .66;
     justify-self: center;
-    overflow: visible;
+    overflow: hidden;
     border-radius: clamp(24px, 2.5vw, 58px);
     box-shadow: 0 2.2vw 4vw rgba(0, 0, 0, .68);
     opacity: 0;
@@ -195,7 +202,7 @@
   }
   .hero-card.is-visible {
     opacity: 1;
-    transform: translate(var(--rest-x), var(--lift)) scale(1) rotateY(0) rotateZ(var(--tilt));
+    transform: translate(var(--rest-x), var(--lift)) scale(var(--rest-scale)) rotateY(0) rotateZ(var(--tilt));
   }
   .hero-card.is-visible::after { animation: card-shine .78s .34s ease-out; }
   @keyframes card-shine {
@@ -206,24 +213,28 @@
   .hero-card.sr {
     --tilt: 2.4deg;
     --start-x: 112%;
-    --rest-x: 9%;
+    --rest-x: -4%;
+    --lift: 1%;
+    --rest-scale: .9;
     background: linear-gradient(145deg, #f2efff 0%, #eef4ff 48%, #cbd0ff 100%);
     justify-self: start;
     z-index: 1;
   }
   .hero-card.a {
     --tilt: -7deg;
-    --lift: -2.5%;
+    --rest-x: 0%;
     background: linear-gradient(150deg, #fffdf2 0%, #efffdc 55%, #a9ff62 100%);
     z-index: 2;
   }
   .hero-card.ssr {
     --tilt: 3deg;
     --start-x: -112%;
-    --rest-x: -18%;
+    --rest-x: -8%;
+    --rest-scale: .96;
     background: linear-gradient(145deg, #eefeff 0%, #e5fbf5 48%, #b7f2ef 100%);
     justify-self: end;
     z-index: 1;
+    overflow: visible;
   }
   .hero-card img {
     position: absolute;
@@ -232,9 +243,9 @@
     user-select: none;
     -webkit-user-drag: none;
   }
-  .hero-card.sr img { left: -16%; bottom: -2%; width: 132%; }
+  .hero-card.sr img { left: -22%; bottom: -22%; width: 152%; }
   .hero-card.a img { left: -21%; bottom: -5%; width: 142%; }
-  .hero-card.ssr img { right: -29%; bottom: -2%; width: 148%; }
+  .hero-card.ssr img { right: -22%; bottom: -2%; width: 132%; }
   .hero-rarity {
     position: absolute;
     z-index: 2;
