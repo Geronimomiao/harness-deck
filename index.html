@@ -52,6 +52,9 @@
   }
   body.fit-contain .slide img.main { object-fit: contain; }
 
+  /* 原稿本身是纯色背景的页面：保留整张内容图，外侧留白使用同色填充。 */
+  .slide.solid-bg img.main { object-fit: contain; }
+
   /* ========== 扉页（第 1 页）：背景 + 标题 ========== */
   .cover .layer {
     position: absolute;
@@ -358,6 +361,16 @@
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
   const hint = document.getElementById('hint');
+  const SOLID_BACKGROUNDS = {
+    5: '#dadada', 6: '#000000', 7: '#000000', 8: '#dadada', 9: '#dadada', 10: '#dadada',
+    13: '#ffffff', 14: '#dadada', 15: '#dadada', 16: '#dadada', 17: '#dadada', 18: '#dadada',
+    19: '#dadada', 20: '#dadada', 22: '#f4efff', 24: '#f4e9ea', 25: '#dadada', 26: '#dadada',
+    27: '#dadada', 30: '#dadada', 31: '#dadada', 32: '#ffffff', 33: '#dadada', 34: '#dadada',
+    35: '#dadada', 36: '#ffffff', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
+    41: '#dadada', 42: '#000000', 43: '#141412', 44: '#141412', 45: '#fbf9f5', 47: '#f3efea',
+    48: '#dadada', 51: '#f3efea', 52: '#dadada', 53: '#000000', 54: '#000000', 55: '#ffffff',
+    56: '#db7656'
+  };
 
   function documentLines(crossed) {
     return '<div class="doc-icon' + (crossed ? ' crossed' : '') + '">' +
@@ -396,17 +409,23 @@
     }
     const s = document.createElement('section');
     s.className = 'slide';
-    const ambient = document.createElement('img');
-    ambient.className = 'ambient';
-    ambient.src = 'assets/slides/blur-' + i + '.webp';
-    ambient.alt = '';
-    ambient.decoding = 'async';
+    const solidBackground = SOLID_BACKGROUNDS[i];
+    if (solidBackground) {
+      s.classList.add('solid-bg');
+      s.style.backgroundColor = solidBackground;
+    } else {
+      const ambient = document.createElement('img');
+      ambient.className = 'ambient';
+      ambient.src = 'assets/slides/blur-' + i + '.webp';
+      ambient.alt = '';
+      ambient.decoding = 'async';
+      s.appendChild(ambient);
+    }
     const img = document.createElement('img');
     img.className = 'main';
     img.src = 'assets/slides/slide-' + i + '.webp';
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
-    s.appendChild(ambient);
     s.appendChild(img);
     deck.appendChild(s);
   }
