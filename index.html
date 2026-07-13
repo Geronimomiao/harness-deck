@@ -150,6 +150,9 @@
   .slide.solid-bg img.main { object-fit: contain; }
   .slide.dual-bg { background: linear-gradient(to bottom, #fff 0 50%, #f4e9ea 50% 100%); }
   .slide.dual-bg-51 { background: linear-gradient(to bottom, #fff 0 52.57%, #f3efea 52.57% 100%); }
+  .slide.dual-bg-horizontal {
+    background: linear-gradient(to right, #d4c6c9 0 50%, #dadada 50% 100%);
+  }
   .slide.gradient-bg {
     background: linear-gradient(to bottom, #417a97 0%, #82adbc 50%, #c3dee2 100%);
   }
@@ -484,6 +487,7 @@
   const EDGE_FILL_SLIDES = new Set([4, 46, 49]);
   const GRADIENT_BACKGROUND_SLIDES = new Set([11, 12, 23]);
   const SOLID_BACKGROUNDS = {
+    3: 'dual-horizontal',
     5: '#dadada', 6: '#000000', 7: '#000000', 8: '#dadada', 9: '#dadada', 10: '#dadada',
     13: '#ffffff', 14: '#dadada', 15: '#dadada', 16: '#dadada', 17: '#dadada', 18: '#dadada',
     19: '#dadada', 20: '#dadada', 22: '#f4efff',
@@ -543,6 +547,8 @@
         s.classList.add('dual-bg');
       } else if (solidBackground === 'dual-51') {
         s.classList.add('dual-bg-51');
+      } else if (solidBackground === 'dual-horizontal') {
+        s.classList.add('dual-bg-horizontal');
       } else {
         s.style.background = solidBackground;
       }
