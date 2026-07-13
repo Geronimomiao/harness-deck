@@ -90,7 +90,7 @@
     object-fit: fill;
   }
   .slide.stitch-upper { background: #b3aeaf; }
-  .slide.stitch-upper img.main { bottom: 0; filter: contrast(1.08) brightness(.99); }
+  .slide.stitch-upper img.main { bottom: 0; }
   .slide.stitch-lower { background: #dadada; }
   .slide.stitch-lower img.main { top: 0; }
   .stitch-upper-copy {
@@ -116,7 +116,7 @@
   .stitch-upper-copy .corner.r { right: 3.8%; }
   .stitch-upper-copy .headline {
     position: absolute;
-    top: 27%;
+    top: 20%;
     left: 50%;
     transform: translateX(-50%);
     width: 70%;
@@ -1782,7 +1782,7 @@
     const img = document.createElement('img');
     img.className = 'main';
     img.src = i === 1
-      ? 'assets/generated/slide-1-stitched-v2.png'
+      ? 'assets/generated/slide-1-user-background.png'
       : i === 56
         ? 'assets/generated/slide-56-no-baseline.png'
         : 'assets/slides/slide-' + i + '.webp';
