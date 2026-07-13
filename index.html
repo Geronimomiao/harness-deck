@@ -245,10 +245,11 @@
     grid-template-columns: minmax(220px, 24%) 1fr;
     gap: clamp(20px, 2.4vw, 44px);
     min-height: 0;
+    align-items: stretch;
   }
   .origin-overview.is-active,
   .origin-detail.is-active { display: grid; }
-  .origin-detail.is-active { animation: none; }
+  .origin-detail.is-active { height: auto; animation: none; }
   .origin-profile {
     min-height: 0;
     border-radius: clamp(16px, 1.5vw, 28px);
@@ -256,7 +257,7 @@
     background: #f8f8f6;
     box-shadow: 0 8px 28px rgba(31,30,27,.09);
   }
-  .origin-profile { display: flex; flex-direction: column; text-align: center; }
+  .origin-profile { display: flex; flex-direction: column; height: 100%; text-align: center; }
   .origin-profile .origin-photo {
     height: 46%;
     flex: 0 0 46%;
@@ -277,6 +278,8 @@
   .origin-profile p { margin-top: 1em; font-size: clamp(14px, 1.16vw, 22px); line-height: 1.48; }
   .origin-evidence {
     min-height: 0;
+    width: 100%;
+    aspect-ratio: 1.61 / 1;
     overflow: visible;
     background: transparent;
     box-shadow: none;
