@@ -194,24 +194,24 @@
     justify-content: flex-start;
     min-width: 0;
     height: 100%;
-    overflow: visible;
+    overflow: hidden;
     border: 0;
-    border-radius: 0;
-    background: transparent;
+    border-radius: clamp(16px, 1.5vw, 28px);
+    background: #f8f8f6;
     color: #11110f;
-    text-align: left;
+    text-align: center;
     font-family: inherit;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
     padding: 0;
-    box-shadow: none;
+    box-shadow: 0 8px 28px rgba(31,30,27,.08);
   }
   .origin-photo { position: relative; display: block; overflow: hidden; }
   .origin-card .origin-photo {
-    height: auto;
-    aspect-ratio: 1 / 1;
-    border-radius: clamp(16px, 1.5vw, 28px);
+    height: 48%;
+    aspect-ratio: auto;
+    border-radius: 0;
   }
   .origin-photo > img {
     width: 100%;
@@ -229,7 +229,7 @@
     object-fit: cover;
     box-shadow: 0 5px 16px rgba(0,0,0,.2);
   }
-  .origin-card-copy { display: block; padding: clamp(14px, 1.4vw, 24px) 0 0; }
+  .origin-card-copy { display: block; padding: clamp(14px, 1.55vw, 28px); }
   .origin-card time { display: block; font-size: clamp(13px, 1.15vw, 21px); font-style: italic; }
   .origin-card .origin-label {
     display: inline-block;
@@ -249,26 +249,25 @@
   .origin-overview.is-active,
   .origin-detail.is-active { display: grid; }
   .origin-detail.is-active { animation: none; }
-  .origin-profile,
-  .origin-evidence {
+  .origin-profile {
     min-height: 0;
-    border-radius: 0;
-    overflow: visible;
-    background: transparent;
-    box-shadow: none;
-  }
-  .origin-profile { display: flex; flex-direction: column; }
-  .origin-profile .origin-photo {
-    height: auto;
-    flex: 0 0 auto;
-    aspect-ratio: 1 / 1;
     border-radius: clamp(16px, 1.5vw, 28px);
+    overflow: hidden;
+    background: #f8f8f6;
+    box-shadow: 0 8px 28px rgba(31,30,27,.09);
   }
-  .origin-profile-copy { padding: clamp(14px, 1.4vw, 24px) 0 0; }
+  .origin-profile { display: flex; flex-direction: column; text-align: center; }
+  .origin-profile .origin-photo {
+    height: 46%;
+    flex: 0 0 46%;
+    aspect-ratio: auto;
+    border-radius: 0;
+  }
+  .origin-profile-copy { padding: clamp(16px, 1.7vw, 30px); }
   .origin-profile time { font-size: clamp(14px, 1.25vw, 23px); font-style: italic; }
   .origin-profile .origin-label {
     display: table;
-    margin-top: .7em;
+    margin: .7em auto 0;
     padding: .15em .48em;
     border-radius: .3em;
     background: #e6ecf5;
@@ -276,7 +275,13 @@
   }
   .origin-profile h3 { margin-top: .45em; font-size: clamp(28px, 2.45vw, 46px); line-height: 1; }
   .origin-profile p { margin-top: 1em; font-size: clamp(14px, 1.16vw, 22px); line-height: 1.48; }
-  .origin-evidence { padding: 0; }
+  .origin-evidence {
+    min-height: 0;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
   .origin-evidence img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .origin-evidence.dual {
     display: grid;
