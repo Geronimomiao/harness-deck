@@ -1028,8 +1028,6 @@
   #workflow-lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 14px; object-fit: contain; background: #fff; box-shadow: 0 24px 80px rgba(0, 0, 0, .42); }
   #workflow-lightbox button { position: absolute; top: 22px; right: 26px; width: 44px; height: 44px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 50%; background: rgba(255, 255, 255, .12); color: #fff; font-size: 28px; cursor: pointer; }
   body.workflow-mode #counter { color: rgba(38, 36, 31, .58); text-shadow: none; }
-  body.workflow-mode #progress { background: rgba(24, 95, 165, .12); }
-  body.workflow-mode #progress-bar { background: #185fa5; }
   .subagent-link {
     position: absolute;
     top: clamp(34px, 6.5vh, 68px);
@@ -1818,7 +1816,7 @@
   }
 
   function workflowFooter() {
-    return '<div class="workflow-footer"><span>← → 翻页</span><span>拆 Harness</span><span></span></div>';
+    return '<div class="workflow-footer"><span></span><span>拆 Harness</span><span></span></div>';
   }
 
   function createWorkflowSlides() {
