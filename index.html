@@ -130,7 +130,7 @@
   /* ========== 第 42 页：从左到右抽取英雄卡 ========== */
   .hero-card-slide {
     background: #000;
-    overflow: hidden;
+    overflow: clip;
     color: #fff;
     font-family: "Deck Serif", "Songti SC", "STSong", serif;
   }
@@ -146,22 +146,24 @@
   }
   .hero-card-stage {
     position: absolute;
-    inset: 15% 3.8% 1.5%;
+    inset: 15% 4.2% 5%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.8%;
+    gap: 0;
     align-items: end;
     perspective: 1800px;
   }
   .hero-card {
     --tilt: 0deg;
     --start-x: 0%;
+    --rest-x: 0%;
+    --lift: 0%;
     position: relative;
-    width: 100%;
+    height: 94%;
+    width: auto;
     aspect-ratio: .66;
-    max-height: 96%;
     justify-self: center;
-    overflow: hidden;
+    overflow: visible;
     border-radius: clamp(24px, 2.5vw, 58px);
     box-shadow: 0 2.2vw 4vw rgba(0, 0, 0, .68);
     opacity: 0;
@@ -193,7 +195,7 @@
   }
   .hero-card.is-visible {
     opacity: 1;
-    transform: translate(0, 0) scale(1) rotateY(0) rotateZ(var(--tilt));
+    transform: translate(var(--rest-x), var(--lift)) scale(1) rotateY(0) rotateZ(var(--tilt));
   }
   .hero-card.is-visible::after { animation: card-shine .78s .34s ease-out; }
   @keyframes card-shine {
@@ -204,16 +206,24 @@
   .hero-card.sr {
     --tilt: 2.4deg;
     --start-x: 112%;
+    --rest-x: 9%;
     background: linear-gradient(145deg, #f2efff 0%, #eef4ff 48%, #cbd0ff 100%);
+    justify-self: start;
+    z-index: 1;
   }
   .hero-card.a {
     --tilt: -7deg;
+    --lift: -2.5%;
     background: linear-gradient(150deg, #fffdf2 0%, #efffdc 55%, #a9ff62 100%);
+    z-index: 2;
   }
   .hero-card.ssr {
     --tilt: 3deg;
     --start-x: -112%;
+    --rest-x: -18%;
     background: linear-gradient(145deg, #eefeff 0%, #e5fbf5 48%, #b7f2ef 100%);
+    justify-self: end;
+    z-index: 1;
   }
   .hero-card img {
     position: absolute;
@@ -222,9 +232,9 @@
     user-select: none;
     -webkit-user-drag: none;
   }
-  .hero-card.sr img { left: -7%; bottom: 2%; width: 111%; }
-  .hero-card.a img { left: 4%; bottom: -1%; width: 94%; }
-  .hero-card.ssr img { right: -19%; bottom: -2%; width: 124%; }
+  .hero-card.sr img { left: -16%; bottom: -2%; width: 132%; }
+  .hero-card.a img { left: -21%; bottom: -5%; width: 142%; }
+  .hero-card.ssr img { right: -29%; bottom: -2%; width: 148%; }
   .hero-rarity {
     position: absolute;
     z-index: 2;
