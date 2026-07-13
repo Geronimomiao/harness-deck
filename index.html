@@ -5,13 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>聊聊 Harness — Harness Engineering</title>
 <style>
+  /* 拉丁字符使用内置的 Libre Baskerville；中文使用本机已授权的锐宋粗。 */
+  @font-face {
+    font-family: "Deck Serif";
+    src:
+      local("锐字云字库锐宋粗GBK"),
+      local("锐字云字库锐宋粗"),
+      local("REEJI-RuiSongCuGBK"),
+      local("REEJI-RuiSongCu");
+    font-style: normal;
+    font-weight: 700;
+    unicode-range: U+2E80-2EFF, U+3000-303F, U+31C0-31EF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+20000-2FA1F;
+  }
+  @font-face {
+    font-family: "Deck Serif";
+    src: url("assets/fonts/LibreBaskerville-wght.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    unicode-range: U+0000-024F, U+1E00-1EFF;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html, body {
     height: 100%;
     overflow: hidden;
     background: #1a1917;
-    font-family: "Songti SC", "STSong", Georgia, serif;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
+    font-weight: 700;
   }
 
   #deck {
@@ -51,6 +73,78 @@
   }
   body.fit-contain .slide img.main { object-fit: contain; }
   body .slide.edge-fill img.main { object-fit: cover; }
+
+  /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
+  .final-map-slide img.main { z-index: 1; }
+  .final-map-slide .map-reveal {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    -webkit-mask-image:
+      radial-gradient(ellipse, #000 0 48%, rgba(0,0,0,.86) 56%, transparent 72%),
+      radial-gradient(ellipse, #000 0 45%, rgba(0,0,0,.78) 55%, transparent 72%),
+      radial-gradient(ellipse, #000 0 46%, rgba(0,0,0,.72) 54%, transparent 71%);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 75% 60%, 69% 67%, 82% 48%;
+    -webkit-mask-size: 5% 8%, 4% 7%, 3% 5%;
+    mask-image:
+      radial-gradient(ellipse, #000 0 48%, rgba(0,0,0,.86) 56%, transparent 72%),
+      radial-gradient(ellipse, #000 0 45%, rgba(0,0,0,.78) 55%, transparent 72%),
+      radial-gradient(ellipse, #000 0 46%, rgba(0,0,0,.72) 54%, transparent 71%);
+    mask-repeat: no-repeat;
+    mask-position: 75% 60%, 69% 67%, 82% 48%;
+    mask-size: 5% 8%, 4% 7%, 3% 5%;
+    opacity: 0;
+  }
+  .final-map-slide .exploration-map {
+    position: absolute;
+    left: 25%;
+    top: 36%;
+    width: 74%;
+    height: 62%;
+    object-fit: contain;
+    object-position: right bottom;
+    opacity: .68;
+    filter: blur(.15px) drop-shadow(0 0 5px rgba(255, 238, 190, .14));
+  }
+  .final-map-slide .map-glow {
+    position: absolute;
+    left: 72%;
+    top: 57%;
+    width: 13vmin;
+    height: 13vmin;
+    z-index: 3;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(255,244,211,.25), rgba(255,221,174,.09) 42%, transparent 72%);
+    transform: translate(-50%, -50%) scale(.72);
+    opacity: 0;
+  }
+  .final-map-slide.is-revealing .map-reveal,
+  .final-map-slide.is-revealed .map-reveal {
+    opacity: 1;
+    -webkit-mask-size: 136% 154%, 105% 128%, 92% 112%;
+    mask-size: 136% 154%, 105% 128%, 92% 112%;
+    transition:
+      -webkit-mask-size 5.6s cubic-bezier(.2,.72,.18,1),
+      mask-size 5.6s cubic-bezier(.2,.72,.18,1),
+      opacity .45s ease;
+  }
+  .final-map-slide.is-revealing .map-glow {
+    animation: map-glow 5.6s ease-out both;
+  }
+  @keyframes map-glow {
+    0% { opacity: .25; transform: translate(-50%, -50%) scale(.72); }
+    22% { opacity: .72; }
+    72% { opacity: .18; }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(5.8); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .final-map-slide.is-revealing .map-reveal,
+    .final-map-slide.is-revealed .map-reveal { transition-duration: .01ms; }
+    .final-map-slide.is-revealing .map-glow { animation-duration: .01ms; }
+  }
 
   /* 原稿本身是纯色背景的页面：保留整张内容图，外侧留白使用同色填充。 */
   .slide.solid-bg img.main { object-fit: contain; }
@@ -96,7 +190,7 @@
     grid-template-rows: auto 1fr;
     padding: clamp(28px, 4.6vh, 72px) clamp(30px, 4.2vw, 92px);
     gap: clamp(22px, 3vh, 52px);
-    font-family: "Times New Roman", "Songti SC", serif;
+    font-family: "Deck Serif", "Songti SC", "STSong", serif;
   }
   .prompt-slide h2 {
     font-size: clamp(44px, 6.4vw, 116px);
@@ -248,7 +342,7 @@
   .cover .corner {
     position: absolute;
     top: 4.5%;
-    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-family: "Deck Serif", Georgia, serif;
     font-style: italic;
     font-weight: 500;
     color: #f7f6f4;
@@ -458,15 +552,29 @@
     }
     const img = document.createElement('img');
     img.className = 'main';
-    img.src = 'assets/slides/slide-' + i + '.webp';
+    img.src = i === 56
+      ? 'assets/generated/slide-56-no-baseline.png'
+      : 'assets/slides/slide-' + i + '.webp';
     img.alt = 'Slide ' + i;
     img.decoding = 'async';
     s.appendChild(img);
+    if (i === 56) {
+      s.classList.add('final-map-slide');
+      const reveal = document.createElement('div');
+      reveal.className = 'map-reveal';
+      reveal.innerHTML = '<img class="exploration-map" src="assets/generated/exploration-map.png" alt="">';
+      const glow = document.createElement('div');
+      glow.className = 'map-glow';
+      s.appendChild(reveal);
+      s.appendChild(glow);
+    }
     deck.appendChild(s);
   }
 
   let current = 0;
   let hintDismissed = false;
+  const finalMapSlide = document.querySelector('.final-map-slide');
+  let mapRevealTimer = null;
 
   function clamp(n) { return Math.max(0, Math.min(TOTAL - 1, n)); }
 
@@ -475,6 +583,7 @@
     if (n === current && !instant) return;
     const previous = current;
     current = n;
+    if (current !== TOTAL - 1) resetMapReveal();
     const promptState = current === 28 ? 'trend' : 'removed';
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
@@ -490,6 +599,27 @@
       hintDismissed = true;
       hint.classList.add('hidden');
     }
+  }
+
+  function resetMapReveal() {
+    clearTimeout(mapRevealTimer);
+    finalMapSlide.classList.remove('is-revealing', 'is-revealed');
+  }
+
+  function playMapReveal() {
+    clearTimeout(mapRevealTimer);
+    finalMapSlide.classList.remove('is-revealing', 'is-revealed');
+    void finalMapSlide.offsetWidth;
+    finalMapSlide.classList.add('is-revealing');
+    mapRevealTimer = setTimeout(function () {
+      finalMapSlide.classList.remove('is-revealing');
+      finalMapSlide.classList.add('is-revealed');
+    }, 5650);
+  }
+
+  function advance() {
+    if (current === TOTAL - 1) playMapReveal();
+    else go(current + 1);
   }
 
   // 填充/适应 切换（F 键），默认适应并记住后续选择
@@ -518,7 +648,7 @@
     }
     switch (e.key) {
       case 'ArrowDown': case 'PageDown': case ' ': case 'Enter':
-        e.preventDefault(); go(current + 1); break;
+        e.preventDefault(); advance(); break;
       case 'ArrowUp': case 'PageUp':
         e.preventDefault(); go(current - 1); break;
       case 'Home':
@@ -534,7 +664,8 @@
     e.preventDefault();
     if (wheelLock || Math.abs(e.deltaY) < 12) return;
     wheelLock = true;
-    go(current + (e.deltaY > 0 ? 1 : -1));
+    if (e.deltaY > 0) advance();
+    else go(current - 1);
     setTimeout(function () { wheelLock = false; }, 620);
   }, { passive: false });
 
@@ -546,7 +677,10 @@
   window.addEventListener('touchend', function (e) {
     if (touchY === null) return;
     const dy = touchY - e.changedTouches[0].clientY;
-    if (Math.abs(dy) > 40) go(current + (dy > 0 ? 1 : -1));
+    if (Math.abs(dy) > 40) {
+      if (dy > 0) advance();
+      else go(current - 1);
+    }
     touchY = null;
   }, { passive: true });
 
