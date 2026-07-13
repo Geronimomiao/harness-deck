@@ -150,6 +150,169 @@
   }
   body.fit-contain .step-slide img.step-overlay { object-fit: contain; }
 
+  /* ========== Harness 出处（第 15–19 步）：同一组件的目录与四个 Tab 状态 ========== */
+  .origin-slide {
+    display: block;
+    background: #d8d8d6;
+    color: #11110f;
+    padding: clamp(24px, 4vh, 58px) clamp(28px, 5vw, 96px);
+  }
+  .origin-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: clamp(18px, 2.4vh, 34px);
+  }
+  .origin-header h2 {
+    font-family: Georgia, "Songti SC", "STSong", serif;
+    font-size: clamp(54px, 7.2vw, 132px);
+    line-height: 1.08;
+    letter-spacing: -.055em;
+    white-space: nowrap;
+  }
+  .origin-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.58);
+    box-shadow: inset 0 0 0 1px rgba(17,17,15,.08);
+  }
+  .origin-tab {
+    border: 0;
+    border-radius: 999px;
+    padding: 9px 16px;
+    background: transparent;
+    color: #3c3b37;
+    font: 700 clamp(12px, 1vw, 18px)/1 "Songti SC", "STSong", serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+  .origin-tab:hover { transform: translateY(-1px); }
+  .origin-tab.is-active { background: #151513; color: #fff; }
+  .origin-stage { height: calc(100vh - clamp(150px, 19vh, 220px)); min-height: 0; }
+  .origin-panel { display: none; height: 100%; }
+  .origin-panel.is-active { display: block; animation: origin-in .28s ease-out both; }
+  @keyframes origin-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .origin-overview {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(14px, 1.5vw, 28px);
+  }
+  .origin-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    border: 0;
+    border-radius: clamp(16px, 1.5vw, 28px);
+    background: #f8f8f6;
+    color: #11110f;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0;
+    box-shadow: 0 8px 28px rgba(31,30,27,.08);
+    transition: transform .24s ease, box-shadow .24s ease;
+  }
+  .origin-card:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(31,30,27,.14); }
+  .origin-photo { position: relative; display: block; overflow: hidden; }
+  .origin-card .origin-photo { height: 48%; }
+  .origin-photo > img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .origin-photo img.origin-badge {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    width: clamp(42px, 4vw, 72px);
+    height: clamp(42px, 4vw, 72px);
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 5px 16px rgba(0,0,0,.2);
+  }
+  .origin-card-copy { display: block; padding: clamp(14px, 1.55vw, 28px); }
+  .origin-card time { display: block; font-size: clamp(13px, 1.15vw, 21px); font-style: italic; }
+  .origin-card .origin-label {
+    display: inline-block;
+    margin-top: .7em;
+    padding: .15em .45em;
+    border-radius: .3em;
+    background: #e6ecf5;
+    font-size: clamp(17px, 1.6vw, 30px);
+  }
+  .origin-card h3 { margin-top: .42em; font-size: clamp(22px, 2vw, 38px); line-height: 1; }
+  .origin-card p { margin-top: .9em; font-size: clamp(13px, 1.08vw, 20px); line-height: 1.42; }
+  .origin-detail {
+    grid-template-columns: minmax(220px, 24%) 1fr;
+    gap: clamp(20px, 2.4vw, 44px);
+    min-height: 0;
+  }
+  .origin-overview.is-active,
+  .origin-detail.is-active { display: grid; }
+  .origin-profile,
+  .origin-evidence {
+    min-height: 0;
+    border-radius: clamp(16px, 1.5vw, 28px);
+    overflow: hidden;
+    background: #f8f8f6;
+    box-shadow: 0 8px 28px rgba(31,30,27,.09);
+  }
+  .origin-profile { display: flex; flex-direction: column; }
+  .origin-profile .origin-photo { height: 46%; flex: 0 0 46%; }
+  .origin-profile-copy { padding: clamp(16px, 1.7vw, 30px); }
+  .origin-profile time { font-size: clamp(14px, 1.25vw, 23px); font-style: italic; }
+  .origin-profile .origin-label {
+    display: table;
+    margin-top: .7em;
+    padding: .15em .48em;
+    border-radius: .3em;
+    background: #e6ecf5;
+    font-size: clamp(18px, 1.65vw, 31px);
+  }
+  .origin-profile h3 { margin-top: .45em; font-size: clamp(28px, 2.45vw, 46px); line-height: 1; }
+  .origin-profile p { margin-top: 1em; font-size: clamp(14px, 1.16vw, 22px); line-height: 1.48; }
+  .origin-evidence { padding: clamp(12px, 1.2vw, 22px); }
+  .origin-evidence img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .origin-evidence.dual {
+    display: grid;
+    grid-template-rows: minmax(0, 1.35fr) minmax(0, .55fr);
+    gap: 12px;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    overflow: visible;
+  }
+  .origin-evidence.dual img {
+    min-height: 0;
+    border-radius: clamp(14px, 1.2vw, 22px);
+    background: #f8f8f6;
+    box-shadow: 0 8px 28px rgba(31,30,27,.09);
+  }
+  @media (max-aspect-ratio: 4/3) {
+    .origin-header { align-items: flex-start; flex-direction: column; gap: 14px; }
+    .origin-header h2 { font-size: clamp(48px, 10vw, 92px); }
+    .origin-stage { height: calc(100vh - 190px); }
+    .origin-tab { padding-inline: 11px; }
+    .origin-card p { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .origin-panel.is-active { animation-duration: .01ms; }
+    .origin-card, .origin-tab { transition-duration: .01ms; }
+  }
+
   /* ========== 终页：从火把附近逐步揭开的探索地图 ========== */
   .final-map-slide img.main { z-index: 1; }
   .final-map-slide .map-reveal {
@@ -566,9 +729,73 @@
     return s;
   }
 
+  const ORIGIN_ITEMS = [
+    {
+      label: '命名', date: '2026.02.05', name: 'Mitchell',
+      summary: '每次出错都把教训固化为 AGENTS.md 约束，或可执行的验证工具。',
+      portrait: 'assets/harness-origins/mitchell.png',
+      evidence: ['assets/harness-origins/mitchell-quote.png']
+    },
+    {
+      label: '工程化传播', date: '2026.02.11', name: 'Ryan Lopopolo',
+      summary: 'Codex 把 repo 内知识、架构边界、lint 和反馈回路当作 agent 的工作环境。',
+      portrait: 'assets/harness-origins/ryan-lopopolo.png',
+      badge: 'assets/harness-origins/openai.png',
+      evidence: ['assets/harness-origins/ryan-article.png']
+    },
+    {
+      label: '编排成型', date: '2026.03.24', name: 'Anthropic',
+      summary: 'Planner / Generator / Evaluator 三类 agent 分工，让长期任务可以持续运行。',
+      portrait: 'assets/harness-origins/anthropic.png',
+      evidence: ['assets/harness-origins/anthropic-article.png']
+    },
+    {
+      label: '给出定义', date: '2026.03.10', name: 'Vivek Trivedy',
+      summary: 'Agent = Model + Harness；harness 是模型之外、让任务真正运行的一切。',
+      portrait: 'assets/harness-origins/vivek-trivedy.png',
+      badge: 'assets/harness-origins/vivek-logo.png',
+      evidence: ['assets/harness-origins/vivek-article.png', 'assets/harness-origins/vivek-definition.png']
+    }
+  ];
+
+  function createOriginSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide origin-slide';
+    const tabs = ['目录'].concat(ORIGIN_ITEMS.map(function (item) { return item.label; })).map(function (label, index) {
+      return '<button class="origin-tab' + (index === 0 ? ' is-active' : '') + '" type="button" data-origin-index="' + index + '">' + label + '</button>';
+    }).join('');
+    const cards = ORIGIN_ITEMS.map(function (item, index) {
+      const badge = item.badge ? '<img class="origin-badge" src="' + item.badge + '" alt="">' : '';
+      return '<button class="origin-card" type="button" data-origin-index="' + (index + 1) + '">' +
+        '<span class="origin-photo"><img src="' + item.portrait + '" alt="' + item.name + '">' + badge + '</span>' +
+        '<span class="origin-card-copy"><time>' + item.date + '</time><span class="origin-label">' + item.label + '</span>' +
+        '<h3>' + item.name + '</h3><p>' + item.summary + '</p></span></button>';
+    }).join('');
+    const details = ORIGIN_ITEMS.map(function (item, index) {
+      const badge = item.badge ? '<img class="origin-badge" src="' + item.badge + '" alt="">' : '';
+      const evidenceClass = item.evidence.length > 1 ? 'origin-evidence dual' : 'origin-evidence';
+      const evidence = item.evidence.map(function (src) { return '<img src="' + src + '" alt="">'; }).join('');
+      return '<div class="origin-panel origin-detail" data-origin-panel="' + (index + 1) + '">' +
+        '<aside class="origin-profile"><div class="origin-photo"><img src="' + item.portrait + '" alt="' + item.name + '">' + badge + '</div>' +
+        '<div class="origin-profile-copy"><time>' + item.date + '</time><span class="origin-label">' + item.label + '</span>' +
+        '<h3>' + item.name + '</h3><p>' + item.summary + '</p></div></aside>' +
+        '<div class="' + evidenceClass + '">' + evidence + '</div></div>';
+    }).join('');
+    s.innerHTML = '<div class="origin-header"><h2>Harness出处</h2><nav class="origin-tabs" aria-label="Harness 出处">' + tabs + '</nav></div>' +
+      '<div class="origin-stage"><div class="origin-panel origin-overview is-active" data-origin-panel="0">' + cards + '</div>' + details + '</div>';
+    return s;
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
+    }
+    if (i === 14) {
+      deck.appendChild(createOriginSlide());
+      continue;
+    }
+    if (i >= 15 && i <= 18) {
+      continue;                 // slide-14 到 slide-18 共用一个目录 / Tab 组件
     }
     if (i === 21) {
       continue;                 // 删除原第 22 页
@@ -654,6 +881,7 @@
   let current = 0;
   const finalMapSlide = document.querySelector('.final-map-slide');
   const stepSlide = document.querySelector('.step-slide');
+  const originSlide = document.querySelector('.origin-slide');
   let mapRevealTimer = null;
 
   function clamp(n) { return Math.max(0, Math.min(TOTAL - 1, n)); }
@@ -669,15 +897,30 @@
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
     });
     stepSlide.classList.toggle('step-revealed', current >= 12);
-    const physicalPage = current - (current > 11 ? 1 : 0) - (current > 27 ? 1 : 0);
+    const originState = current >= 14 && current <= 18 ? current - 14 : 0;
+    originSlide.querySelectorAll('[data-origin-panel]').forEach(function (panel) {
+      panel.classList.toggle('is-active', Number(panel.dataset.originPanel) === originState);
+    });
+    originSlide.querySelectorAll('.origin-tab').forEach(function (tab) {
+      tab.classList.toggle('is-active', Number(tab.dataset.originIndex) === originState);
+    });
+    const originOffset = Math.max(0, Math.min(current - 14, 4));
+    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 27 ? 1 : 0);
     const swappingStepState = (previous === 11 || previous === 12) && (current === 11 || current === 12);
+    const swappingOriginState = previous >= 14 && previous <= 18 && current >= 14 && current <= 18;
     const swappingPromptState = (previous === 27 || previous === 28) && (current === 27 || current === 28);
-    deck.style.transition = instant || swappingStepState || swappingPromptState ? 'none' : '';
+    deck.style.transition = instant || swappingStepState || swappingOriginState || swappingPromptState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
     history.replaceState(null, '', '#' + (current + 1));
   }
+
+  originSlide.querySelectorAll('[data-origin-index]').forEach(function (control) {
+    control.addEventListener('click', function () {
+      go(14 + Number(control.dataset.originIndex));
+    });
+  });
 
   function resetMapReveal() {
     clearTimeout(mapRevealTimer);
