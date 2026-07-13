@@ -74,6 +74,13 @@
   body.fit-contain .slide img.main { object-fit: contain; }
   body .slide.edge-fill img.main { object-fit: cover; }
 
+  /* 第 2、3 页是上下连续构图：上一页锁定底边，下一页锁定顶边。 */
+  body .slide.stitch-slide img.main { object-fit: contain; }
+  .slide.stitch-upper { background: #bbb6b8; }
+  .slide.stitch-upper img.main { object-position: center bottom; }
+  .slide.stitch-lower { background: #dadada; }
+  .slide.stitch-lower img.main { object-position: center top; }
+
   /* 第 12/13 个播放步骤共用一个舞台：论文截图从右下角展开。 */
   .step-slide img.step-overlay {
     position: absolute;
@@ -510,6 +517,7 @@
   const hint = document.getElementById('hint');
   const EDGE_FILL_SLIDES = new Set([4, 46, 49]);
   const GRADIENT_BACKGROUND_SLIDES = new Set([11, 12, 23]);
+  const STITCH_SLIDES = { 1: 'stitch-upper', 2: 'stitch-lower' };
   const SOLID_BACKGROUNDS = {
     3: 'dual-horizontal',
     5: '#dadada', 6: '#000000', 7: '#000000', 8: '#dadada', 9: '#dadada', 10: '#dadada',
@@ -567,8 +575,11 @@
     }
     const s = document.createElement('section');
     s.className = 'slide';
+    const stitchClass = STITCH_SLIDES[i];
     const solidBackground = SOLID_BACKGROUNDS[i];
-    if (solidBackground) {
+    if (stitchClass) {
+      s.classList.add('stitch-slide', stitchClass);
+    } else if (solidBackground) {
       s.classList.add('solid-bg');
       if (solidBackground === 'dual') {
         s.classList.add('dual-bg');
