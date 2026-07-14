@@ -80,6 +80,12 @@
   }
   body.fit-contain .slide img.main { object-fit: contain; }
   body .slide.edge-fill img.main { object-fit: cover; }
+  body .slide.tools-intro-slide {
+    background: #d3d3d3;
+  }
+  body .slide.tools-intro-slide img.main {
+    object-fit: contain;
+  }
 
   /* 第 2、3 页是上下连续构图：上一页锁定底边，下一页锁定顶边。 */
   body .slide.stitch-slide img.main {
@@ -689,10 +695,42 @@
     display: inline-flex;
     align-items: center;
     transition:
+      opacity .28s ease,
+      visibility .28s ease,
       left .42s cubic-bezier(.22, 1, .36, 1),
       top .42s cubic-bezier(.22, 1, .36, 1),
       bottom .42s cubic-bezier(.22, 1, .36, 1),
       font-size .42s cubic-bezier(.22, 1, .36, 1);
+  }
+  .eval-collab-panel {
+    position: absolute;
+    left: 50%;
+    bottom: 10.5%;
+    z-index: 3;
+    width: max-content;
+    max-width: 76%;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 10px);
+    transition:
+      opacity .34s ease .08s,
+      transform .42s cubic-bezier(.22, 1, .36, 1) .08s,
+      visibility .42s ease .08s;
+  }
+  .eval-collab-panel p {
+    margin: 0;
+    color: rgba(17, 17, 15, .62);
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: clamp(22px, 2.15vw, 42px);
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.2;
+  }
+  .eval-slide.is-collab .eval-collab-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
   }
   .eval-now-links {
     position: absolute;
@@ -788,12 +826,12 @@
     visibility: visible;
     transform: translateY(0);
   }
-  .eval-slide[data-eval-step="2"] .eval-now-shot.configure,
   .eval-slide[data-eval-step="3"] .eval-now-shot.configure,
   .eval-slide[data-eval-step="4"] .eval-now-shot.configure,
-  .eval-slide[data-eval-step="3"] .eval-now-shot.run-detail,
+  .eval-slide[data-eval-step="5"] .eval-now-shot.configure,
   .eval-slide[data-eval-step="4"] .eval-now-shot.run-detail,
-  .eval-slide[data-eval-step="4"] .eval-now-shot.feishu-result {
+  .eval-slide[data-eval-step="5"] .eval-now-shot.run-detail,
+  .eval-slide[data-eval-step="5"] .eval-now-shot.feishu-result {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -928,18 +966,30 @@
   }
   .origin-profile h3 { margin-top: .45em; font-size: clamp(28px, 2.45vw, 46px); line-height: 1; }
   .origin-profile p { margin-top: 1em; font-size: clamp(14px, 1.16vw, 22px); line-height: 1.48; }
-  .origin-profile .origin-link {
-    display: table;
-    margin: 1.15em auto 0;
+  .origin-detail > .origin-link {
+    position: absolute;
+    right: clamp(28px, 5vw, 96px);
+    bottom: clamp(24px, 4vh, 58px);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: .35em;
+    margin: 0;
+    padding: .62em .9em .58em;
+    border: 1px solid rgba(47, 74, 109, .34);
+    border-radius: 999px;
+    background: rgba(248, 248, 246, .86);
     color: #2f4a6d;
     font-size: clamp(13px, 1.05vw, 20px);
     text-decoration: none;
-    border-bottom: 1px solid rgba(47, 74, 109, .5);
-    padding-bottom: .1em;
-    transition: opacity .18s ease;
+    box-shadow: 0 5px 18px rgba(31, 30, 27, .08);
+    transition: opacity .18s ease, background .18s ease, border-color .18s ease;
   }
-  .origin-profile .origin-link:hover { opacity: .68; }
-  .origin-profile .origin-link .external-arrow { margin-left: .3em; font-size: .88em; }
+  .origin-detail > .origin-link:hover {
+    border-color: rgba(47, 74, 109, .56);
+    background: #f8f8f6;
+  }
+  .origin-detail > .origin-link .external-arrow { font-size: .88em; }
   .origin-evidence {
     min-height: 0;
     width: 100%;
@@ -1819,14 +1869,14 @@
   <button type="button" aria-label="关闭放大图片">×</button>
   <img src="" alt="">
 </div>
-<div id="counter">1 / 62</div>
+<div id="counter">1 / 64</div>
 <div id="progress"><div id="progress-bar"></div></div>
 <div id="toast"></div>
 
 <script>
 (function () {
   const IMAGES = 56;            // 原稿截图页数
-  const TOTAL = IMAGES + 6;     // Workflow 净增 1 步，评估 Now 分 4 步展开，再加入 Thanks + 引用合并页
+  const TOTAL = IMAGES + 8;     // 新增 2 张 Tools 页；删除 slide-50；加入协作标题过渡与评估 Now 展开，再加入 Workflow、Thanks 与引用合并页
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
@@ -2004,6 +2054,9 @@
         '<a class="eval-platform-link" href="https://bytedance.larkoffice.com/wiki/ChBww27iDiqJrSkWFP5cpGernpc" target="_blank" rel="noopener">平台介绍 <span aria-hidden="true">↗</span></a>' +
         '<a class="eval-platform-link" href="https://ihvnzxc1.fn-boe.bytedance.net/?tab=0" target="_blank" rel="noopener">打开平台 <span aria-hidden="true">↗</span></a>' +
       '</span></div>' +
+      '<div class="eval-collab-panel" aria-label="人类和 Agent 的协作方式">' +
+        '<p>Humans steer. Agents execute.</p>' +
+      '</div>' +
       '<div class="eval-now-panel" aria-label="当前自动化评估实现">' +
         '<figure class="eval-now-shot configure"><img src="assets/eval-now/configure.webp" alt="配置自动化评估"></figure>' +
         '<figure class="eval-now-shot run-detail"><img src="assets/eval-now/run-detail.webp" alt="自动化评估执行明细"></figure>' +
@@ -2061,13 +2114,13 @@
       const evidenceClass = item.evidence.length > 1 ? 'origin-evidence dual' : 'origin-evidence';
       const evidence = item.evidence.map(function (src) { return '<img src="' + src + '" alt="">'; }).join('');
       const detailClass = item.evidence.length > 1 ? 'origin-panel origin-detail origin-detail-dual' : 'origin-panel origin-detail';
+      const sourceLink = item.url ? '<a class="origin-link" href="' + item.url + '" target="_blank" rel="noopener">原文地址<span class="external-arrow" aria-hidden="true">↗</span></a>' : '';
       return '<div class="' + detailClass + '" data-origin-panel="' + (index + 1) + '">' +
         '<aside class="origin-profile"><div class="origin-photo"><img src="' + item.portrait + '" alt="' + item.name + '">' + badge + '</div>' +
         '<div class="origin-profile-copy"><time>' + item.date + '</time><span class="origin-label">' + item.label + '</span>' +
         '<h3>' + item.name + '</h3><p>' + item.summary + '</p>' +
-        (item.url ? '<a class="origin-link" href="' + item.url + '" target="_blank" rel="noopener">原文地址<span class="external-arrow" aria-hidden="true">↗</span></a>' : '') +
         '</div></aside>' +
-        '<div class="' + evidenceClass + '">' + evidence + '</div></div>';
+        '<div class="' + evidenceClass + '">' + evidence + '</div>' + sourceLink + '</div>';
     }).join('');
     s.innerHTML = '<div class="origin-header"><button class="origin-title" type="button" data-origin-index="0" aria-label="返回 Harness 出处目录">Harness出处</button></div>' +
       '<div class="origin-stage"><div class="origin-panel origin-overview is-active" data-origin-panel="0">' + cards + '</div>' + details + '</div>';
@@ -2102,7 +2155,7 @@
     realCase.innerHTML = '<div class="workflow-inner">' +
       '<div class="workflow-kick">控制流与编排 · 真实案例</div>' +
       '<h2>一句真实 prompt，触发了一套 workflow</h2>' +
-      '<figure class="workflow-real-shot" role="button" tabindex="0" aria-label="放大 Claude Code Ultracode 真实截图"><img src="assets/workflow/claude-code-ultracode-real-redacted.jpg?v=1" alt="Claude Code 中输入真实 prompt 并打开 Ultracode 的脱敏截图"></figure>' +
+      '<figure class="workflow-real-shot" role="button" tabindex="0" aria-label="放大 Claude Code Ultracode 真实截图"><img src="assets/workflow/claude-code-ultracode-real-redacted.webp?v=1" alt="Claude Code 中输入真实 prompt 并打开 Ultracode 的脱敏截图"></figure>' +
       '<div class="workflow-run-caption">关键不是“prompt 写得多长”，而是 <b>Claude Code Ultracode</b> 判断任务需要先探索、再复核，于是自行触发 workflow。</div>' +
       '<div class="workflow-source">数据：脱敏 workflow 示例 <code>wf_public_demo_81</code> · 见 <a href="https://geronimomiao.github.io/agent-talk-deck/workflow.html#code" target="_blank" rel="noopener">workflow.html#code</a></div>' +
       '</div>' + workflowFooter();
@@ -2156,22 +2209,22 @@
       href: 'https://www.langchain.com/blog/the-anatomy-of-an-agent-harness'
     },
     {
-      pages: 'P34', date: '2026.05.28', source: 'Claude Code Docs',
+      pages: 'P36', date: '2026.05.28', source: 'Claude Code Docs',
       title: 'Dynamic workflows require Claude Code v2.1.154+',
       href: 'https://code.claude.com/docs/en/workflows#:~:text=Dynamic%20workflows%20require%20Claude%20Code%20v2.1.154'
     },
     {
-      pages: 'P34', date: '2026.06.02', source: 'Claude Blog',
+      pages: 'P36', date: '2026.06.02', source: 'Claude Blog',
       title: 'A harness for every task: Dynamic workflows in Claude Code',
       href: 'https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code'
     },
     {
-      pages: 'P34', date: '2026.07.07', source: 'Claude Code Docs',
+      pages: 'P36', date: '2026.07.07', source: 'Claude Code Docs',
       title: 'Ultracode: xhigh reasoning with automatic workflow orchestration',
       href: 'https://code.claude.com/docs/en/workflows#let-claude-decide-with-ultracode'
     },
     {
-      pages: 'P59', date: 'Official', source: 'Typeless',
+      pages: 'P61', date: 'Official', source: 'Typeless',
       title: 'Typeless — AI Voice Dictation That’s Actually Intelligent',
       href: 'https://www.typeless.com/'
     }
@@ -2193,6 +2246,18 @@
     return s;
   }
 
+  function createImportedImageSlide(src, alt) {
+    const s = document.createElement('section');
+    s.className = 'slide tools-intro-slide';
+    const img = document.createElement('img');
+    img.className = 'main';
+    img.src = src;
+    img.alt = alt;
+    img.decoding = 'async';
+    s.appendChild(img);
+    return s;
+  }
+
   for (let i = 1; i <= IMAGES; i++) {
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
@@ -2208,8 +2273,7 @@
       continue;                 // 删除原第 22 页
     }
     if (i === 28) {
-      deck.appendChild(createPromptSlide());
-      continue;
+      continue;                 // Prompt 两步总结移到原 slide-33 之后
     }
     if (i === 29) {
       continue;
@@ -2228,6 +2292,9 @@
     if (i === 47) {
       deck.appendChild(createTaskSplitSlide());
       continue;
+    }
+    if (i === 50) {
+      continue;                 // 暂时删除原 #51：Elon Musk 「生产线最慢环节」
     }
     if (i === 51) {
       deck.appendChild(createRideSlide());
@@ -2375,6 +2442,11 @@
       s.appendChild(glow);
     }
     deck.appendChild(s);
+    if (i === 33) {
+      deck.appendChild(createPromptSlide());
+      deck.appendChild(createImportedImageSlide('assets/tools/tools-compare.webp', 'Claude Code 与 Codex 的 Tools 数量和归类方式对比'));
+      deck.appendChild(createImportedImageSlide('assets/tools/tools-web-boundary.webp', 'Claude Code WebSearch 与 Codex web tool 的能力边界对比'));
+    }
   }
   deck.appendChild(createReferencesSlide());
 
@@ -2546,7 +2618,7 @@
   const attentionVideo = contextVideoSlide.querySelector('.attention-video');
   const VIDEO_PLAYBACK_RATE = 1.5;
   const heroCardSlide = document.querySelector('.hero-card-slide');
-  const HERO_CARD_PAGE = 42;
+  const HERO_CARD_PAGE = 44;
   let heroCardStep = 0;
   const originSlide = document.querySelector('.origin-slide');
   const evalSlide = document.querySelector('.eval-slide');
@@ -2570,32 +2642,33 @@
     const leavingFinalMap = isFinalMapCurrent();
     const previous = current;
     current = n;
-    document.body.classList.toggle('workflow-mode', current >= 33 && current <= 35);
+    document.body.classList.toggle('workflow-mode', current >= 35 && current <= 37);
     document.body.classList.toggle('references-mode', current === TOTAL - 1);
     resetSourceVideo();
     resetAttentionVideo();
     if (leavingFinalMap) resetMapReveal();
     if (current !== HERO_CARD_PAGE || previous !== HERO_CARD_PAGE) setHeroCardStep(0);
     if (current !== TOTAL - 1 || previous !== TOTAL - 1) setReferencesRevealed(false);
-    const promptState = current === 28 ? 'trend' : 'removed';
+    const promptState = current === 32 ? 'trend' : 'removed';
     document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
     });
     stepSlide.classList.toggle('step-revealed', current >= 12);
-    const evalStep = current >= 53 && current <= 56 ? current - 52 : 0;
-    evalSlide.classList.toggle('is-now', evalStep > 0);
+    const evalStep = current >= 54 && current <= 58 ? current - 53 : 0;
+    evalSlide.classList.toggle('is-collab', evalStep === 1);
+    evalSlide.classList.toggle('is-now', evalStep >= 2);
     evalSlide.dataset.evalStep = String(evalStep);
     const originState = current >= 14 && current <= 18 ? current - 14 : 0;
     originSlide.querySelectorAll('[data-origin-panel]').forEach(function (panel) {
       panel.classList.toggle('is-active', Number(panel.dataset.originPanel) === originState);
     });
     const originOffset = Math.max(0, Math.min(current - 14, 4));
-    const evalOffset = Math.max(0, Math.min(current - 52, 4));
-    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 27 ? 1 : 0) - evalOffset;
+    const evalOffset = Math.max(0, Math.min(current - 53, 5));
+    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 31 ? 1 : 0) - evalOffset;
     const swappingStepState = (previous === 11 || previous === 12) && (current === 11 || current === 12);
     const swappingOriginState = previous >= 14 && previous <= 18 && current >= 14 && current <= 18;
-    const swappingPromptState = (previous === 27 || previous === 28) && (current === 27 || current === 28);
-    const swappingEvalState = previous >= 52 && previous <= 56 && current >= 52 && current <= 56;
+    const swappingPromptState = (previous === 31 || previous === 32) && (current === 31 || current === 32);
+    const swappingEvalState = previous >= 53 && previous <= 58 && current >= 53 && current <= 58;
     deck.style.transition = instant || swappingStepState || swappingOriginState || swappingPromptState || swappingEvalState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
