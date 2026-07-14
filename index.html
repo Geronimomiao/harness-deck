@@ -140,21 +140,13 @@
   }
   .stitch-upper-copy .corner.l { left: 3.8%; }
   .stitch-upper-copy .corner.r { right: 3.8%; }
-  .stitch-upper-copy .headline {
-    position: absolute;
+  /* 人类早期驯服野马指南：沿用原 headline 的锚点，宽度按标题图自身比例给。 */
+  .stitch-upper-copy .title-art {
     top: 29%;
     left: 50%;
     transform: translateX(-50%);
-    width: 70%;
-    text-align: center;
-    color: #282725;
-    font-size: clamp(54px, 7vw, 180px);
-    font-weight: 700;
-    line-height: .98;
-    letter-spacing: .01em;
+    width: 66%;
   }
-  .stitch-upper-copy .headline span { display: block; }
-  .stitch-upper-copy .headline span + span { margin-top: .12em; }
 
   /* 第 7 页：保留原页，按键后播放原视频 4:57–5:44。 */
   .context-source-slide .source-video-shell {
@@ -733,20 +725,17 @@
     visibility: visible;
     transform: translate(-50%, 0);
   }
-  .eval-now-links {
+  /* 平台介绍：钉在画布右上角，随 Now 状态淡入。 */
+  .eval-platform-link {
     position: absolute;
-    left: calc(100% + clamp(18px, 1.8vw, 36px));
-    top: 50%;
-    display: flex;
-    align-items: center;
-    gap: clamp(8px, .7vw, 14px);
-    width: max-content;
+    right: 4.2%;
+    top: 4.2%;
+    z-index: 5;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-50%) translateX(-8px);
-    transition: opacity .24s ease .2s, transform .3s ease .2s;
-  }
-  .eval-platform-link {
+    transform: translateX(8px);
+    transition: opacity .24s ease .2s, transform .3s ease .2s,
+                background .2s ease, border-color .2s ease;
     display: inline-flex;
     align-items: center;
     padding: .52em .85em .48em;
@@ -760,7 +749,6 @@
     line-height: 1;
     letter-spacing: 0;
     text-decoration: none;
-    transition: background .2s ease, border-color .2s ease;
   }
   .eval-platform-link:hover { border-color: rgba(17, 17, 15, .42); background: #fff; }
   .eval-now-panel {
@@ -817,10 +805,10 @@
     z-index: 4;
     font-size: clamp(42px, 5.1vw, 112px);
   }
-  .eval-slide.is-now .eval-now-links {
+  .eval-slide.is-now .eval-platform-link {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(-50%) translateX(0);
+    transform: translateX(0);
   }
   .eval-slide.is-now .eval-now-panel {
     opacity: 1;
@@ -1282,6 +1270,322 @@
   #workflow-lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 14px; object-fit: contain; background: #fff; box-shadow: 0 24px 80px rgba(0, 0, 0, .42); }
   #workflow-lightbox button { position: absolute; top: 22px; right: 26px; width: 44px; height: 44px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 50%; background: rgba(255, 255, 255, .12); color: #fff; font-size: 28px; cursor: pointer; }
   body.workflow-mode #counter { color: rgba(38, 36, 31, .58); text-shadow: none; }
+  /* ===== 第 4 页：Harness 到底是啥（由 111.pptx 第 1 页重建） =====
+     画布 font-size = 画布高度，子元素用 em 表示“占画布高的百分比”，
+     字号直接对应原稿 pt / 1080pt：53.5pt→.0495em，45pt→.0417em，74.3pt→.0688em，107.5pt→.0995em。 */
+  .harness-intro-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #f4e6e8 0 60%, #dad9da 60% 100%);
+  }
+  .hi-canvas {
+    position: relative;
+    width: min(100vw, 177.7778vh);
+    height: min(100vh, 56.25vw);
+    font-size: min(100vh, 56.25vw);
+    overflow: hidden;
+    font-family: "Deck Serif", "Songti SC", "STSong", Georgia, serif;
+  }
+  .hi-panel {
+    position: absolute;
+    inset: 0 40% 0 0;
+    background: #f4e6e8;
+  }
+  .hi-bridle {
+    position: absolute;
+    left: 28.39%;
+    top: 20.07%;
+    width: 39.03%;
+    height: auto;
+  }
+  .hi-horse {
+    position: absolute;
+    left: 64.78%;
+    top: 6.96%;
+    width: 35.22%;
+    height: auto;
+  }
+  .hi-copy {
+    position: absolute;
+    left: 3.12%;
+    top: 4.63%;
+    width: 62.71%;
+    color: #000;
+    font-weight: 700;
+    line-height: 1.32;
+  }
+  .hi-copy p { margin: 0; }
+  .hi-lead { font-size: .0495em; }   /* 53.5pt / 1080pt */
+  .hi-item { font-size: .0417em; }   /* 45pt / 1080pt */
+  .hi-indent, .hi-item { padding-left: .5em; }
+  .hi-slogan {
+    position: absolute;
+    right: .62%;
+    top: 1.2%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .04em;
+    font-size: .0688em;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: .045em .045em .05em rgba(0, 0, 0, .42);
+  }
+  .hi-word {
+    position: absolute;
+    bottom: -.5%;
+    font-size: .0995em;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: .04em .04em .05em rgba(0, 0, 0, .38);
+  }
+  .hi-word-harness { left: 35.84%; width: 24.22%; text-align: center; }
+  .hi-word-model { left: 80.70%; width: 19.38%; text-align: center; }
+
+  /* 四种 Loop：2×2 比喻图 → 按键逐张换官网截图 → 点开全屏逐条讲。 */
+  .loops-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f0e8;
+    color: #191815;
+    padding: clamp(24px, 3.4vh, 44px) clamp(28px, 3.2vw, 60px);
+  }
+  .loops-inner {
+    width: min(100%, 1420px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1.2vh, 16px);
+  }
+  .loops-title {
+    margin: 0;
+    font-family: "Deck Serif", "Songti SC", "STSong", Georgia, serif;
+    font-size: clamp(30px, 3.2vw, 52px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+  }
+  .loops-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 1.4vw, 24px);
+  }
+  .loops-source {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    font-size: clamp(11px, .95vw, 15px);
+    color: rgba(25, 24, 21, .45);
+  }
+  .loops-source a {
+    display: inline-flex;
+    align-items: center;
+    gap: .3em;
+    color: rgba(25, 24, 21, .62);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(25, 24, 21, .22);
+  }
+  .loops-source a:hover,
+  .loops-source a:focus-visible { color: #191815; border-bottom-color: #191815; }
+  .loop-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: #fdfcf9;
+    box-shadow: 0 2px 10px rgba(25, 24, 21, .07);
+    cursor: zoom-in;
+    text-align: left;
+    overflow: hidden;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .loop-card:hover,
+  .loop-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(25, 24, 21, .16);
+    outline: none;
+  }
+  .loop-figure {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    background: #fdfcf9;
+  }
+  .loop-shot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity .38s ease;
+  }
+  .loop-shot.official { opacity: 0; }
+  .loop-card.is-official .loop-shot.metaphor { opacity: 0; }
+  .loop-card.is-official .loop-shot.official { opacity: 1; }
+  .loop-caption {
+    display: flex;
+    align-items: baseline;
+    gap: .3em;
+    padding: clamp(8px, 1vh, 14px) clamp(12px, 1.2vw, 20px) clamp(11px, 1.3vh, 17px);
+    font-family: "Deck Serif", "Songti SC", "STSong", Georgia, serif;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .loop-index { font-size: clamp(16px, 1.5vw, 23px); }
+  .loop-name { font-size: clamp(16px, 1.5vw, 23px); letter-spacing: -.01em; }
+  .loop-zh { font-size: clamp(14px, 1.3vw, 20px); }
+
+  #loop-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(20px, 4vh, 56px) clamp(20px, 4vw, 72px);
+    background: rgba(12, 12, 10, .88);
+  }
+  #loop-lightbox.show { display: flex; }
+  .loop-lb-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 1.6vh, 18px);
+    width: min(100%, 1560px);
+    max-height: 100%;
+    padding: clamp(16px, 2vw, 32px);
+    border-radius: 18px;
+    background: #f6f4ee;
+    color: #191815;
+  }
+  .loop-lb-figure {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fdfcf9;
+  }
+  .loop-lb-figure img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .loop-lb-head { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: center; gap: .3em; }
+  .loop-lb-index { font-family: "Deck Serif", "Songti SC", Georgia, serif; font-size: clamp(24px, 2.2vw, 36px); font-weight: 700; }
+  .loop-lb-panel h3 {
+    margin: 0;
+    font-family: "Deck Serif", "Songti SC", "STSong", Georgia, serif;
+    font-size: clamp(24px, 2.2vw, 36px);
+    font-weight: 700;
+    letter-spacing: -.015em;
+  }
+  .loop-lb-zh { font-family: "Deck Serif", "Songti SC", Georgia, serif; font-size: clamp(18px, 1.7vw, 27px); font-weight: 700; color: rgba(25, 24, 21, .6); }
+  .loop-lb-dots { display: flex; gap: 8px; }
+  .loop-lb-dots button {
+    width: 30px;
+    height: 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(25, 24, 21, .18);
+    cursor: pointer;
+    transition: background .2s ease;
+  }
+  .loop-lb-dots button.is-active { background: #db765b; }
+  .loop-lb-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(25, 24, 21, .2);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .7);
+    color: #191815;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  @media (max-aspect-ratio: 1/1) {
+    .loop-lb-panel { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .quote-video-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f0f0e;
+    color: #f6f4ef;
+    padding: clamp(28px, 4vh, 48px) clamp(36px, 4vw, 72px);
+  }
+  .quote-video-inner {
+    width: min(100%, 1280px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.6vh, 18px);
+  }
+  .quote-video-kick {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    font-size: clamp(13px, 1.15vw, 17px);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(246, 244, 239, .5);
+  }
+  .quote-video-slide h2 {
+    margin: 0;
+    font-family: "Deck Serif", "Songti SC", "STSong", Georgia, serif;
+    font-size: clamp(30px, 3.4vw, 54px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -.02em;
+  }
+  .quote-video-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 62vh;
+    margin: 0 auto;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+  }
+  .quote-video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .quote-video-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+    font-size: clamp(12px, 1.05vw, 16px);
+    color: rgba(246, 244, 239, .55);
+  }
+  .quote-video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .45em;
+    color: rgba(246, 244, 239, .78);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(246, 244, 239, .3);
+    padding-bottom: 1px;
+  }
+  .quote-video-link:hover,
+  .quote-video-link:focus-visible { color: #fff; border-bottom-color: #fff; }
+  body.quote-video-mode #counter { color: rgba(246, 244, 239, .5); text-shadow: none; }
+
   .subagent-link {
     position: absolute;
     top: clamp(34px, 6.5vh, 68px);
@@ -1442,8 +1746,9 @@
   .slide.solid-bg img.main { object-fit: contain; }
   .slide.dual-bg { background: linear-gradient(to bottom, #fff 0 50%, #f4e9ea 50% 100%); }
   .slide.dual-bg-51 { background: linear-gradient(to bottom, #fff 0 52.57%, #f3efea 52.57% 100%); }
+  /* 分界点跟着图走：粉/灰在原图 60% 处切换，不是居中。 */
   .slide.dual-bg-horizontal {
-    background: linear-gradient(to right, #d4c6c9 0 50%, #dadada 50% 100%);
+    background: linear-gradient(to right, #d4c6c9 0 60%, #dad9da 60% 100%);
   }
   .slide.gradient-bg {
     background: linear-gradient(to bottom, #417a97 0%, #82adbc 50%, #c3dee2 100%);
@@ -1643,23 +1948,20 @@
     .trend-visual { height: clamp(190px, 25vh, 300px); }
   }
 
-  .metal {
-    font-weight: 900;
-    letter-spacing: 0.05em;
-    color: #292821;
-    text-shadow:
-      0 1px 0 rgba(255, 255, 255, .5),
-      0 5px 14px rgba(38, 36, 30, .2);
-  }
-
-  .cover .t1 {
+  /* 第 1、2 页标题改用设计稿导出的透明 PNG（原字体）。位置按标题在 1920×1080 原画布里的包围盒换算。 */
+  .title-art {
     position: absolute;
-    top: 34%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(52px, 9.5vw, 170px);
-    white-space: nowrap;
+    height: auto;
     z-index: 4;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  /* 聊聊 Harness：原画布 832×399 @ (549,154) */
+  .cover .title-art {
+    left: 28.59%;
+    top: 14.26%;
+    width: 43.33%;
   }
 
   /* 最后一页：Thanks 与按页码索引的引用列表。 */
@@ -1862,7 +2164,7 @@
   <section class="slide cover" id="cover">
     <img class="ambient" src="assets/cover/cover-bg-clean-blur.webp" alt="">
     <img class="layer bg" src="assets/cover/cover-bg-clean.webp" alt="">
-    <div class="t1 metal">聊聊 Harness</div>
+    <img class="title-art" src="assets/cover/title-liaoliao-harness.webp" alt="聊聊 Harness" decoding="async">
   </section>
 </div>
 
@@ -1877,7 +2179,7 @@
 <script>
 (function () {
   const IMAGES = 56;            // 原稿截图页数
-  const TOTAL = IMAGES + 8;     // 新增 2 张 Tools 页；删除 slide-50；加入协作标题过渡与评估 Now 展开，再加入 Workflow、Thanks 与引用合并页
+  const TOTAL = IMAGES + 17;    // 第 24 页后插入 17 页、1 页视频引用与 1 页四种 Loop，第 58 页后插入 1 页；删除原抓包趋势图/Prompt 两步页与 slide-50；加入协作标题过渡与评估 Now 展开，再加入 Workflow、Thanks 与引用合并页
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
@@ -1892,7 +2194,7 @@
     24: 'dual',
     25: '#f0eee6', 26: '#f0eee6',
     27: '#f0eee6', 30: '#f0eee6', 31: '#f0eee6', 32: '#f0eee6', 33: '#f0eee6', 34: '#dadada',
-    35: '#dadada', 36: '#ffffff', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
+    35: '#dadada', 37: '#f0efe9', 38: '#dadada', 39: '#dadada', 40: '#dadada',
     41: '#dadada', 42: '#000000', 43: '#141412', 44: '#141412', 45: '#fbf9f5', 47: '#f3efea',
     48: '#dadada', 51: 'dual-51', 52: '#dadada', 53: '#000000', 54: '#000000', 55: '#ffffff',
     56: 'linear-gradient(to bottom, #d57559 0%, #d47457 50%, #d3765a 100%)'
@@ -2051,10 +2353,8 @@
       '<div class="ride-era ancient">古法</div>' +
       '<div class="ride-flow top">' + top + '</div>' +
       '<div class="ride-flow bottom">' + bottom + '</div>' +
-      '<div class="ride-era now">Now<span class="eval-now-links">' +
-        '<a class="eval-platform-link" href="https://bytedance.larkoffice.com/wiki/ChBww27iDiqJrSkWFP5cpGernpc" target="_blank" rel="noopener">平台介绍 <span aria-hidden="true">↗</span></a>' +
-        '<a class="eval-platform-link" href="https://ihvnzxc1.fn-boe.bytedance.net/?tab=0" target="_blank" rel="noopener">打开平台 <span aria-hidden="true">↗</span></a>' +
-      '</span></div>' +
+      '<div class="ride-era now">Now</div>' +
+      '<a class="eval-platform-link" href="https://bytedance.larkoffice.com/wiki/ChBww27iDiqJrSkWFP5cpGernpc" target="_blank" rel="noopener">平台介绍 <span aria-hidden="true">↗</span></a>' +
       '<div class="eval-collab-panel" aria-label="人类和 Agent 的协作方式">' +
         '<p>Humans steer. Agents execute.</p>' +
       '</div>' +
@@ -2247,6 +2547,195 @@
     return s;
   }
 
+  const EXTRA_SLIDES = [
+    { src: 'assets/extra/extra-1.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-2.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-3.webp', bg: '#f5f4ed' },
+    { src: 'assets/extra/extra-4.webp', bg: '#f5f4ed' },
+    { src: 'assets/extra/extra-5.webp', bg: '#f5f4ed' },
+    { src: 'assets/extra/extra-6.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-7.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-8.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-9.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-10.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-11.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-12.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-13.webp', bg: '#efeee5' },
+    { src: 'assets/extra/extra-14.webp', bg: '#dad9da' },
+    { src: 'assets/extra/extra-15.webp', bg: '#dad9da' },
+    { src: 'assets/extra/extra-19.webp', bg: { ambient: 'assets/extra/blur-19.webp' } },
+    { src: 'assets/extra/extra-16.webp', bg: '#fbf9f5' }
+  ];
+
+  // 四种 Agent Loop：先用比喻图起，按键逐张换成官网截图；点开可全屏逐条讲。
+  // 第 4 页：用 HTML 重建（原为整图）。坐标/字号取自 111.pptx 第 1 页的 EMU 几何，
+  // 换算成画布百分比：粉底 0–60%，缰绳 L28.39% T20.07% W39.03%，白马 L64.78% T6.96% W35.22%。
+  function createHarnessIntroSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide harness-intro-slide';
+    // 逐段照抄原稿（含空行）：lead = 53.5pt，item = 45pt，缩进对应原文前导空格。
+    const LINES = [
+      { cls: 'lead', text: 'Harness到底是啥' },
+      { cls: 'lead', text: '' },
+      { cls: 'lead', text: '热门部件（两大热门马场对比：CC&amp;Codex）' },
+      { cls: 'lead indent', text: 'System Prompt' },
+      { cls: 'item', text: 'Tools工具' },
+      { cls: 'item', text: 'Loop(含Goal目标)' },
+      { cls: 'item', text: 'Workflow工作流' },
+      { cls: 'item', text: 'Compact上下文压缩' },
+      { cls: 'item', text: 'Subagents子代理' },
+      { cls: 'item', text: 'Permissions权限' },
+      { cls: 'lead', text: '' },
+      { cls: 'lead', text: '选择你的爱马' },
+      { cls: 'lead', text: '我的马术' },
+      { cls: 'lead', text: 'One more thing' }
+    ];
+    const copy = LINES.map(function (line) {
+      return '<p class="hi-' + line.cls.split(' ').join(' hi-') + '">' + (line.text || '&nbsp;') + '</p>';
+    }).join('');
+    s.innerHTML = '<div class="hi-canvas">' +
+      '<div class="hi-panel"></div>' +
+      '<img class="hi-bridle" src="assets/harness-intro/bridle.webp" alt="" decoding="async">' +
+      '<img class="hi-horse" src="assets/harness-intro/horse.webp" alt="" decoding="async">' +
+      '<div class="hi-copy">' + copy + '</div>' +
+      '<div class="hi-slogan"><span>最简单</span><span>最直接</span><span>最不绕弯</span></div>' +
+      '<div class="hi-word hi-word-harness">Harness</div>' +
+      '<div class="hi-word hi-word-model">Model</div>' +
+      '</div>';
+    return s;
+  }
+
+  // official 为 null 时先渲染占位卡，拿到官网截图后把路径填进来即可。
+  const LOOPS_SOURCE_URL = 'https://claude.com/blog/getting-started-with-loops';
+  const LOOP_ITEMS = [
+    {
+      index: '①',
+      name: 'Turn-Based Loop',
+      zh: '回合制循环',
+      metaphor: 'assets/loops/loop-1.webp',
+      official: 'assets/loops/official-1.webp',
+      figureAlt: '文人与备好鞍的马面对面站着',
+    },
+    {
+      index: '②',
+      name: 'Goal-Based Loop',
+      zh: '目标制循环',
+      metaphor: 'assets/loops/loop-2.webp',
+      official: 'assets/loops/official-2.webp',
+      figureAlt: '文人策马奔向远处插着红旗的高地',
+    },
+    {
+      index: '③',
+      name: 'Time-Based Loop',
+      zh: '定时循环',
+      metaphor: 'assets/loops/loop-3.webp',
+      official: 'assets/loops/official-3.webp',
+      figureAlt: '晨曦中备好鞍独自等待的马',
+    },
+    {
+      index: '④',
+      name: 'Proactive Loop',
+      zh: '主动循环',
+      metaphor: 'assets/loops/loop-4.webp',
+      official: 'assets/loops/official-4.webp',
+      figureAlt: '一匹空鞍的马自己奔跑起来',
+    }
+  ];
+
+  function createLoopsSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide loops-slide';
+    const cards = LOOP_ITEMS.map(function (item, i) {
+      return '<button class="loop-card" type="button" data-loop-card="' + i + '" aria-label="' + item.name + '（' + item.zh + '）·点击全屏">' +
+        '<div class="loop-figure">' +
+          '<img class="loop-shot metaphor" src="' + item.metaphor + '" alt="' + item.figureAlt + '" decoding="async">' +
+          '<img class="loop-shot official" src="' + item.official + '" alt="' + item.name + ' 官网截图" decoding="async">' +
+        '</div>' +
+        '<div class="loop-caption"><span class="loop-index">' + item.index + '</span>' +
+          '<span class="loop-name">' + item.name + '</span>' +
+          '<span class="loop-zh">（' + item.zh + '）</span></div>' +
+        '</button>';
+    }).join('');
+    s.innerHTML = '<div class="loops-inner">' +
+      '<h2 class="loops-title">Loop</h2>' +
+      '<div class="loops-grid">' + cards + '</div>' +
+      '<div class="loops-source">来源：' +
+        '<a href="' + LOOPS_SOURCE_URL + '" target="_blank" rel="noopener">' + LOOPS_SOURCE_URL +
+        '<span class="external-arrow" aria-hidden="true">↗</span></a>' +
+      '</div>' +
+      '</div>';
+    return s;
+  }
+
+  function createLoopLightbox() {
+    const box = document.createElement('div');
+    box.id = 'loop-lightbox';
+    box.setAttribute('aria-hidden', 'true');
+    box.innerHTML =
+      '<div class="loop-lb-panel" role="dialog" aria-modal="true" aria-labelledby="loop-lb-name">' +
+        '<div class="loop-lb-head"><span class="loop-lb-index"></span>' +
+          '<h3 id="loop-lb-name"></h3><span class="loop-lb-zh"></span></div>' +
+        '<div class="loop-lb-figure"><img alt=""></div>' +
+        '<div class="loop-lb-dots"></div>' +
+        '<button class="loop-lb-close" type="button" aria-label="关闭">×</button>' +
+      '</div>';
+    document.body.appendChild(box);
+    return box;
+  }
+
+  // 引用原视频片段：不落地转存，直接嵌 YouTube 官方播放器并锁定 7:52–8:40。
+  const QUOTE_VIDEO_ID = 'SlGRN8jh2RI';
+  const QUOTE_VIDEO_START = 472;
+  const QUOTE_VIDEO_END = 520;
+  const QUOTE_VIDEO_SRC = 'https://www.youtube-nocookie.com/embed/' + QUOTE_VIDEO_ID +
+    '?start=' + QUOTE_VIDEO_START + '&end=' + QUOTE_VIDEO_END +
+    '&cc_load_policy=1&cc_lang_pref=zh-Hans&hl=zh-Hans&rel=0&modestbranding=1&playsinline=1';
+
+  function createQuoteVideoSlide() {
+    const s = document.createElement('section');
+    s.className = 'slide quote-video-slide';
+    s.innerHTML =
+      '<div class="quote-video-inner">' +
+        '<div class="quote-video-kick">Sequoia Capital · Boris Cherny（Anthropic）</div>' +
+        '<h2>Why Coding Is Solved, and What Comes Next</h2>' +
+        '<div class="quote-video-frame">' +
+          '<iframe title="Boris Cherny 访谈片段 7:52–8:40" data-quote-video ' +
+            'allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" ' +
+            'allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
+        '</div>' +
+        '<div class="quote-video-foot">' +
+          '<span>引用片段 7:52–8:40 · 字幕可在播放器内切换中/英</span>' +
+          '<a class="quote-video-link" href="https://www.youtube.com/watch?v=' + QUOTE_VIDEO_ID + '&t=' + QUOTE_VIDEO_START + 's" target="_blank" rel="noopener">' +
+            '<span>观看完整视频</span><span class="external-arrow" aria-hidden="true">↗</span></a>' +
+        '</div>' +
+      '</div>';
+    return s;
+  }
+
+  // background 传 { ambient: '模糊底图路径' } 时用模糊底填充：适用于上下边缘颜色不一致、单色留边会露缝的图。
+  function createSolidImageSlide(src, alt, background) {
+    const s = document.createElement('section');
+    s.className = 'slide';
+    if (background && background.ambient) {
+      const ambient = document.createElement('img');
+      ambient.className = 'ambient';
+      ambient.src = background.ambient;
+      ambient.alt = '';
+      ambient.decoding = 'async';
+      s.appendChild(ambient);
+    } else {
+      s.classList.add('solid-bg');
+      s.style.background = background;
+    }
+    const img = document.createElement('img');
+    img.className = 'main';
+    img.src = src;
+    img.alt = alt;
+    img.decoding = 'async';
+    s.appendChild(img);
+    return s;
+  }
+
   function createImportedImageSlide(src, alt) {
     const s = document.createElement('section');
     s.className = 'slide tools-intro-slide';
@@ -2260,6 +2749,10 @@
   }
 
   for (let i = 1; i <= IMAGES; i++) {
+    if (i === 3) {
+      deck.appendChild(createHarnessIntroSlide());   // 原整图页改为 HTML 重建
+      continue;
+    }
     if (i === 12) {
       continue;                 // slide-12 是 slide-11 的第二个播放状态
     }
@@ -2273,11 +2766,8 @@
     if (i === 21) {
       continue;                 // 删除原第 22 页
     }
-    if (i === 28) {
-      continue;                 // Prompt 两步总结移到原 slide-33 之后
-    }
-    if (i === 29) {
-      continue;
+    if (i >= 25 && i <= 33) {
+      continue;                 // 原抓包趋势图与 Prompt 两步总结页，已被第 24 页后新插入的 12 页取代
     }
     if (i === 34) {
       continue;                 // 删除旧 Workflow 截图页
@@ -2384,7 +2874,7 @@
       const copy = document.createElement('div');
       copy.className = 'stitch-upper-copy';
       copy.innerHTML = '<div class="corner l">Harness</div><div class="corner r">Engineering</div>' +
-        '<div class="headline"><span>人类早期</span><span>驯服野马指南</span></div>';
+        '<img class="title-art" src="assets/cover/title-yema-guide.webp" alt="人类早期驯服野马指南" decoding="async">';
       s.appendChild(copy);
     }
     if (i === 11) {
@@ -2443,10 +2933,16 @@
       s.appendChild(glow);
     }
     deck.appendChild(s);
-    if (i === 33) {
-      deck.appendChild(createPromptSlide());
-      deck.appendChild(createImportedImageSlide('assets/tools/tools-compare.webp', 'Claude Code 与 Codex 的 Tools 数量和归类方式对比'));
-      deck.appendChild(createImportedImageSlide('assets/tools/tools-web-boundary.webp', 'Claude Code WebSearch 与 Codex web tool 的能力边界对比'));
+    if (i === 24) {
+      // 新增 16 页（猫分享 (5) 稿定设计 1-16），取代原来的抓包趋势图与 Prompt 两步页。
+      EXTRA_SLIDES.forEach(function (item, index) {
+        deck.appendChild(createSolidImageSlide(item.src, 'Extra slide ' + (index + 1), item.bg));
+      });
+      deck.appendChild(createQuoteVideoSlide());
+      deck.appendChild(createLoopsSlide());
+    }
+    if (i === 49) {
+      deck.appendChild(createSolidImageSlide('assets/extra/extra-18.webp', 'Extra slide 18', '#000000'));
     }
   }
   deck.appendChild(createReferencesSlide());
@@ -2618,8 +3114,71 @@
   const contextVideoSlide = document.querySelector('.context-video-slide');
   const attentionVideo = contextVideoSlide.querySelector('.attention-video');
   const VIDEO_PLAYBACK_RATE = 1.5;
+  const quoteVideoFrame = document.querySelector('[data-quote-video]');
+  const QUOTE_VIDEO_PAGE = 41;
+  const LOOPS_PAGE = 42;
+  const loopsSlide = document.querySelector('.loops-slide');
+  const loopCards = Array.prototype.slice.call(loopsSlide.querySelectorAll('.loop-card'));
+  const loopLightbox = createLoopLightbox();
+  let loopStep = 0;          // 0 = 全部比喻图；n = 前 n 张已换成官网截图
+  let loopFocus = 0;         // 全屏时正在讲的是第几种
+
+  function setLoopStep(step) {
+    loopStep = Math.max(0, Math.min(loopCards.length, step));
+    loopCards.forEach(function (card, i) {
+      card.classList.toggle('is-official', i < loopStep);
+    });
+  }
+
+  function renderLoopLightbox() {
+    const item = LOOP_ITEMS[loopFocus];
+    const figure = loopLightbox.querySelector('.loop-lb-figure');
+    const image = figure.querySelector('img');
+    // 全屏跟随当前卡片状态：已换成官网截图的看截图，否则看比喻图。
+    const useOfficial = loopFocus < loopStep;
+    image.src = useOfficial ? item.official : item.metaphor;
+    image.alt = useOfficial ? item.name + ' 官网截图' : item.figureAlt;
+    loopLightbox.querySelector('.loop-lb-index').textContent = item.index;
+    loopLightbox.querySelector('#loop-lb-name').textContent = item.name;
+    loopLightbox.querySelector('.loop-lb-zh').textContent = '（' + item.zh + '）';
+    const dots = loopLightbox.querySelector('.loop-lb-dots');
+    dots.innerHTML = LOOP_ITEMS.map(function (entry, i) {
+      return '<button type="button" data-loop-dot="' + i + '" class="' + (i === loopFocus ? 'is-active' : '') +
+        '" aria-label="第 ' + (i + 1) + ' 种：' + entry.name + '"></button>';
+    }).join('');
+  }
+
+  function openLoopLightbox(index) {
+    loopFocus = index;
+    renderLoopLightbox();
+    loopLightbox.classList.add('show');
+    loopLightbox.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeLoopLightbox() {
+    loopLightbox.classList.remove('show');
+    loopLightbox.setAttribute('aria-hidden', 'true');
+  }
+
+  function isLoopLightboxOpen() { return loopLightbox.classList.contains('show'); }
+
+  function stepLoopFocus(delta) {
+    loopFocus = Math.max(0, Math.min(LOOP_ITEMS.length - 1, loopFocus + delta));
+    renderLoopLightbox();
+  }
+
+  loopCards.forEach(function (card, i) {
+    card.addEventListener('click', function () { openLoopLightbox(i); });
+  });
+  loopLightbox.addEventListener('click', function (event) {
+    if (event.target === loopLightbox) { closeLoopLightbox(); return; }
+    if (event.target.closest('.loop-lb-close')) { closeLoopLightbox(); return; }
+    const dot = event.target.closest('[data-loop-dot]');
+    if (dot) { loopFocus = Number(dot.dataset.loopDot); renderLoopLightbox(); }
+  });
+
   const heroCardSlide = document.querySelector('.hero-card-slide');
-  const HERO_CARD_PAGE = 44;
+  const HERO_CARD_PAGE = 52;
   let heroCardStep = 0;
   const originSlide = document.querySelector('.origin-slide');
   const evalSlide = document.querySelector('.eval-slide');
@@ -2643,19 +3202,21 @@
     const leavingFinalMap = isFinalMapCurrent();
     const previous = current;
     current = n;
-    document.body.classList.toggle('workflow-mode', current >= 35 && current <= 37);
+    document.body.classList.toggle('workflow-mode', current >= 43 && current <= 45);
+    document.body.classList.toggle('quote-video-mode', current === QUOTE_VIDEO_PAGE);
+    if (current !== LOOPS_PAGE) { setLoopStep(0); closeLoopLightbox(); }
+    // 只有停在引用页时才挂 src，离开即卸载，避免后台继续播放。
+    const wantsQuoteVideo = current === QUOTE_VIDEO_PAGE;
+    if (wantsQuoteVideo && !quoteVideoFrame.src) quoteVideoFrame.src = QUOTE_VIDEO_SRC;
+    else if (!wantsQuoteVideo && quoteVideoFrame.src) quoteVideoFrame.removeAttribute('src');
     document.body.classList.toggle('references-mode', current === TOTAL - 1);
     resetSourceVideo();
     resetAttentionVideo();
     if (leavingFinalMap) resetMapReveal();
     if (current !== HERO_CARD_PAGE || previous !== HERO_CARD_PAGE) setHeroCardStep(0);
     if (current !== TOTAL - 1 || previous !== TOTAL - 1) setReferencesRevealed(false);
-    const promptState = current === 32 ? 'trend' : 'removed';
-    document.querySelectorAll('[data-prompt-panel]').forEach(function (panel) {
-      panel.classList.toggle('is-active', panel.dataset.promptPanel === promptState);
-    });
     stepSlide.classList.toggle('step-revealed', current >= 12);
-    const evalStep = current >= 54 && current <= 58 ? current - 53 : 0;
+    const evalStep = current >= 63 && current <= 67 ? current - 62 : 0;
     evalSlide.classList.toggle('is-collab', evalStep === 1);
     evalSlide.classList.toggle('is-now', evalStep >= 2);
     evalSlide.dataset.evalStep = String(evalStep);
@@ -2664,13 +3225,12 @@
       panel.classList.toggle('is-active', Number(panel.dataset.originPanel) === originState);
     });
     const originOffset = Math.max(0, Math.min(current - 14, 4));
-    const evalOffset = Math.max(0, Math.min(current - 53, 5));
-    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - (current > 31 ? 1 : 0) - evalOffset;
+    const evalOffset = Math.max(0, Math.min(current - 62, 5));
+    const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - evalOffset;
     const swappingStepState = (previous === 11 || previous === 12) && (current === 11 || current === 12);
     const swappingOriginState = previous >= 14 && previous <= 18 && current >= 14 && current <= 18;
-    const swappingPromptState = (previous === 31 || previous === 32) && (current === 31 || current === 32);
-    const swappingEvalState = previous >= 53 && previous <= 58 && current >= 53 && current <= 58;
-    deck.style.transition = instant || swappingStepState || swappingOriginState || swappingPromptState || swappingEvalState ? 'none' : '';
+    const swappingEvalState = previous >= 62 && previous <= 67 && current >= 62 && current <= 67;
+    deck.style.transition = instant || swappingStepState || swappingOriginState || swappingEvalState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     progressBar.style.width = ((current + 1) / TOTAL * 100) + '%';
@@ -2751,6 +3311,7 @@
   function advance() {
     if (current === 6 && !sourceVideoSlide.classList.contains('source-video-playing')) playSourceVideo();
     else if (current === 7 && !contextVideoSlide.classList.contains('video-playing')) playAttentionVideo();
+    else if (current === LOOPS_PAGE && loopStep < loopCards.length) setLoopStep(loopStep + 1);
     else if (current === HERO_CARD_PAGE && heroCardStep < 3) setHeroCardStep(heroCardStep + 1);
     else if (isFinalMapCurrent() && mapRevealStep === 0) playMapReveal();
     else if (isFinalMapCurrent() && mapRevealStep === 1) expandMapReveal();
@@ -2762,6 +3323,7 @@
     if (current === TOTAL - 1 && referencesRevealStep === 1) setReferencesRevealed(false);
     else if (current === 6 && sourceVideoSlide.classList.contains('source-video-playing')) resetSourceVideo();
     else if (current === 7 && contextVideoSlide.classList.contains('video-playing')) resetAttentionVideo();
+    else if (current === LOOPS_PAGE && loopStep > 0) setLoopStep(loopStep - 1);
     else if (current === HERO_CARD_PAGE && heroCardStep > 0) setHeroCardStep(heroCardStep - 1);
     else if (isFinalMapCurrent() && mapRevealStep === 2) {
       mapRevealStep = 1;
@@ -2801,12 +3363,20 @@
 
   // 键盘
   window.addEventListener('keydown', function (e) {
+    // 全屏讲解四种 Loop：左右/上下在四种之间走，Esc 退出，不翻页。
+    if (isLoopLightboxOpen()) {
+      e.preventDefault();
+      if (e.key === 'Escape') closeLoopLightbox();
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'Enter') stepLoopFocus(1);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') stepLoopFocus(-1);
+      return;
+    }
     if (workflowLightbox.element.classList.contains('show')) {
       if (e.key === 'Escape') workflowLightbox.close();
       e.preventDefault();
       return;
     }
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('.workflow-slide button, .workflow-slide a, .workflow-shot, .workflow-real-shot, .subagent-link, .reference-link')) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('.workflow-slide button, .workflow-slide a, .workflow-shot, .workflow-real-shot, .subagent-link, .reference-link, .loop-card')) {
       return;
     }
     if (e.key === 'f' || e.key === 'F') {
