@@ -631,6 +631,8 @@
   .ride-label.agent-green { color: #527d54; }
   .ride-label.agent-beige { color: #9a795b; }
   .ride-label.agent-purple { color: #7057d8; }
+  /* 评估轴 Now 行：固化成 code 的步骤用中性灰，让唯一需要模型的「评估」节点跳出来。 */
+  .ride-label.hardened { color: #6d6a63; }
   .ride-arrow {
     position: relative;
     align-self: center;
@@ -2334,7 +2336,8 @@
       step('red', '出汇总', red, '评估同学生成汇总文档') + arrow +
       step('red', '评估', red, '评估同学按规则评估') + arrow +
       step('red', '反馈', red, '评估同学反馈 Case');
-    // Now：每步都交给 Agent；「评估」这步是模型评 + 评估同学复核（Re）
+    // Now：固定步骤已固化为 code（对应 #59「模型 + code」），只有「评估」需要模型——
+    // 模型评 + 评估同学复核（Re）。整行读作 Code → Code → Code → Code → Agent → Code。
     const evalCheck =
       '<div class="ride-step eval-check">' +
         '<div class="ride-label agent-purple">Agent</div>' +
@@ -2342,12 +2345,12 @@
         '<img class="er-person" src="' + red + '" alt="评估同学 check 评估结果">' +
       '</div>';
     const bottom =
-      step('controller', 'Agent', controller, 'Agent 拉取评估数据', 'agent-red') + arrow +
-      step('controller', 'Agent', controller, 'Agent 拉搜索指标', 'agent-green') + arrow +
-      step('controller', 'Agent', controller, 'Agent 抓快照', 'agent-beige') + arrow +
-      step('controller', 'Agent', controller, 'Agent 生成汇总', 'agent-purple') + arrow +
+      step('controller', 'Code', controller, '硬化为代码：拉取评估数据', 'hardened') + arrow +
+      step('controller', 'Code', controller, '硬化为代码：拉搜索指标', 'hardened') + arrow +
+      step('controller', 'Code', controller, '硬化为代码：抓快照', 'hardened') + arrow +
+      step('controller', 'Code', controller, '硬化为代码：生成汇总', 'hardened') + arrow +
       evalCheck + arrow +
-      step('controller', 'Agent', controller, 'Agent 反馈 Case', 'agent-beige');
+      step('controller', 'Code', controller, '硬化为代码：反馈 Case', 'hardened');
     s.innerHTML = '<div class="ride-canvas">' +
       '<h2 class="ride-title">如意卡片评估</h2>' +
       '<div class="ride-era ancient">古法</div>' +
@@ -2510,22 +2513,47 @@
       href: 'https://www.langchain.com/blog/the-anatomy-of-an-agent-harness'
     },
     {
-      pages: 'P36', date: '2026.05.28', source: 'Claude Code Docs',
+      pages: 'P23', date: 'Lab', source: '本次分享 · 抓包实验',
+      title: 'Claude Code 与 Codex 首包对比 Dashboard',
+      href: 'https://geronimomiao.github.io/agent-lab-site/dashboard/'
+    },
+    {
+      pages: 'P42', date: '2026.06.24', source: 'Sequoia Capital · Boris Cherny',
+      title: 'Anthropic’s Boris Cherny: Why Coding Is Solved, and What Comes Next',
+      href: 'https://www.youtube.com/watch?v=SlGRN8jh2RI'
+    },
+    {
+      pages: 'P43', date: 'Official', source: 'Claude Blog',
+      title: 'Getting started with loops',
+      href: 'https://claude.com/blog/getting-started-with-loops'
+    },
+    {
+      pages: 'P44', date: '2026.05.28', source: 'Claude Code Docs',
       title: 'Dynamic workflows require Claude Code v2.1.154+',
       href: 'https://code.claude.com/docs/en/workflows#:~:text=Dynamic%20workflows%20require%20Claude%20Code%20v2.1.154'
     },
     {
-      pages: 'P36', date: '2026.06.02', source: 'Claude Blog',
-      title: 'A harness for every task: Dynamic workflows in Claude Code',
-      href: 'https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code'
-    },
-    {
-      pages: 'P36', date: '2026.07.07', source: 'Claude Code Docs',
+      pages: 'P44', date: '2026.07.07', source: 'Claude Code Docs',
       title: 'Ultracode: xhigh reasoning with automatic workflow orchestration',
       href: 'https://code.claude.com/docs/en/workflows#let-claude-decide-with-ultracode'
     },
     {
-      pages: 'P61', date: 'Official', source: 'Typeless',
+      pages: 'P44–46', date: 'Lab', source: '本次分享 · Workflow 实录',
+      title: 'Workflow 编排：脱敏示例与源码',
+      href: 'https://geronimomiao.github.io/agent-talk-deck/workflow.html#code'
+    },
+    {
+      pages: 'P45–46', date: '2026.06.02', source: 'Claude Blog',
+      title: 'A harness for every task: Dynamic workflows in Claude Code',
+      href: 'https://claude.com/blog/a-harness-for-every-task-dynamic-workflows-in-claude-code'
+    },
+    {
+      pages: 'P49', date: 'Lab', source: '本次分享 · 抓包实验',
+      title: 'Compaction 上下文压缩实录',
+      href: 'https://geronimomiao.github.io/agent-lab-site/static/compaction-lab.html'
+    },
+    {
+      pages: 'P70', date: 'Official', source: 'Typeless',
       title: 'Typeless — AI Voice Dictation That’s Actually Intelligent',
       href: 'https://www.typeless.com/'
     }
