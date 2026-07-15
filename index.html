@@ -1321,6 +1321,25 @@
   .hi-lead { font-size: .0495em; }   /* 53.5pt / 1080pt */
   .hi-item { font-size: .0417em; }   /* 45pt / 1080pt */
   .hi-indent, .hi-item { padding-left: .5em; }
+  .hi-page-link {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    margin-left: .28em;
+    color: #000;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    font-size: .28em;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    vertical-align: baseline;
+    transition: opacity .16s ease;
+  }
+  .hi-page-link:hover,
+  .hi-page-link:focus-visible {
+    opacity: .58;
+    outline: none;
+  }
   .hi-slogan {
     position: absolute;
     right: .62%;
@@ -2174,14 +2193,14 @@
   <button type="button" aria-label="关闭放大图片">×</button>
   <img src="" alt="">
 </div>
-<div id="counter">1 / 64</div>
+<div id="counter">1 / 72</div>
 <div id="progress"><div id="progress-bar"></div></div>
 <div id="toast"></div>
 
 <script>
 (function () {
   const IMAGES = 56;            // 原稿截图页数
-  const TOTAL = IMAGES + 17;    // 第 24 页后插入 17 页、1 页视频引用与 1 页四种 Loop，第 58 页后插入 1 页；删除原抓包趋势图/Prompt 两步页与 slide-50；加入协作标题过渡与评估 Now 展开，再加入 Workflow、Thanks 与引用合并页
+  const TOTAL = IMAGES + 16;    // 第 24 页后插入 17 页、1 页视频引用与 1 页四种 Loop，第 58 页后插入 1 页；删除原抓包趋势图/Prompt 两步页、slide-43 与 slide-50；加入协作标题过渡与评估 Now 展开，再加入 Workflow、Thanks 与引用合并页
   const deck = document.getElementById('deck');
   const counter = document.getElementById('counter');
   const progressBar = document.getElementById('progress-bar');
@@ -2553,7 +2572,7 @@
       href: 'https://geronimomiao.github.io/agent-lab-site/static/compaction-lab.html'
     },
     {
-      pages: 'P70', date: 'Official', source: 'Typeless',
+      pages: 'P69', date: 'Official', source: 'Typeless',
       title: 'Typeless — AI Voice Dictation That’s Actually Intelligent',
       href: 'https://www.typeless.com/'
     }
@@ -2603,23 +2622,26 @@
     s.className = 'slide harness-intro-slide';
     // 逐段照抄原稿（含空行）：lead = 53.5pt，item = 45pt，缩进对应原文前导空格。
     const LINES = [
-      { cls: 'lead', text: 'Harness到底是啥' },
+      { cls: 'lead', text: 'Harness到底是啥', page: 5 },
       { cls: 'lead', text: '' },
-      { cls: 'lead', text: '热门部件（两大热门马场对比：CC&amp;Codex）' },
-      { cls: 'lead indent', text: 'System Prompt' },
-      { cls: 'item', text: 'Tools工具' },
-      { cls: 'item', text: 'Loop(含Goal目标)' },
-      { cls: 'item', text: 'Workflow工作流' },
-      { cls: 'item', text: 'Compact上下文压缩' },
-      { cls: 'item', text: 'Subagents子代理' },
-      { cls: 'item', text: 'Permissions权限' },
+      { cls: 'lead', text: '热门部件', page: 20 },
+      { cls: 'lead indent', text: 'System Prompt', page: 25 },
+      { cls: 'item', text: 'Tools工具', page: 31 },
+      { cls: 'item', text: 'Loop(含Goal目标)', page: 40 },
+      { cls: 'item', text: 'Workflow工作流', page: 44 },
+      { cls: 'item', text: 'Compact上下文压缩', page: 49 },
+      { cls: 'item', text: 'Subagents子代理', page: 48 },
+      { cls: 'item', text: 'Permissions权限', page: 50 },
       { cls: 'lead', text: '' },
-      { cls: 'lead', text: '选择你的爱马' },
-      { cls: 'lead', text: '我的马术' },
-      { cls: 'lead', text: 'One more thing' }
+      { cls: 'lead', text: '选择你的爱马', page: 51 },
+      { cls: 'lead', text: '我的马术', page: 56 },
+      { cls: 'lead', text: 'One more thing', page: 68 }
     ];
     const copy = LINES.map(function (line) {
-      return '<p class="hi-' + line.cls.split(' ').join(' hi-') + '">' + (line.text || '&nbsp;') + '</p>';
+      const pageLink = line.page
+        ? '<a class="hi-page-link" href="#' + line.page + '" aria-label="跳转到第 ' + line.page + ' 页">P' + line.page + '</a>'
+        : '';
+      return '<p class="hi-' + line.cls.split(' ').join(' hi-') + '">' + (line.text || '&nbsp;') + pageLink + '</p>';
     }).join('');
     s.innerHTML = '<div class="hi-canvas">' +
       '<div class="hi-panel"></div>' +
@@ -2807,6 +2829,9 @@
     if (i === 42) {
       deck.appendChild(createHeroCardSlide());
       continue;
+    }
+    if (i === 43) {
+      continue;                 // 删除原第 54 页：「热门马场」
     }
     if (i === 47) {
       deck.appendChild(createTaskSplitSlide());
@@ -3244,7 +3269,7 @@
     if (current !== HERO_CARD_PAGE || previous !== HERO_CARD_PAGE) setHeroCardStep(0);
     if (current !== TOTAL - 1 || previous !== TOTAL - 1) setReferencesRevealed(false);
     stepSlide.classList.toggle('step-revealed', current >= 12);
-    const evalStep = current >= 63 && current <= 67 ? current - 62 : 0;
+    const evalStep = current >= 62 && current <= 66 ? current - 61 : 0;
     evalSlide.classList.toggle('is-collab', evalStep === 1);
     evalSlide.classList.toggle('is-now', evalStep >= 2);
     evalSlide.dataset.evalStep = String(evalStep);
@@ -3253,11 +3278,11 @@
       panel.classList.toggle('is-active', Number(panel.dataset.originPanel) === originState);
     });
     const originOffset = Math.max(0, Math.min(current - 14, 4));
-    const evalOffset = Math.max(0, Math.min(current - 62, 5));
+    const evalOffset = Math.max(0, Math.min(current - 61, 5));
     const physicalPage = current - (current > 11 ? 1 : 0) - originOffset - evalOffset;
     const swappingStepState = (previous === 11 || previous === 12) && (current === 11 || current === 12);
     const swappingOriginState = previous >= 14 && previous <= 18 && current >= 14 && current <= 18;
-    const swappingEvalState = previous >= 62 && previous <= 67 && current >= 62 && current <= 67;
+    const swappingEvalState = previous >= 61 && previous <= 66 && current >= 61 && current <= 66;
     deck.style.transition = instant || swappingStepState || swappingOriginState || swappingEvalState ? 'none' : '';
     deck.style.transform = 'translateY(' + (-physicalPage * 100) + 'vh)';
     counter.textContent = (current + 1) + ' / ' + TOTAL;
