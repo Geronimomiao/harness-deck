@@ -119,6 +119,16 @@
     -webkit-mask-image: radial-gradient(ellipse 11% 21% at 84% 16%, #000 0 56%, transparent 82%);
     mask-image: radial-gradient(ellipse 11% 21% at 84% 16%, #000 0 56%, transparent 82%);
   }
+  .slide.stitch-lower .chew-mask {
+    position: absolute;
+    z-index: 4;
+    left: 33.2%;
+    top: calc(100vw * 584 / 4640 - 100vw * 320 / 2560 + 15.23vw);
+    width: 13.68%;
+    height: 7.43vw;
+    background: #d8d8d8;
+    pointer-events: none;
+  }
   .stitch-upper-copy {
     position: absolute;
     left: 0;
@@ -2891,6 +2901,11 @@
     img.decoding = 'async';
     s.appendChild(img);
     if (i === 2) {
+      const chewMask = document.createElement('div');
+      chewMask.className = 'chew-mask';
+      chewMask.setAttribute('aria-hidden', 'true');
+      s.appendChild(chewMask);
+
       const continuation = document.createElement('img');
       continuation.className = 'stitch-continuation';
       continuation.src = 'assets/generated/slide-2-user-continuation.webp';
